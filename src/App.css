@@ -1,0 +1,21 @@
+.long-list-wrapper {
+  list-style-type: none;
+  overflow-x: scroll;
+  position: absolute;
+  max-height: 0px;
+  transition: all 0.2s linear;
+  top: 60px;
+  border: none;
+  padding-inline-start: 0;
+  width: 100%;
+}
+
+.long-list-wrapper.active {
+  max-height: 200px;
+  border: 1px solid var(--border-card);
+}
+
+.long-list-wrapper li {
+  padding: 8px 24px;
+  border-bottom: 1px solid var(--border-card);
+}

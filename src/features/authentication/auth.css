@@ -1,0 +1,73 @@
+.signup-right-side {
+  background: linear-gradient(
+    to top,
+    var(--green-variant-2),
+    var(--green-variant-4)
+  );
+  color: var(--text-white-variant-1);
+}
+.max-w-250 {
+  max-width: 250px;
+}
+.custom-input {
+  padding: 10px;
+  width: 100%;
+  background-color: transparent;
+  color: var(--text-black-variant-1);
+}
+.input-form-control {
+  border: 0.2px solid var(--border-card);
+  border-radius: 5px;
+  overflow: hidden;
+  padding-left: 5px;
+  padding-right: 10px;
+  background-color: var(--white-smoke);
+}
+
+.input-form-control:active {
+  border: 1px solid var(--green-variant-2);
+}
+.font-500 {
+  font-weight: 500;
+}
+
+.green-varient-2 {
+  background-color: var(--green-variant-2);
+}
+.green-varient-2-hover:hover {
+  background-color: var(--green-variant-2-hover);
+}
+.dark-green {
+  background-color: var(--dark-green);
+}
+.dark-green-hover:hover {
+  background-color: var(--dark-green-hover);
+}
+.height-xsm {
+  height: var(--height-xsm);
+}
+.auth-page-wrapper {
+  width: 80%;
+  max-width: 900px;
+}
+.sign-wrapper {
+  width: 90%;
+  max-width: 900px;
+}
+.text-link {
+  text-decoration: underline;
+  text-decoration-color: var(--green-v-8);
+}
+@media screen and (max-width: 769px) {
+  .sign-wrapper {
+    width: 80%;
+  }
+}
+@media screen and (max-width: 512px) {
+  .sign-wrapper {
+    width: 90%;
+  }
+  .auth-page-wrapper {
+    max-width: 90%;
+  }
+}

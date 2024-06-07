@@ -1,0 +1,37 @@
+.list-tile-container {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+}
+
+.list-tile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #802cff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.list-tile-content {
+  flex: 1;
+}
+
+.list-tile-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.list-tile-subtitle {
+  font-size: 14px;
+  color: #777;
+  font-weight: 500;
+}
+
+.list-tile-time {
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+}

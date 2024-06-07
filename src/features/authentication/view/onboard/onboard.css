@@ -1,0 +1,131 @@
+.wrapper {
+  width: 70%;
+  max-width: 1000px;
+  min-height: 70vh;
+}
+
+.onboard_left_img {
+  bottom: 0;
+  left: 0;
+  height: 400px;
+  width: 400px;
+  background: url("/onboard_left.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.onboard_right_img {
+  top: 0;
+  right: 0;
+  height: 400px;
+  width: 400px;
+  background: url("/onboard_right.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* transform: scale(0.8); */
+}
+.previous-next-btn-wrapper {
+  max-width: 600px;
+  display: flex;
+  z-index: 10;
+  margin: 10px auto;
+  top: 100px;
+}
+.max-width-400-center {
+  max-width: 400px;
+  margin: 0 auto;
+}
+.skills-list,
+.language-list {
+  position: absolute;
+  top: 35px;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: scroll;
+  display: none;
+  z-index: 100;
+}
+.skills-list.active,
+.language-list.active {
+  display: block;
+}
+.skills-list li,
+.language-list li {
+  display: block;
+  padding: 5px 10px;
+  margin-inline-start: 0;
+  background-color: var(--light-green);
+  cursor: pointer;
+  border-bottom: 1px solid gray;
+}
+.skills-list li:hover,
+.language-list li:hover {
+  background-color: var(--green-variant-4);
+}
+.skill-wrapper::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.skill-wrapper::-webkit-scrollbar-thumb {
+  width: 5px;
+  height: 5px;
+  background-color: green;
+}
+.textarea-about {
+  overflow-y: scroll;
+}
+.textarea-about:focus {
+  outline: none;
+}
+.textarea-about::placeholder {
+  font-size: 13px;
+}
+@media screen and (max-width: 921px) {
+  .wrapper {
+    width: 75%;
+  }
+  .onboard_left_img {
+    height: 280px;
+    width: 280px;
+  }
+  .onboard_right_img {
+    height: 280px;
+    width: 280px;
+  }
+  .previous-next-btn-wrapper {
+    max-width: 400px;
+  }
+}
+@media screen and (max-width: 769px) {
+  .wrapper {
+    width: 80%;
+  }
+  .onboard_left_img {
+    height: 200px;
+    width: 200px;
+  }
+  .onboard_right_img {
+    height: 200px;
+    width: 200px;
+  }
+}
+@media screen and (max-width: 512px) {
+  .wrapper {
+    width: 95%;
+  }
+  .onboard_left_img {
+    height: 200px;
+    width: 200px;
+  }
+  .onboard_right_img {
+    height: 200px;
+    width: 200px;
+  }
+  .previous-next-btn-wrapper {
+    max-width: 300px;
+  }
+}

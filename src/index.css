@@ -1,0 +1,376 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@100;400;500;600&family=Roboto:wght@400;500;700&display=swap");
+*,
+::after,
+::before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --light-green: #e6f6ed;
+  --light-green-border: #4f744e;
+  --primary-green: #00bc5a;
+  --green-v-1: #00bc5a;
+  --green-light-1: #e3fff0;
+  --green-hover: rgba(94, 204, 92, 0.456);
+  --light-lime: rgb(158, 224, 157);
+  --light-lime-secondary: rgb(158, 224, 157);
+  --green-variant-2: rgb(58, 193, 101);
+  --green-variant-2-hover: rgb(48, 153, 81);
+  --green-variant-3: rgb(0, 191, 111);
+  --green-variant-4: rgb(0, 191, 111);
+  --green-variant-5: var(--primary-green);
+  --green-variant-6: var(--green-variant-2);
+  --green-variant-7: #024f29;
+  --green-v-8: #013941;
+  --dark-green: rgb(28, 61, 48);
+  --dark-green-hover: rgb(18, 40, 31);
+  --green-secondary: rgb(0, 191, 111);
+  --dark-blue: rgb(60, 81, 108);
+  --dark-blue-hover: rgb(69, 97, 132);
+  --white-variant-1: rgb(255, 255, 255);
+  --white-variant-2: rgb(255, 255, 255);
+  --white-variant-3: rgb(238, 243, 248);
+  --white-variant-4: rgb(255, 255, 255);
+  --white-smoke: whitesmoke;
+  --gray-200: rgb(222, 222, 222);
+  --gray-secondary: #ffffff;
+  --gray-400: rgba(0, 135, 20, 0.448);
+  --gray-dark-shade: rgb(243, 243, 243);
+  --text-xsm: 12px;
+  --text-sm: 1rem;
+  --text-md: 1.2rem;
+  --text-lg: 25px;
+  --text-xlg: 36px;
+  --text-xxlg: 50px;
+  --height-xsm: 50px;
+  --height-sm: 70px;
+  --max-w-1200: 1200px;
+  --gap-section: 100px;
+  --gap-item: 50px;
+  --gap-txt: 24px;
+  --text-black-variant-1: rgb(0, 0, 0);
+  --text-black-variant-2: rgb(43, 43, 43);
+  --text-black-variant-3: rgb(43, 43, 43);
+  --text-blue-variant-1: rgb(4, 6, 44);
+  --text-white-variant-1: rgb(255, 255, 255);
+  --text-white-variant-2: white;
+  --text-gray-secondary: rgb(70, 70, 70);
+  --black-variant-1: rgb(0, 0, 0);
+  --black-variant-2: rgb(32, 32, 32);
+  --black-variant-3: rgb(9, 114, 37);
+  --font-weight-var-300: 400;
+  --font-weight-var-normal: 500;
+  --border-variant-1: rgba(118, 118, 118, 0.203);
+  --mile-stone-bg: rgb(151, 227, 166);
+  --service-card: rgb(247, 248, 251);
+  --border-card: rgb(211, 211, 211);
+  --bg-modal: rgba(0, 0, 0, 0.186);
+  --project-header: rgb(60, 81, 108);
+  --dark-gray-light-gray: rgb(230, 230, 230);
+}
+.dark-theme {
+  --primary-green: #3e9359;
+  --green-light-1: #1d1d1d;
+  --light-green: rgb(33, 33, 33);
+  --light-lime: rgb(58, 58, 58);
+  --white-variant-1: var(--black-variant-2);
+  --white-variant-2: rgb(29, 29, 29);
+  --white-variant-3: rgb(30, 30, 30);
+  --white-variant-4: rgb(36, 36, 36);
+  --gray-secondary: #434343;
+  --gray-200: rgb(51, 51, 51);
+  --gray-400: rgba(144, 144, 144, 0.448);
+  --gray-dark-shade: rgb(60, 60, 60);
+  --light-green-border: var(--gray-200);
+  --dark-blue: rgb(41, 41, 41);
+  --dark-blue-hover: rgb(63, 63, 63);
+  --text-black-variant-1: rgb(255, 255, 255);
+  --text-black-variant-2: rgb(194, 194, 194);
+  --text-black-variant-3: rgb(156, 156, 156);
+  --text-blue-variant-1: rgb(218, 218, 218);
+  --text-white-variant-1: rgb(31, 31, 31);
+  --white-smoke: rgb(31, 31, 31);
+  --text-white-variant-2: #5ecc5c;
+  --text-gray-secondary: gray;
+  --green-secondary: rgb(0, 191, 111);
+  --green-variant-3: rgb(44, 76, 63);
+  --green-variant-5: var(--black-variant-2);
+  --green-variant-6: var(--black-variant-2);
+  --green-v-8: rgb(29, 29, 29);
+  --light-lime-secondary: rgb(40, 40, 40);
+  --black-variant-3: rgb(56, 56, 56);
+  --font-weight-var-300: 400;
+  --font-weight-var-normal: 500;
+  --border-variant-1: rgba(255, 255, 255, 0.214);
+  --mile-stone-bg: rgb(20, 26, 24);
+  --service-card: rgb(12, 12, 12);
+  --border-card: rgb(55, 55, 55);
+  --project-header: #00bf6f;
+  --dark-gray-light-gray: rgb(48, 48, 48);
+}
+
+body {
+  font-family: "roboto", sans-serif;
+}
+input,
+textarea {
+  border: none;
+  outline: none;
+}
+input:-internal-autofill-selected {
+  background-color: transparent !important;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 0s 600000s, color 0s 600000s !important;
+}
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+section {
+  min-height: 40vh;
+}
+.font-weight-var-normal {
+  font-weight: var(--font-weight-var-normal);
+}
+.font-weight-var-300 {
+  font-weight: var(--font-weight-var-300);
+}
+.font-weight-300 {
+  font-weight: 300;
+}
+.font-weight-400 {
+  font-weight: 400;
+}
+.font-weight-500 {
+  font-weight: 500;
+}
+.logo {
+  margin-left: 30px;
+  font-size: 1.5rem;
+  /* inset: 0;
+	margin-top: auto; */
+}
+img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+p {
+  margin: 0;
+  font-size: 16px;
+}
+.max-w-1200 {
+  max-width: var(--max-w-1200);
+}
+.max-w-1100 {
+  max-width: 1100px;
+}
+.pt-100 {
+  padding-top: 100px;
+}
+.pb-100 {
+  padding-bottom: 100px;
+}
+.pb-50 {
+  padding-bottom: 50px;
+}
+.pt-50 {
+  padding-top: 50px;
+}
+.mt-100 {
+  margin-top: 100px;
+}
+.mb-100 {
+  margin-bottom: 100px;
+}
+.mb-50 {
+  margin-bottom: 50px;
+}
+.mt-50 {
+  margin-top: 50px;
+}
+.gap-txt-b {
+  margin-bottom: var(--gap-txt);
+}
+.gap-txt {
+  margin: var(--gap-txt);
+}
+.bg-black-v-1 {
+  background-color: var(--text-black-variant-1);
+}
+.bg-white-v-2 {
+  background-color: var(--white-variant-2);
+}
+.bg-white-v-3 {
+  background-color: var(--white-variant-3);
+}
+.bg-white-v-4 {
+  background-color: var(--white-variant-4);
+}
+.bg-light-green {
+  background-color: var(--light-green);
+}
+.bg-green-primary {
+  background-color: var(--primary-green);
+}
+.bg-green-v-1 {
+  background-color: var(--bg-green-v-1);
+}
+.bg-light-violet {
+  background-color: rgb(121, 63, 245);
+}
+
+/* for left dash board nav */
+.bg-linear-green-variant-1 {
+  background: linear-gradient(
+    to top,
+    var(--green-variant-5),
+    var(--green-variant-6)
+  );
+}
+.bg-green-v-4 {
+  background-color: var(--green-variant-4);
+}
+
+/* for dark lime */
+.bg-light-lime-secondary {
+  background-color: var(--light-lime-secondary);
+}
+.bg-gray {
+  background-color: gray;
+}
+.bg-gray-secondary {
+  background-color: var(--gray-secondary);
+}
+.bg-dark-blue {
+  background-color: var(--dark-blue);
+}
+.bg-dark-blue-variant-1 {
+  background-color: #211e29;
+}
+.bg-dark-purple-v-1 {
+  background-color: rgb(45, 31, 48);
+}
+.bg-service-card {
+  background-color: var(--service-card);
+}
+.bg-white-smoke {
+  background-color: var(--white-smoke);
+}
+.bg-modal {
+  background-color: var(--bg-modal);
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.link {
+  color: var(--text-white-variant-1);
+  text-decoration: none;
+}
+.text-xsm {
+  font-size: var(--text-xsm);
+}
+.text-sm {
+  font-size: var(--text-sm);
+}
+.text-md {
+  font-size: var(--text-md);
+}
+.text-lg {
+  font-size: var(--text-lg);
+}
+.text-xlg {
+  font-size: var(--text-xlg);
+}
+.text-xxlg {
+  font-size: var(--text-xxlg);
+}
+.text-black-variant-2 {
+  color: var(--text-black-variant-2);
+}
+.text-black-variant-1 {
+  color: var(--text-black-variant-1);
+}
+.text-black-variant-3 {
+  color: var(--text-black-variant-3);
+}
+.text-blue-variant-1 {
+  color: var(--text-blue-variant-1);
+}
+.text-green-secondary {
+  color: var(--green-secondary);
+}
+.text-white-variant-2 {
+  color: var(--text-white-variant-2);
+}
+.text-white {
+  color: var(--text-white-variant-1);
+}
+.text-error {
+  color: rgb(206, 4, 4);
+}
+.text-gray {
+  color: gray;
+}
+.text-gray-secondary {
+  color: var(--text-gray-secondary);
+}
+.transparent {
+  background: transparent !important;
+}
+.font-size-20 {
+  font-size: 5px;
+}
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.red-border {
+  border: 1px solid rgb(206, 4, 4) !important;
+}
+.min-height-100vh {
+  min-height: 100vh;
+}
+.transparent {
+  background-color: transparent;
+}
+.border-variant-1 {
+  border: 1px solid var(--border-variant-1);
+}
+.border-primary-green {
+  border: 1px solid var(--primary-green);
+}
+.border-primary-green:hover {
+  background: var(--light-green);
+}
+.border-black-variant-1 {
+  border: 1px solid var(--black-variant-1);
+}
+.border-black-variant-2 {
+  border: 1px solid var(--white-variant-4);
+}
+.border-light-bottom {
+  border-bottom: 1px solid var(--border-card);
+}
+.border-card {
+  border: 1px solid var(--border-card);
+}
+
+.visible-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+@media screen and (max-width: 512px) {
+  :root {
+    --text-md: 18px;
+  }
+  .font-size-20 {
+    font-size: 4px;
+  }
+}

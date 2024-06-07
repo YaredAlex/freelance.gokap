@@ -1,0 +1,12 @@
+.section-footer {
+  background-color: var(--green-v-8);
+  color: white;
+}
+.footer-social {
+  border-top: 1px solid var(--border-card);
+  border-bottom: 1px solid var(--border-card);
+}
+.section-footer a {
+  color: white;
+  text-decoration: underline;
+}
