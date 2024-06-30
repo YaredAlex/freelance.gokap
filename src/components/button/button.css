@@ -29,6 +29,9 @@ button {
   border: 1px solid var(--border-card);
   color: var(--green-v-1);
 }
+.border-none {
+  border: none !important;
+}
 .btn-custom-outline:hover {
   background-color: var(--green-light-1);
 }

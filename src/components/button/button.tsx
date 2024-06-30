@@ -3,8 +3,16 @@ type ButtonType = {
   title: string;
   onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   className?: string;
+  showBorder?: boolean;
+  disabled?: boolean;
 };
-const ButtonPrimary = ({ type, onClick, title, className }: ButtonType) => {
+const ButtonPrimary = ({
+  type,
+  onClick,
+  title,
+  className,
+  disabled = false,
+}: ButtonType) => {
   return (
     <button
       className={`btn-custom 
@@ -15,6 +23,7 @@ const ButtonPrimary = ({ type, onClick, title, className }: ButtonType) => {
       style={{ maxWidth: "100%", height: "fit-content" }}
       type={type}
       onClick={onClick}
+      disabled={disabled}
     >
       {title}
     </button>
@@ -25,10 +34,11 @@ const ButtonPrimaryOutline = ({
   onClick,
   title,
   className,
+  showBorder = true,
 }: ButtonType) => {
   return (
     <button
-      className={`btn-custom-outline 
+      className={`btn-custom-outline ${showBorder ? "" : "border-none"}
       height-xsm
       text-capitalize ${className}`}
       style={{ maxWidth: "100%", height: "fit-content" }}
@@ -42,21 +52,23 @@ const ButtonPrimaryOutline = ({
 type ButtonFlexType = {
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  className?: string;
 };
-const ButtonFlexOutline = ({ onClick, children }: ButtonFlexType) => {
+const ButtonFlexOutline = ({
+  onClick,
+  children,
+  className,
+}: ButtonFlexType) => {
   return (
     <div
-      className="btn-custom-secondary cursor-pointer 
+      className={`${className} btn-custom-secondary cursor-pointer 
                 dark-green-hover
               height-xsm
-              mt-2
-              mb-4
              d-flex
                align-items-center
                justify-content-center
-               gap-2
-              "
-      style={{ maxWidth: "100%" }}
+               gap-2 `}
+      style={{ maxWidth: "100%", height: "max-content" }}
       onClick={onClick}
     >
       {children}
