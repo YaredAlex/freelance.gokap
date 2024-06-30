@@ -6,23 +6,35 @@ type SelectSkillProp = {
   error: string;
   setSelectedSkill: React.Dispatch<React.SetStateAction<string[]>>;
   selectedSkill: string[];
+  showTitle?: boolean;
+  maxWidth?: string;
 };
 const SelectSkill = ({
   selectedSkill,
   setSelectedSkill,
+  showTitle = true,
   error,
+  maxWidth,
 }: SelectSkillProp) => {
   const [showSkillList, setShowSkillList] = useState(false);
   const [skills, setSkills] = useState(skillsList);
   return (
-    <div className={`p-2 `} style={{ minHeight: "100px", maxWidth: "400px" }}>
-      <div>
-        <h6 className={"font-weight-400 text-black-variant-1"}>Skill</h6>
-        <p className="text-black-variant-2">Skill required for the project</p>
-      </div>
+    <div
+      className={`p-2 `}
+      style={{
+        minHeight: "100px",
+        maxWidth: `${maxWidth ? maxWidth : "400px"}`,
+        width: "100%",
+      }}
+    >
+      {showTitle && (
+        <div>
+          <h6 className={"font-weight-400 text-black-variant-1"}>Skill</h6>
+          <p className="text-black-variant-2">Skill required for the project</p>
+        </div>
+      )}
       <div
         className={`
-            mt-3
             rounded
             w-100
             p-2
@@ -31,7 +43,7 @@ const SelectSkill = ({
             ${error ? "red-border" : "border-card"}
             `}
         style={{
-          maxWidth: "400px",
+          maxWidth: "100%",
           minHeight: "100px",
         }}
       >
@@ -39,7 +51,7 @@ const SelectSkill = ({
         <div
           className={"d-flex flex-wrap  gap-2 pb-2"}
           style={{
-            maxWidth: "400px",
+            maxWidth: "100%",
           }}
         >
           {selectedSkill &&
@@ -137,7 +149,7 @@ const SelectSkill = ({
                     onClick={() => {
                       setSelectedSkill([...selectedSkill, skill.name]);
                       skills[index].isSelected = true;
-                      // setSkills(skillsList);
+                      setSkills(skillsList);
                       // const skillWrapper =
                       //   document.getElementById("skill-wrapper");
                       // if (skillWrapper)
