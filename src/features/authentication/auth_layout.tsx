@@ -30,7 +30,7 @@ const AuthLayout = ({
         >
           <div className="max-w-1200 mx-auto d-flex align-items-center d-flex align-items-center justify-content-between">
             <GITLogo />
-            <div>Profile</div>
+            <div>{/* <User /> */}</div>
           </div>
         </header>
         <div

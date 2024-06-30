@@ -58,13 +58,12 @@
   display: block;
   padding: 5px 10px;
   margin-inline-start: 0;
-  background-color: var(--light-green);
   cursor: pointer;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid var(--border-card);
 }
 .skills-list li:hover,
 .language-list li:hover {
-  background-color: var(--green-variant-4);
+  background-color: var(--white-smoke);
 }
 .skill-wrapper::-webkit-scrollbar {
   width: 5px;

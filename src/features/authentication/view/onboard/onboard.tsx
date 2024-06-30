@@ -1,19 +1,25 @@
-import { ToastContainer } from "react-toastify";
 import "./onboard.css";
-import CustomLoading from "../../../../components/loading_page/custom_loading";
+import { CustomLoadingSecondary } from "../../../../components/loading_page/custom_loading";
 import useOnBoard from "../../hooks/onboard/use_onboard";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import ProgressIndicator from "./progress_indicator";
+import CustomToastContainer from "../../../../components/custom_toast/toast_container";
+import useGetProfile from "../../../../hooks/use_getprofile";
+import { useEffect } from "react";
 
 const LetsStart = () => {
   const onBoard = useOnBoard();
   const authContext = useAuthContext();
+  const getProfile = useGetProfile();
+  useEffect(() => {
+    getProfile.getProfile();
+  }, []);
   return (
     <>
-      <ToastContainer />
+      <CustomToastContainer />
       <div
-        className="bg-light-green
+        className="bg-white-v-3
   min-height-100vh 
   d-flex align-items-center 
   justify-content-center
@@ -21,15 +27,17 @@ const LetsStart = () => {
   "
         style={{ overflow: "hidden" }}
       >
-        {onBoard.loading && (
-          <>
-            <CustomLoading />
-          </>
-        )}
+        {onBoard.loading ||
+          (getProfile.loading && (
+            <>
+              <CustomLoadingSecondary title="loading" />
+            </>
+          ))}
         <div
           className="
         wrapper
-        bg-white-variant-2
+        bg-white-v-4
+        border-card rounded
         p-4
         rounded
         position-relative
@@ -39,17 +47,13 @@ const LetsStart = () => {
           <div
             className={`
         onboard_left_img
-        position-absolute
-        
-        `}
+        position-absolute`}
           />
           {/* Right svg onboard */}
           <div
             className={`
         onboard_right_img
-        position-absolute
-       
-        `}
+        position-absolute`}
           />
           {/*  */}
           <div
@@ -89,10 +93,7 @@ const LetsStart = () => {
             `}
                 style={{ zIndex: 20 }}
               >
-                {onBoard.pages[onBoard.currentPage].Page({
-                  setGotoNext: onBoard.setGotoNext,
-                  setUserInfo: onBoard.setUserInfo,
-                })}
+                {onBoard.pages[onBoard.currentPage].Page}
               </div>
             }
           </div>
@@ -151,58 +152,3 @@ const LetsStart = () => {
 };
 
 export default LetsStart;
-
-// const UserPreference = ({ setGotoNext, setUserInfo }) => {
-//   const [currentId, setCurrentId] = useState("");
-//   const userPreference = (e) => {
-//     setCurrentId(e.currentTarget.id);
-//     switch (e.currentTarget.id) {
-//       case "01":
-//         setUserInfo((info) => {
-//           return { ...info, userAs: "client" };
-//         });
-//         setGotoNext(true);
-//         break;
-//       case "02":
-//         setUserInfo((info) => {
-//           return { ...info, userAs: "agent" };
-//         });
-//         setGotoNext(true);
-//         break;
-//       default:
-//         break;
-//     }
-//   };
-//   return (
-//     <>
-//       <button
-//         className={`
-//          text-black-variant-1
-//          mt-5
-//          mb-0
-//          text-md
-//          btn-custom-secondary
-//        ${currentId === "01" ? "bg-green-variant-4" : "transparent"}
-//          `}
-//         id="01"
-//         onClick={userPreference}
-//       >
-//         I am here to hire
-//       </button>
-//       <button
-//         className={`
-//          text-black-variant-1
-//          mt-3
-//          mb-4
-//          text-md
-//          btn-custom-secondary
-//          ${currentId === "02" ? "bg-green-variant-4" : "transparent"}
-//          `}
-//         id="02"
-//         onClick={userPreference}
-//       >
-//         Work as agent
-//       </button>
-//     </>
-//   );
-// };

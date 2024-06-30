@@ -143,12 +143,14 @@ const Signin = () => {
               <span className="px-2">OR</span>
               <hr className="col" />
             </div>
-            <ButtonFlexOutline>
-              <img
-                src={ic_google}
-                alt=""
-                style={{ objectFit: "contain", width: "min-content" }}
-              />
+            <ButtonFlexOutline className="m-0 p-1">
+              <div style={{ height: "42px" }}>
+                <img
+                  src={ic_google}
+                  alt=""
+                  style={{ objectFit: "contain", width: "min-content" }}
+                />
+              </div>
               <p className="mb-0 p-0 text-capitalize">
                 {GTexts.txt_sign_in_with_google}
               </p>

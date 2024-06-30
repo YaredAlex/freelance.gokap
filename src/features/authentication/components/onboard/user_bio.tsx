@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { BoardingPropTypes } from "../../hooks/onboard/use_onboard";
 
-const UserSummary = ({ setGotoNext, setUserInfo }: BoardingPropTypes) => {
-  const [summary, setSummary] = useState("");
+const UserSummary = ({
+  setGotoNext,
+  setUserInfo,
+  userInfo,
+}: BoardingPropTypes) => {
+  const [summary, setSummary] = useState(userInfo.bio);
   return (
     <div
       className={`mt-4 
-      max-width-400-center
+      max-width-400-center text-black-variant-1
       `}
     >
-      <p className={`text-center`}>
+      <p className={`text-center p-2`}>
         About You
         <span className={`text-gray text-xsm`}> min (50 words)</span>
       </p>
       <div
-        className={`border-green-variant-3 rounded overflow-hidden
+        className={`border-card rounded overflow-hidden
         p-1
         `}
       >
@@ -31,6 +35,7 @@ const UserSummary = ({ setGotoNext, setUserInfo }: BoardingPropTypes) => {
             textAlign: "justify",
           }}
           name="bio"
+          value={summary}
           onChange={(e) => {
             const { value, name } = e.target;
             setSummary(e.target.value);

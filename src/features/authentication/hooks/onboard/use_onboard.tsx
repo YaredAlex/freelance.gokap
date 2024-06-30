@@ -20,6 +20,7 @@ type UserInfo = {
 export type BoardingPropTypes = {
   setGotoNext: React.Dispatch<React.SetStateAction<boolean>>;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
+  userInfo: UserInfo;
 };
 export const STATUS = {
   DEFAULT: "DEFAULT",
@@ -70,17 +71,43 @@ const useOnBoard = () => {
     //     <UserPreference setGotoNext={setGotoNext} setUserInfo={setUserInfo} />
     //   ),
     // },
+
     {
-      Page: UserProfessionAndSkill,
+      Page: (
+        <UserProfessionAndSkill
+          setGotoNext={setGotoNext}
+          setUserInfo={setUserInfo}
+          userInfo={userInfo}
+        />
+      ),
+    },
+
+    {
+      Page: (
+        <WhyAndWhere
+          setGotoNext={setGotoNext}
+          setUserInfo={setUserInfo}
+          userInfo={userInfo}
+        />
+      ),
     },
     {
-      Page: WhyAndWhere,
+      Page: (
+        <ResumeAndLanguage
+          setGotoNext={setGotoNext}
+          setUserInfo={setUserInfo}
+          userInfo={userInfo}
+        />
+      ),
     },
     {
-      Page: ResumeAndLanguage,
-    },
-    {
-      Page: UserSummary,
+      Page: (
+        <UserSummary
+          setGotoNext={setGotoNext}
+          setUserInfo={setUserInfo}
+          userInfo={userInfo}
+        />
+      ),
     },
   ];
 
@@ -95,6 +122,7 @@ const useOnBoard = () => {
     headers: true,
   });
   const createFreelancer = async () => {
+    console.log(authContext.user);
     sendRequest(
       {
         user: authContext.user.id,
@@ -103,14 +131,12 @@ const useOnBoard = () => {
         where_did_you_heard: userInfo.where.slice(0, 1),
         bio: userInfo.bio,
         skills: userInfo.skills,
-        languages: Object.keys(userInfo.language[0]),
+        languages: userInfo.language,
       },
       (res) => {
         console.log(res);
         customToast({ message: "success", type: "success" });
-        setTimeout(() => {
-          navigator(`/agent/dashboard`);
-        }, 1000);
+        navigator(`/agent/dashboard`);
       },
       (error) => {
         console.log(error.response);
@@ -124,10 +150,11 @@ const useOnBoard = () => {
   };
   const onNextPage = () => {
     console.log("user info ==> ", userInfo);
+
     if (!gotoNext) {
       customToast({ message: "please compelet all", type: "error" });
     }
-    if (gotoNext && currentPage == pages.length - 1) {
+    if (gotoNext && currentPage === pages.length - 1) {
       createFreelancer();
     } else if (gotoNext && currentPage != pages.length - 1) {
       setCurrentPage((c) => c + 1);

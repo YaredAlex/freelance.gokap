@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { BoardingPropTypes } from "../../hooks/onboard/use_onboard";
 
-const WhyAndWhere = ({ setGotoNext, setUserInfo }: BoardingPropTypes) => {
-  const [whyFreelance, setWhyFreelance] = useState("");
-  const [hearedAboutUs, setHeardAboutUs] = useState("");
+const WhyAndWhere = ({
+  setGotoNext,
+  setUserInfo,
+  userInfo,
+}: BoardingPropTypes) => {
+  const [whyFreelance, setWhyFreelance] = useState(userInfo.reason);
+  const [hearedAboutUs, setHeardAboutUs] = useState(userInfo.where);
   useEffect(() => {
     if (whyFreelance && whyFreelance.length > 3 && hearedAboutUs) {
       // setUserInfo(info=>{ return {...info,reason:whyFreelance,heared:hearedAboutUs}})
@@ -32,7 +36,9 @@ const WhyAndWhere = ({ setGotoNext, setUserInfo }: BoardingPropTypes) => {
        
           `}
         >
-          <p className={`text-center`}>Why do you want start freelancing</p>
+          <p className={`text-center py-2`}>
+            Why do you want start freelancing
+          </p>
           <input
             placeholder="why"
             name="reason"
@@ -40,14 +46,15 @@ const WhyAndWhere = ({ setGotoNext, setUserInfo }: BoardingPropTypes) => {
         w-100
         p-2
         rounded
-        border-green-variant-3
-        transparent
+        border-card
+        bg-white-smoke
         text-black-variant-2
             `}
             onChange={(e) => {
               setWhyFreelance(e.target.value);
               updateUserInfo(e);
             }}
+            value={whyFreelance}
           />
         </div>
         <div
@@ -58,14 +65,15 @@ const WhyAndWhere = ({ setGotoNext, setUserInfo }: BoardingPropTypes) => {
         max-width-400-center
         "
         >
-          <p className="text-center">Where did you heard about us?</p>
+          <p className="text-center py-2">Where did you heard about us?</p>
           <select
             className={`
         p-2
         rounded
         border-green-variant-3
         text-black-variant-1
-        bg-white-variant-2
+        bg-white-smoke
+        border-card
         w-100
         `}
             name="where"
@@ -73,6 +81,7 @@ const WhyAndWhere = ({ setGotoNext, setUserInfo }: BoardingPropTypes) => {
               setHeardAboutUs(e.target.value);
               updateUserInfo(e);
             }}
+            value={hearedAboutUs}
           >
             <option value="">Select</option>
             <option value="Instagram">Instagram</option>
