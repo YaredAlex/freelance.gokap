@@ -9,17 +9,13 @@ import {
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
 
-const ChangeClientAddress = ({
-  clientProfile,
-}: {
-  clientProfile: UseClientProfileType;
-}) => {
+const ChangeAddress = ({ profile }: { profile: UseClientProfileType }) => {
   const changeAddress = useChangeClientAddress();
   return (
     <DefaultModal
       loading={changeAddress.loading}
-      showModal={clientProfile.showEditAddress}
-      setShowModal={clientProfile.setShowEditAddress}
+      showModal={profile.showEditAddress}
+      setShowModal={profile.setShowEditAddress}
       modalId="address"
     >
       <div className={``}>
@@ -75,7 +71,7 @@ const ChangeClientAddress = ({
                 title="Cancel"
                 type="button"
                 onClick={() => {
-                  clientProfile.setShowEditAddress(false);
+                  profile.setShowEditAddress(false);
                   changeAddress.reset();
                 }}
                 className="py-2 col"
@@ -93,4 +89,4 @@ const ChangeClientAddress = ({
   );
 };
 
-export default ChangeClientAddress;
+export default ChangeAddress;

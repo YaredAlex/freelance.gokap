@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { MdSupportAgent } from "react-icons/md";
-import { Box, FolderAdd, Home, Money, User } from "iconsax-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { agentNavList, clientNavList } from "./nav_list";
+import { useAuthContext } from "../../../../context/auth/auth_context";
 
 type SideBarType = {
   showNav: boolean;
@@ -10,58 +10,16 @@ type SideBarType = {
 const SideBar = ({ showNav, setShowNav }: SideBarType) => {
   //   const { sideNavState, navDispatch } = useContext(SideNavContext);
   const [activeLink, setActiveLink] = useState("home");
-  const navList = [
-    {
-      title: "Dashboard",
-      child: [
-        {
-          title: "Dashboard",
-          to: ``,
-          icon: (color: string) => <Home color={color} variant="Bold" />,
-        },
-      ],
-    },
-    {
-      title: "Projects",
-      child: [
-        {
-          title: "All Projects",
-          to: `projects`,
-          icon: (color: string) => <Box color={color} variant="Bold" />,
-        },
-        {
-          title: "Create Project",
-          to: `projects/create`,
-          icon: (color: string) => <FolderAdd color={color} variant="Bold" />,
-        },
-      ],
-    },
-    {
-      title: "Account",
-      child: [
-        {
-          title: "Account",
-          to: `account`,
-          icon: (color: string) => <User color={color} variant="Bold" />,
-        },
-        {
-          title: "Invoice",
-          to: ``,
-          icon: (color: string) => <Money color={color} variant="Bold" />,
-        },
-      ],
-    },
-    {
-      title: "Help Line",
-      child: [
-        {
-          title: "support",
-          to: ``,
-          icon: (color: string) => <MdSupportAgent color={color} size={22} />,
-        },
-      ],
-    },
-  ];
+  const [navList, setNavList] = useState(clientNavList);
+  const authContext = useAuthContext();
+  useEffect(() => {
+    const type = authContext.user.type;
+    if (type === "client") setNavList(clientNavList);
+    else if (type === "freelancer") {
+      setNavList(agentNavList);
+    }
+  }, []);
+
   return (
     <div
       className={`

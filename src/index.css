@@ -38,8 +38,8 @@
   --gray-secondary: #ffffff;
   --gray-400: rgba(0, 135, 20, 0.448);
   --gray-dark-shade: rgb(243, 243, 243);
-  --text-xsm: 12px;
-  --text-sm: 1rem;
+  --text-xsm: 14px;
+  --text-sm: 0.95rem;
   --text-md: 1.2rem;
   --text-lg: 25px;
   --text-xlg: 36px;
@@ -52,7 +52,7 @@
   --gap-txt: 24px;
   --text-black-variant-1: rgb(0, 0, 0);
   --text-black-variant-2: rgb(43, 43, 43);
-  --text-black-variant-3: rgb(43, 43, 43);
+  --text-black-variant-3: rgb(60, 60, 60);
   --text-blue-variant-1: rgb(4, 6, 44);
   --text-white-variant-1: rgb(255, 255, 255);
   --text-white-variant-2: white;
@@ -69,6 +69,8 @@
   --bg-modal: rgba(0, 0, 0, 0.186);
   --project-header: rgb(60, 81, 108);
   --dark-gray-light-gray: rgb(230, 230, 230);
+  --skeleton-loading-1: hsl(200, 20%, 80%);
+  --skeleton-loading-2: hsl(200, 20%, 90%);
 }
 .dark-theme {
   --primary-green: #3e9359;
@@ -109,6 +111,8 @@
   --border-card: rgb(55, 55, 55);
   --project-header: #00bf6f;
   --dark-gray-light-gray: rgb(48, 48, 48);
+  --skeleton-loading-1: hsl(0, 1%, 30%);
+  --skeleton-loading-2: hsl(0, 0%, 20%);
 }
 
 body {
@@ -316,6 +320,9 @@ p {
 }
 .text-gray {
   color: gray;
+}
+.text-blue {
+  color: rgb(64, 103, 144);
 }
 .text-gray-secondary {
   color: var(--text-gray-secondary);

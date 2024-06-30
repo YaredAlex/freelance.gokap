@@ -141,8 +141,8 @@ export const useChangeClientPassword = () => {
 export const useChangeClientName = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/${authContext.user.id}`,
-    method: "POST",
+    url: `/api/user/update-user/`,
+    method: "PATCH",
     headers: true,
   });
   const {

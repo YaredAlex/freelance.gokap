@@ -1,5 +1,5 @@
 import AccountWrapper from "../../components/account_wrapper";
-import ChangeClientAddress from "../../components/change_address";
+import ChangeAddress from "../../components/change_address";
 import ChangeClientName from "../../components/change_name";
 import ChangePassword from "../../components/change_password";
 import ChangeClientPhone from "../../components/change_phone";
@@ -18,7 +18,7 @@ const ProfileClient = () => {
         {/* Profile */}
         <AccountWrapper title={"Profile"} lists={clientProfile.profileList} />
 
-        <ChangeClientAddress clientProfile={clientProfile} />
+        <ChangeAddress profile={clientProfile} />
         <ChangeClientName clientProfile={clientProfile} />
         {/* Account */}
         <AccountWrapper title={"Account"} lists={clientProfile.accountList} />

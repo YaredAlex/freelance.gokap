@@ -115,6 +115,7 @@ type TextEdit = {
   ) => void;
   subtitle?: string;
   value: string;
+  rows?: number;
 };
 export const TextEdit = ({
   placeholder,
@@ -172,6 +173,7 @@ export const TextEditArea = ({
   onChange,
   subtitle,
   value,
+  rows = 5,
 }: TextEdit) => {
   return (
     <div
@@ -199,6 +201,7 @@ export const TextEditArea = ({
           onChange={onChange}
           value={value}
           name={name}
+          rows={rows}
         />
         {surfix_icon ?? ""}
       </div>

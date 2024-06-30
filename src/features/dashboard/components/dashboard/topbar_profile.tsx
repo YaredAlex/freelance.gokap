@@ -16,7 +16,7 @@ const TopBarProfile = ({ user }: { user: UserAuthType }) => {
     >
       <CircularAvatar
         size={40}
-        text="he"
+        text={user.firstname.slice(0, 2)}
         bgcolor={"bg-gray-secondary"}
         className={"cursor-pointer"}
       />

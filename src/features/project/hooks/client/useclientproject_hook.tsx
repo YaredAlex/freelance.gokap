@@ -40,7 +40,7 @@ const useClientProject = () => {
     return () => {
       controller.abort();
     };
-  }, [currentPage]);
+  }, []);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const [searchTerm, setSearchTerm] = useState("");

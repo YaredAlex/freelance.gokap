@@ -1,6 +1,6 @@
 import { FaCheck } from "react-icons/fa6";
 import { STATUS } from "../../features/authentication/hooks/onboard/use_onboard";
-
+import "./circular_check.css";
 type CircularCheckProp = {
   status: string;
   bgColor?: string;
@@ -40,7 +40,7 @@ const CircularCheck = ({
       <div
         className={`circular-default 
      ${status === STATUS.PENDING ? "bg-gray" : ""} 
-     border-green-variant-1
+     border-card
      
      `}
       ></div>

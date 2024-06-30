@@ -57,7 +57,6 @@ const useClientHome = () => {
   const getClientProject = useGetClientProject();
   useEffect(() => {
     getClientProject.getClientProject((res) => {
-      console.log(res);
       const [min, max] = getMinMaxBudget(res.data || []);
       setBudget({
         maxBudget: max,

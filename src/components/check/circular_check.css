@@ -1,0 +1,36 @@
+.dash-line {
+    width: 50px;
+    height: 4px;
+  }
+  .circular-default {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+  }
+  @media screen and (max-width: 960px) {
+    .dash-line {
+      width: 30px;
+      height: 3px;
+    }
+    .circular-default {
+      height: 28px;
+      width: 28px;
+    }
+    .icon-check {
+      width: 14px;
+    }
+  }
+  @media screen and (max-width: 512px) {
+    .dash-line {
+      width: 20px;
+      height: 2px;
+    }
+    .icon-check {
+      width: 14px;
+    }
+    .circular-default {
+      height: 25px;
+      width: 25px;
+    }
+  }
+  

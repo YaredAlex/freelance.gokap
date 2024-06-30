@@ -7,12 +7,14 @@ const DefaultModal = ({
   loading,
   setShowModal,
   modalId,
+  maxWidth,
 }: {
   children: ReactNode;
   showModal: boolean;
   loading: boolean;
   modalId: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  maxWidth?: string;
 }) => {
   const close = () => {
     const portal = document.getElementById(`p_${modalId}`);
@@ -41,7 +43,12 @@ const DefaultModal = ({
 
       <div
         className="bg-white-v-4 rounded border-card p-4"
-        style={{ maxWidth: "500px", width: "100%" }}
+        style={{
+          maxWidth: `${maxWidth ? maxWidth : "500px"}`,
+          width: "100%",
+          overflowY: "auto",
+          maxHeight: "90%",
+        }}
       >
         {children}
       </div>

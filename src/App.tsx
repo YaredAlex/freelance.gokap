@@ -18,12 +18,18 @@ import ClientCreateProject from "./features/project/view/client/create_project";
 import ProjectContextProvider from "./context/projects/project_context";
 import ProjectStatus from "./features/project/view/client/project_status";
 import Profile from "./features/profile/view/profile";
+import Invoice from "./features/invoice/view/invoice";
+import Support from "./features/support/view/support";
+import ApplyProject from "./features/apply/views/agent/apply_project";
+import AgentStats from "./features/stats/views/agent/agent_stats";
+import AgentContextProvider from "./context/agent/agent_context";
+import LetsStart from "./features/authentication/view/onboard/onboard";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setIsDark(true);
+      setIsDark(false);
     } else setIsDark(false);
     console.log(isDark);
   }, []);
@@ -32,48 +38,54 @@ function App() {
     <>
       <div className={`${isDark ? "dark-theme" : ""}`}>
         <AuthContextProvider>
-          <BrowserRouter>
-            <ProjectContextProvider>
-              <Routes>
-                <Route path="" element={<Signin />} />
-                <Route path="/signin" element={<Signin />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/verify-user" element={<VerifyUser />} />
-                <Route path={`/reset-password`} element={<ResetPassword />} />
-                <Route path={"/client/dashboard"} element={<DashBoardRoute />}>
-                  <Route path={``} element={<ClientDashBoard />} />
-                  <Route path={`projects`} element={<Projects />} />
+          <AgentContextProvider>
+            <BrowserRouter>
+              <ProjectContextProvider>
+                <Routes>
+                  <Route path="" element={<Signin />} />
+                  <Route path="/signin" element={<Signin />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/verify-user" element={<VerifyUser />} />
+                  <Route path={`/reset-password`} element={<ResetPassword />} />
                   <Route
-                    path={`projects/create`}
-                    element={<ClientCreateProject />}
-                  />
-                  <Route
-                    path={`projects/status/:id`}
-                    element={<ProjectStatus />}
-                  />
-                  <Route path={`account`} element={<Profile />} />
-                  {/* 
-                    
-                    <Route path={`invoice`} element={<Invoice />} />
-                    
-                    <Route path={`support`} element={<Support />} /> */}
-                </Route>
-                {/* Freelancer dashboared */}
-                <Route path={`/agent/dashboard`} element={<DashBoardRoute />}>
-                  <Route path={``} element={<AgentDashBoard />} />
-                  {/* <Route path={`profile`} element={<Profile />} />
-                    <Route
-                      path={`projects/check/:id`}
-                      element={<CheckProject />}
-                    />
-
-                    <Route path={`invoice`} element={<Invoice />} />
+                    path={"/client/dashboard"}
+                    element={<DashBoardRoute />}
+                  >
+                    <Route path={``} element={<ClientDashBoard />} />
                     <Route path={`projects`} element={<Projects />} />
-                    <Route path={`support`} element={<Support />} /> */}
-                </Route>
-              </Routes>
-            </ProjectContextProvider>
-          </BrowserRouter>
+                    <Route
+                      path={`projects/create`}
+                      element={<ClientCreateProject />}
+                    />
+                    <Route
+                      path={`projects/status/:id`}
+                      element={<ProjectStatus />}
+                    />
+                    <Route path={`account`} element={<Profile />} />
+                    <Route path={`invoice`} element={<Invoice />} />
+                    <Route path={`support`} element={<Support />} />
+                  </Route>
+                  {/* onboarding */}
+
+                  <Route path={`/onboard`} element={<LetsStart />} />
+
+                  {/* Freelancer dashboared */}
+                  <Route path={`/agent/dashboard`} element={<DashBoardRoute />}>
+                    <Route path={``} element={<AgentDashBoard />} />
+                    <Route path={`apply/:id`} element={<ApplyProject />} />
+                    <Route path={`stats/`} element={<AgentStats />} />
+                    <Route path={`account`} element={<Profile />} />
+                    <Route path={`invoice`} element={<Invoice />} />
+                    <Route path={`support`} element={<Support />} />
+                    <Route path={`projects`} element={<Projects />} />
+                    {/* 
+                   
+                   */}
+                  </Route>
+                </Routes>
+              </ProjectContextProvider>
+            </BrowserRouter>
+          </AgentContextProvider>
         </AuthContextProvider>
       </div>
     </>

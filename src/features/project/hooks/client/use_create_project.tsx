@@ -18,6 +18,7 @@ const useCreateProject = () => {
     });
     projectData.skills_required = projectForm.personalSkills;
     if (!valid) return;
+    console.log(projectData);
 
     //let's save client project in database
     sendRequest(

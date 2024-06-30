@@ -57,7 +57,7 @@
   transition: all 0.2s linear;
 }
 .project-card-wrapper:hover {
-  transform: scale(1.01);
+  background-color: var(--white-smoke);
 }
 .project-card-wrapper:hover .project-title {
   color: green;

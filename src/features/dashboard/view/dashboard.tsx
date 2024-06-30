@@ -7,11 +7,13 @@ import SideBar from "../components/dashboard/side_bar";
 import useGetProfile from "../../../hooks/use_getprofile";
 import { useAuthContext } from "../../../context/auth/auth_context";
 import CustomToastContainer from "../../../components/custom_toast/toast_container";
+import useAgentDetail from "../../../hooks/use_agent_detail";
 
 //Passdown auth to childern ** important to consider
 const DashBoard = ({ children }: { children: ReactNode }) => {
   const { showNav, setShowNav } = useDashBoard();
   const profile = useGetProfile();
+  const agentDetail = useAgentDetail();
   const authContext = useAuthContext();
   useEffect(() => {
     profile.getProfile();
@@ -26,7 +28,7 @@ const DashBoard = ({ children }: { children: ReactNode }) => {
     >
       <CustomToastContainer />
       {/* Right side */}
-      {profile.loading ? (
+      {profile.loading || agentDetail.loading ? (
         <>
           <div
             className="d-flex align-items-center justify-content-center flex-column text-black-variant-1"

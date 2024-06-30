@@ -1,186 +1,192 @@
-import { Box2, Edit2, Money, Money2, TickCircle } from "iconsax-react";
-import useAgentHome from "../../hooks/agent/agent_hook";
-import { useAuthContext } from "../../../../context/auth/auth_context";
-import DashboardCard from "../../../../components/cards/dashboard_cards";
-import BudgetChart from "../../../../components/chart/budget_chart";
-import HalfCircleProgress from "../../../../components/chart/half_circle";
-import RecentProjectTable from "../../../../components/table/recent_project";
-import CircularAvatar from "../../../../components/circularAvatar/circular_avatar";
-import ListTile from "../../../../components/list_tile/list_tile";
+import useAgentBoard, {
+  UseAgentBoardType,
+} from "../../hooks/agent/agent_board";
+import RoundedText from "../../../../components/rounded_text/rounded_text";
+import { ButtonPrimary } from "../../../../components/button/button";
+import AgentBoardSkeleton from "../../components/agent/agent_board_skeleton";
+import { Filter, TickCircle } from "iconsax-react";
+import useAgentProject from "../../../project/hooks/agent/use_agent_project";
+import FilterProject from "../../components/agent/filter_project";
+import { ClientProjectType } from "../../../../context/projects/project_context";
 
-const AgentDashBoard = () => {
-  const agentHome = useAgentHome();
-  const authContext = useAuthContext();
+const PostedProjects = () => {
+  const agentBoard = useAgentBoard();
+  const appliedProject = useAgentProject();
   return (
-    <div className={`d-flex dashboard-content`} style={{}}>
-      <div
-        className="d-flex
-      flex-column
-     gap-4
-     px-md-3 
-     px-1
-     pb-3 pb-md-0
-     left-side
-    "
-      >
-        <div
-          className={`d-flex 
-          justify-content-center align-items-center 
-          justify-content-sm-between flex-wrap gap-2 flex-sm-row flex-column `}
-          style={{}}
-        >
-          <DashboardCard
-            title={"Project Taken"}
-            number={agentHome.cardState.projectCreated}
-            icon={<Edit2 size={25} color="blue" />}
-          />
-          <DashboardCard
-            title={"Compeleted Project"}
-            number={agentHome.cardState.projectCompeleted}
-            icon={<TickCircle size={25} />}
-            background={"linear-gradient(to right,#09CA62,#24995A)"}
-          />
-          <DashboardCard
-            title={"Earning"}
-            number={agentHome.cardState.investment}
-            icon={<Money size={25} color="green" />}
-            background={"linear-gradient(to right,#793FF5,#56349D)"}
-          />
-          {/* Budget Chart */}
-        </div>
-        <div className={`d-flex gap-2  flex-sm-row flex-column  `}>
-          <div
-            className={`col-sm-8 col bg-white-variant-4 p-2 rounded`}
-            style={{ height: "300px" }}
-          >
-            <BudgetChart data={agentHome.budgetChar} />
-          </div>
-          <div
-            className={`col-sm-4 col bg-white-variant-4 rounded d-flex align-items-start flex-column p-2 gap-4 text-black-variant-1`}
-            style={{ height: "100%" }}
-          >
-            <HalfCircleProgress
-              percentage={
-                agentHome.cardState.projectCompeleted /
-                agentHome.cardState.projectCreated
-              }
-            />
-            <div className="d-flex align-items-center gap-3">
-              {" "}
-              <span
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                  backgroundColor: "#4caf50",
-                  display: "inline-block",
-                }}
-              />{" "}
-              Finished
+    <>
+      <div className="position-relative">
+        <div className="text-black-variant-1 mx-auto mt-4 max-w-1100 mx-auto">
+          {/* SEARCH LABLE */}
+          <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4">
+            <div className="d-flex w-100 flex-row flex-sm-row gap-2 justify-content-between search-bar col ">
+              <input
+                type="text"
+                className="custom-input border-card rounded"
+                placeholder="Search by title or budget"
+                value={agentBoard.searchTerm}
+                onChange={(e) => agentBoard.setSearchTerm(e.target.value)}
+                style={{ width: "100%" }}
+              />
             </div>
-            <div className="d-flex align-items-center gap-3">
-              {" "}
-              <span
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  borderRadius: "50%",
-                  backgroundColor: "#e0e0e0",
-                  display: "inline-block",
-                }}
-              />{" "}
-              Pending
+            <div style={{ maxWidth: "150px" }}>
+              <ButtonPrimary
+                title="search"
+                type="button"
+                className="py-2"
+                onClick={() => agentBoard.handleSearch()}
+                disabled={agentBoard.searchLoading}
+              />
+            </div>
+            <div
+              className="border-card d-flex align-items-center px-3 rounded"
+              style={{ position: "relative" }}
+            >
+              <Filter
+                onClick={() => agentBoard.setShowFilter(!agentBoard.showFilter)}
+              />
+              <FilterProject agentBoard={agentBoard} />
             </div>
           </div>
+          {/* Project cards */}
+          <div className="mb-4"></div>{" "}
+          <div
+            className={`mb-3 bg-white-v-4 rounded border-card overflow-hidden`}
+          >
+            <div className="col">
+              {agentBoard.loading ||
+              appliedProject.loading ||
+              agentBoard.searchLoading ? (
+                <>
+                  <AgentBoardSkeleton />
+                  <AgentBoardSkeleton />
+                </>
+              ) : (
+                agentBoard.currentRows.map((project, index) => {
+                  const applied = appliedProject.alldata.find(
+                    (p) => p.project_id.title === project.title
+                  );
+                  if (applied)
+                    return (
+                      <ProjectPostedCard
+                        key={index}
+                        agentBoard={agentBoard}
+                        project={project}
+                        isApplied={true}
+                      />
+                    );
+                  return (
+                    <ProjectPostedCard
+                      key={index}
+                      agentBoard={agentBoard}
+                      project={project}
+                      isApplied={false}
+                    />
+                  );
+                })
+              )}
+            </div>
+          </div>
+          <nav>
+            <ul className="pagination">
+              {Array.from(
+                {
+                  length: Math.ceil(
+                    agentBoard.projectHolder.length / agentBoard.rowsPerPage
+                  ),
+                },
+                (_, i) => (
+                  <li
+                    key={i}
+                    className={`page-item ${
+                      i + 1 === agentBoard.currentPage ? "active" : ""
+                    }`}
+                  >
+                    <button
+                      className="page-link"
+                      onClick={() => agentBoard.paginate(i + 1)}
+                    >
+                      {i + 1}
+                    </button>
+                  </li>
+                )
+              )}
+            </ul>
+          </nav>
         </div>
-        {/* Table */}
-
-        <RecentProjectTable data={[]} />
       </div>
+    </>
+  );
+};
 
-      {/* customer simple porfile */}
-      <div
-        className="d-none d-lg-flex flex-column align-items-center gap-2 text-black-variant-1 "
-        style={{
-          flexShrink: "50%",
-        }}
-      >
-        <div
-          className={`d-flex flex-column gap-2 align-items-center rounded bg-white-variant-4 pt-2`}
-          style={{
-            width: "100%",
-            height: "200px",
-          }}
-        >
-          <CircularAvatar
-            size={130}
-            text={authContext.user?.firstname.slice(0, 2)}
-            fontSize={2.5}
-            bgcolor="#802cff"
-            className={""}
-            fontcolor={"text-white"}
-          />
-          <span>{authContext.user?.email}</span>
-        </div>
+export default PostedProjects;
 
-        <div
-          className={`width-100 d-flex flex-column bg-white-variant-4 p-3`}
-          style={{
-            width: "100%",
-            height: "200px",
-          }}
-        >
-          <div className="col d-flex flex-column justify-content-center">
-            <span>Max Earning</span>
-            <h2 className={`text-center font-weight-400`}>
-              {agentHome.budget.maxBudget}
-              <span className="h5">rs</span>
-            </h2>
+const ProjectPostedCard = ({
+  agentBoard,
+  project,
+  isApplied,
+}: {
+  agentBoard: UseAgentBoardType;
+  project: ClientProjectType;
+  isApplied: boolean;
+}) => {
+  return (
+    <div
+      className="border-light-bottom project-card-wrapper bg-white-v-4  px-3 py-3 cursor-pointer"
+      style={{
+        maxWidth: "900px",
+        width: "100%",
+      }}
+      onClick={() =>
+        isApplied ? () => {} : agentBoard.checkOutProject(project)
+      }
+    >
+      <div className="d-flex justify-content-between">
+        <p className="m-0 text-black-variant-3" style={{ fontSize: "14px" }}>
+          {agentBoard.timeAgo.format(new Date(project.created_at))}
+        </p>
+        {isApplied && (
+          <div className="d-flex gap-1">
+            <TickCircle variant="Bold" color="green" size={20} />
+            <p className="text-sm">Applied</p>
           </div>
-          <div className="col col d-flex flex-column justify-content-center">
-            <span>Min Earning</span>
-            <h2 className={`text-center font-weight-400`}>
-              {agentHome.budget.minBudget}
-              <span className="h5">rs</span>
-            </h2>
-          </div>
+        )}
+      </div>
+      {/* title */}
+      <h6 className="project-title my-2 text-capitalize">{project.title}</h6>
+      {/* Description */}
+      <p className="project-description my-3 text-sm text-black-variant-3">
+        {project.description}
+      </p>
+      <div className="d-flex gap-3 flex-wrap my-3 text-sm">
+        {project.skills_required.map((skill, index) => (
+          <RoundedText text={skill} key={index} />
+        ))}
+      </div>
+      <div className="card-bottom d-flex justify-content-between">
+        <div className="d-flex gap-4">
+          <p
+            className="d-flex gap-1 flex-sm-row flex-column"
+            style={{ fontSize: "14px" }}
+          >
+            <span className="text-black-variant-2">Est Submission </span>
+            <span className="text-black-variant-3">
+              {new Date(project.project_deadline).toDateString()}
+            </span>
+          </p>
+          <p className="text-black-variant-3 font-weight-300">
+            Proposals:{" "}
+            {project.applied_count <= 5
+              ? "0 to 5"
+              : project.applied_count <= 10
+              ? "5 to 10"
+              : "10 to 20"}
+          </p>
         </div>
-        {/* Activity */}
-        <Activity />
+        <p>
+          Budget <br />
+          {project.project_price}rs
+        </p>
       </div>
     </div>
   );
 };
-
-export default AgentDashBoard;
-
-function Activity() {
-  return (
-    <div
-      className="
-    text-black-variant-2
-    dashboard-activity
-    w-100
-    p-2
-    bg-white-variant-4
-    "
-    >
-      <h5 className={`font-weight-400`}>Activity</h5>
-      <div>
-        <ListTile
-          title={"Project Created "}
-          subtitle={"You have applied new porject"}
-          time={"20-20-12"}
-          icon={<Box2 color="white" />}
-        />
-        <hr className="m-0" />
-        <ListTile
-          title={"Payment"}
-          subtitle={"Payment recieved for project completion"}
-          time={"30-20-12"}
-          icon={<Money2 color="white" />}
-        />
-      </div>
-    </div>
-  );
-}

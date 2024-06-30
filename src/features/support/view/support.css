@@ -1,0 +1,14 @@
+.support-wrapper {
+  width: 100%;
+}
+
+.support-wrapper ul {
+  list-style-type: none;
+  max-height: 0;
+  transition: all 0.2s linear;
+  padding: 0;
+  margin: 0;
+}
+.support-wrapper ul li {
+  padding: 10px 10px;
+}

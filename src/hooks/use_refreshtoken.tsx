@@ -40,7 +40,6 @@ const useRefreshToken = () => {
   //Sending refresh token
   const getToken = async (cb: () => void) => {
     const refreshToken = secureLocalStorage.getItem("refresh");
-    console.log("refresh called", " rtoken ", refreshToken);
     setLoading(true);
     await axios({
       method: "POST",

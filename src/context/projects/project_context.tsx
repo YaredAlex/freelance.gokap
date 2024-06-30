@@ -9,7 +9,7 @@ import {
 import { ProjectActionType, projectReducer } from "./project_reducer";
 
 export type ClientProjectType = {
-  id: string;
+  id: number;
   project_category: string;
   title: string;
   description: string;
@@ -22,6 +22,7 @@ export type ClientProjectType = {
   payment_status: number | string;
   project_status: number | string;
   project_assigned_status: boolean;
+  applied_count: number;
 };
 
 type ProjectContextType = {
@@ -34,7 +35,7 @@ type ProjectContextType = {
 };
 
 const defaultProject: ClientProjectType = {
-  id: "",
+  id: -1,
   project_category: "",
   title: "",
   description: "",
@@ -47,6 +48,7 @@ const defaultProject: ClientProjectType = {
   payment_status: "",
   project_status: "",
   project_assigned_status: false,
+  applied_count: 0,
 };
 
 const defaultProjectContext: ProjectContextType = {
