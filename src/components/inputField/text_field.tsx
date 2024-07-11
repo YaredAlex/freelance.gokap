@@ -116,6 +116,8 @@ type TextEdit = {
   subtitle?: string;
   value: string;
   rows?: number;
+  min?: string;
+  max?: string;
 };
 export const TextEdit = ({
   placeholder,
@@ -128,6 +130,8 @@ export const TextEdit = ({
   onChange,
   subtitle,
   value,
+  min,
+  max,
 }: TextEdit) => {
   return (
     <div
@@ -156,6 +160,8 @@ export const TextEdit = ({
           onChange={onChange}
           name={name}
           value={value}
+          min={min}
+          max={max}
         />
         {surfix_icon ?? ""}
       </div>

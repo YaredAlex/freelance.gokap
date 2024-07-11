@@ -26,7 +26,7 @@ const DefaultModal = ({
   };
   return (
     <div
-      className={`position-fixed bg-modal  d-flex align-items-center justify-content-center ${
+      className={`position-fixed bg-modal  d-flex align-items-center justify-content-center p-2 ${
         showModal ? "d-flex" : "d-none"
       }`}
       style={{
@@ -42,9 +42,9 @@ const DefaultModal = ({
       {loading && <CustomLoadingSecondary title="loading" />}
 
       <div
-        className="bg-white-v-4 rounded border-card p-4"
+        className="bg-white-v-4 rounded border-card p-sm-4 px-2 py-4"
         style={{
-          maxWidth: `${maxWidth ? maxWidth : "500px"}`,
+          maxWidth: `${maxWidth ? maxWidth : "600px"}`,
           width: "100%",
           overflowY: "auto",
           maxHeight: "90%",

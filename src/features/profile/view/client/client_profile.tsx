@@ -19,7 +19,7 @@ const ProfileClient = () => {
         <AccountWrapper title={"Profile"} lists={clientProfile.profileList} />
 
         <ChangeAddress profile={clientProfile} />
-        <ChangeClientName clientProfile={clientProfile} />
+        <ChangeClientName userProfile={clientProfile} />
         {/* Account */}
         <AccountWrapper title={"Account"} lists={clientProfile.accountList} />
         <ChangePassword clientProfile={clientProfile} />

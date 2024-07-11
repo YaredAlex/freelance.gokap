@@ -8,22 +8,27 @@ import {
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
+import { UseAgentProfileType } from "../hooks/agent/use_agent_profile";
 
 const ChangeClientName = ({
-  clientProfile,
+  userProfile,
 }: {
-  clientProfile: UseClientProfileType;
+  userProfile: UseClientProfileType | UseAgentProfileType;
 }) => {
   const changeName = useChangeClientName();
   return (
     <DefaultModal
       loading={changeName.loading}
-      showModal={clientProfile.showEditName}
-      setShowModal={clientProfile.setShowEditName}
+      showModal={userProfile.showEditName}
+      setShowModal={userProfile.setShowEditName}
       modalId="name"
     >
       <div className={``}>
-        <form onSubmit={changeName.handleSubmit(changeName.changeUserName)}>
+        <form
+          onSubmit={changeName.handleSubmit((data) =>
+            changeName.changeUserName(data, userProfile.setShowEditName)
+          )}
+        >
           <h5>Update Your Name</h5>
           <div
             className={`d-flex flex-column justify-content-between p-2 gap-2`}
@@ -63,7 +68,7 @@ const ChangeClientName = ({
                 title="Cancel"
                 type="button"
                 onClick={() => {
-                  clientProfile.setShowEditName(false);
+                  userProfile.setShowEditName(false);
                   changeName.reset();
                 }}
                 className="py-2 col"

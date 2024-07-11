@@ -24,12 +24,13 @@ import ApplyProject from "./features/apply/views/agent/apply_project";
 import AgentStats from "./features/stats/views/agent/agent_stats";
 import AgentContextProvider from "./context/agent/agent_context";
 import LetsStart from "./features/authentication/view/onboard/onboard";
+import AgentProjectStatus from "./features/project/view/agent/agent_project_status";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setIsDark(false);
+      setIsDark(true);
     } else setIsDark(false);
     console.log(isDark);
   }, []);
@@ -78,6 +79,10 @@ function App() {
                     <Route path={`invoice`} element={<Invoice />} />
                     <Route path={`support`} element={<Support />} />
                     <Route path={`projects`} element={<Projects />} />
+                    <Route
+                      path={`projects/status/:id`}
+                      element={<AgentProjectStatus />}
+                    />
                     {/* 
                    
                    */}

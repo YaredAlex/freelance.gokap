@@ -6,7 +6,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useAxios } from "../../../hooks/useAxios";
 import customToast from "../../../components/custom_toast/custom_toast";
-import { AxiosResponse } from "axios";
+import { useGetProjectById } from "../../../hooks/use_get_project_id";
 
 const useApplyProject = () => {
   // const [project, setProject] = useState(1);
@@ -80,30 +80,3 @@ export type ApplyProjectType = {
   proposalError: string;
 };
 export default useApplyProject;
-
-const useGetProjectById = () => {
-  const { sendRequest, loading } = useAxios({
-    headers: true,
-    method: "GET",
-    url: "/api/user/get-client/project/0",
-  });
-  const getProject = (id: string, cb: (res: AxiosResponse) => void) => {
-    const projectRequestApi = `/api/user/get-client/project/${id}`;
-    sendRequest(
-      {},
-      (res) => {
-        cb(res);
-      },
-      (error) => {
-        customToast({ message: `${error.message}`, type: "error" });
-        console.log(error);
-      },
-      true,
-      projectRequestApi
-    );
-  };
-  return {
-    loading,
-    getProject,
-  };
-};

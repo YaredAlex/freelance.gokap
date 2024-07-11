@@ -26,9 +26,16 @@ const ProjectDelete = ({
           onSubmit={deleteProject.handleSubmit(deleteProject.deleteProject)}
         >
           <h5>Delete project</h5>
+          <p>Doing so will permanently delete the data </p>
           <div
-            className={`d-flex flex-column justify-content-between p-2 gap-2`}
+            className={`d-flex flex-column justify-content-between mt-3 gap-2`}
           >
+            <p className="m-0">
+              Confirm you want to delete this project by typing its Title:{" "}
+              <span className="font-weight-500">
+                {deleteProject.currentProject.title}
+              </span>
+            </p>
             <TextField
               error={deleteProject.errors.title?.message}
               register={deleteProject.register("title", {
@@ -52,6 +59,7 @@ const ProjectDelete = ({
                 type="button"
                 onClick={() => {
                   setShowModal(false);
+                  deleteProject.reset();
                   // changePhone.reset();
                 }}
                 className="py-2 col"

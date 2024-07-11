@@ -7,15 +7,12 @@ const ResetPassword = () => {
   return (
     <AuthLayout loading={forgetPass.loading} signlayout={false}>
       <div
-        style={{
-          background: "var(--light-green)",
-        }}
         className="d-flex 
       align-items-center justify-content-center
       "
       >
         {" "}
-        <div className="text-black-variant-1 bg-white-v-4 rounded p-3">
+        <div className="text-black-variant-1 bg-white-v-4 rounded p-3 border-card">
           <>
             <div
               style={{

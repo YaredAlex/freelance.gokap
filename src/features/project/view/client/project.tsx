@@ -113,11 +113,11 @@ const ProjectTable = ({
                       color: project.payment_status === 2 ? "green" : "red",
                     }}
                   >
-                    {project.payment_status == 1 ? "Pending" : "Paid"}
+                    {project.payment_status == 1 ? "Paid" : "Pending"}
                   </span>
                 </td>
                 <td className="p-3">
-                  {project?.project_status === 1 ? "unassigned" : "assigned"}
+                  {project?.project_status === 1 ? "assigned" : "unassigned"}
                 </td>
                 <td className="p-3">
                   {new Date(project?.project_deadline).toLocaleDateString()}

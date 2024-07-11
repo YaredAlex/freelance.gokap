@@ -3,8 +3,8 @@
   color: white;
 }
 .footer-social {
-  border-top: 1px solid var(--border-card);
-  border-bottom: 1px solid var(--border-card);
+  /* border-top: 1px solid var(--border-card);
+  border-bottom: 1px solid var(--border-card); */
 }
 .section-footer a {
   color: white;

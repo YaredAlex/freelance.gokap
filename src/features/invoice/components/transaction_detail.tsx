@@ -19,9 +19,9 @@ const TransactionDetail = ({
       loading={false}
       showModal={showDetail}
       setShowModal={setShowDetail}
-      modalId="address"
+      modalId="transaction"
     >
-      <div className="border-green-variant-3 rounded col-5 d-none flex-column align-items-center p-1 pb-3 d-md-flex w-100">
+      <div className=" d-flex rounded col-5  flex-column align-items-center p-1 pb-3  w-100">
         <CircularAvatar
           size={60}
           bgcolor={"#00bc5a"}

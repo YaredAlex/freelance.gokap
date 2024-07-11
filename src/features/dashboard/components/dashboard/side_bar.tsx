@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { agentNavList, clientNavList } from "./nav_list";
 import { useAuthContext } from "../../../../context/auth/auth_context";
+import { useThemeContext } from "../../../../context/theme/theme_context";
 
 type SideBarType = {
   showNav: boolean;
@@ -12,6 +13,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
   const [activeLink, setActiveLink] = useState("home");
   const [navList, setNavList] = useState(clientNavList);
   const authContext = useAuthContext();
+  const iconColor = useThemeContext().isDark ? "white" : "#567";
   useEffect(() => {
     const type = authContext.user.type;
     if (type === "client") setNavList(clientNavList);
@@ -60,7 +62,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
                           : "none",
                     }}
                   >
-                    {item.icon("#567")}
+                    {item.icon(iconColor)}
                     <Link
                       key={index}
                       className={`text-start text-black-variant-1 

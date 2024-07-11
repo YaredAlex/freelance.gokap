@@ -13,7 +13,7 @@ export const useAgentProfile = () => {
   const profileList = [
     {
       title: "Name",
-      value: authContext.user.firstname,
+      value: `${authContext.user.firstname} ${authContext.user.lastname}`,
       onClick: () => {
         setShowEditName(true);
       },

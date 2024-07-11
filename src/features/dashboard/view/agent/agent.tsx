@@ -184,7 +184,8 @@ const ProjectPostedCard = ({
         </div>
         <p>
           Budget <br />
-          {project.project_price}rs
+          {project.project_price}
+          {" Nu"}
         </p>
       </div>
     </div>

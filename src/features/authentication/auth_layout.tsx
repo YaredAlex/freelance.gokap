@@ -25,7 +25,7 @@ const AuthLayout = ({
           </div>
         )}
         <header
-          className="px-2 bg-white-v-2 text-black-variant-1 py-2"
+          className="px-2 bg-white-v-5 text-black-variant-1 py-2 border-light-bottom"
           style={{ height: "70px" }}
         >
           <div className="max-w-1200 mx-auto d-flex align-items-center d-flex align-items-center justify-content-between">
@@ -38,13 +38,13 @@ const AuthLayout = ({
             minHeight: "calc(100dvh - 60px)",
           }}
           className="d-flex 
-      align-items-center justify-content-center bg-light-green
+      align-items-center justify-content-center bg-white-v-3
       "
         >
           <CustomToastContainer />
           {signlayout ? (
             <div
-              className="bg-white-v-2
+              className="bg-white-v-5
         d-flex 
         rounded 
         sign-wrapper

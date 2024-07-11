@@ -9,7 +9,7 @@ const Footer = () => {
     <div className="section-footer pb-4 pt-4">
       <div className="max-w-1200 mx-auto  d-flex flex-column px-2">
         {/* GIT logo */}
-        <div className="d-flex justify-content-between align-items-center py-2 mb-4">
+        <div className="d-flex justify-content-between align-items-center py-2 mb-2">
           <GITLogo />
           <div className="d-flex gap-3">
             <Link to={""}>About GIT</Link>
@@ -17,7 +17,7 @@ const Footer = () => {
           </div>
         </div>
         {/*  */}
-        <div className="footer-social py-3 d-flex justify-content-end gap-3">
+        <div className="footer-social  d-flex justify-content-end gap-3">
           <Link to={""}>
             <FaFacebook size={iconSize} color={iconColor} />
           </Link>

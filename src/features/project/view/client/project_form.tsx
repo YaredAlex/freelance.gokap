@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   TextEdit,
   TextEditArea,
@@ -6,6 +7,27 @@ import SelectSkill from "../../../../components/select_skill/select_skill";
 import { ProjectFormType } from "../../hooks/client/use_project_form";
 
 const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
+  const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+
+  useEffect(() => {
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
+
+    const today = new Date();
+
+    const minDate = new Date();
+    minDate.setDate(today.getDate() + 3);
+    const maxDate = new Date();
+    maxDate.setMonth(today.getMonth() + 4);
+    setMinDate(formatDate(minDate));
+    setMaxDate(formatDate(maxDate));
+  }, []);
+
   return (
     <>
       <div className="rounded  ">
@@ -40,8 +62,16 @@ const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
                 return { ...prev, [e.target.name]: e.target.value };
               });
             }}
-            value={projectFrom.projectInput.project_deadline}
+            value={
+              projectFrom.projectInput.project_deadline
+                ? new Date(projectFrom.projectInput.project_deadline)
+                    ?.toISOString()
+                    ?.substring(0, 10)
+                : projectFrom.projectInput.project_deadline
+            }
             error={projectFrom.errors.project_deadline}
+            max={maxDate}
+            min={minDate}
           />
 
           {/* Description */}

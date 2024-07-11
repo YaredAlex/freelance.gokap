@@ -44,12 +44,17 @@ export const useAxios = (props:UseAxiosTypes)=>{
                 });
                 return;
               }
-              if (e.message === "Network Error") {
-                customToast({message: GTexts.txt_check_connection,type:"error"});
-                return;
+              try{
+                if (e.message === "Network Error") {
+                  customToast({message: GTexts.txt_check_connection,type:"error"});
+                  return;
+                }
+              else
+              onError(e)
+              }catch(e){
+                customToast({message: "Server Error 500", type:"error"});
               }
-            else
-            onError(e)
+             
             //refreshRef.current = true;
            
          })

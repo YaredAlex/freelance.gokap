@@ -36,6 +36,7 @@ export const useDeleteProject = () => {
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm({
     defaultValues: {
       title: "",
@@ -67,6 +68,7 @@ export const useDeleteProject = () => {
     register,
     handleSubmit,
     errors,
+    reset,
     currentProject: projectContext.currentProject,
   };
 };

@@ -14,7 +14,7 @@ export const detailConvert = (
       title: detail.title,
       id: detail.id,
       created_at: timeAgo.format(Date.parse(detail?.created_at)),
-      project_status: detail.project_status === 1 ? "unassigned" : "assigned",
+      project_status: detail.project_status === 1 ? "assigned" : "unassigned",
       project_price: detail.project_price,
       skills_required: detail.skills_required,
       description: detail.description,
@@ -24,6 +24,7 @@ export const detailConvert = (
       updated_at: detail.updated_at,
       payment_status: detail.payment_status,
       project_assigned_status: detail.project_assigned_status,
+      applied_count: detail.applied_count,
     };
   });
 

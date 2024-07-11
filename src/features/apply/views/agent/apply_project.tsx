@@ -75,7 +75,10 @@ const ApplyProjectDetail = ({
             <h6 className="font-weight-400">
               {applyProject.currentProject?.project_price}
             </h6>
-
+            {/* Fee */}
+            <h5>Platform fee</h5>
+            <p>10%</p>
+            <p>{parseInt(applyProject.currentProject?.project_price) * 0.1}</p>
             {/* skills */}
             <h6 className="project-title my-3  text-capitalize">
               Skill and Experties

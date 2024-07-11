@@ -61,9 +61,17 @@ const useAgentBoard = () => {
     // 'description'
     // 'min_price'
     // 'title'
-    if (searchTerm.trim() == "") return;
-    searchProject.searchProject(`description=${searchTerm}`, (res) => {
+    if (searchTerm.trim() == "") {
+      setProjectHolder(postedProject);
+      return;
+    }
+    searchProject.searchProject(`title=${searchTerm}`, (res) => {
       console.log(res);
+      // const searchResult = res.data.serialized_data;
+      // setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
+      // // Reset to first page when searching
+      // setCurrentPage(1);
+      // setProjectHolder(searchResult);
     });
     // const filteredData = postedProject.filter(
     //   (item) =>
@@ -73,11 +81,6 @@ const useAgentBoard = () => {
     //       .toLowerCase()
     //       .includes(value.toLowerCase())
     // );
-    // setCurrentRows(filteredData.slice(indexOfFirstRow, indexOfLastRow));
-    // // Reset to first page when searching
-    // setCurrentPage(1);
-    // setProjectHolder(filteredData);
-    // if (e.target.value === "") setProjectHolder(postedProject);
   };
 
   const checkOutProject = (detail: ClientProjectType) => {

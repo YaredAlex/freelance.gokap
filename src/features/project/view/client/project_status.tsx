@@ -5,13 +5,16 @@ import useProjectStatus from "../../hooks/client/use_project_staus";
 import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { ButtonPrimary } from "../../../../components/button/button";
 import ProjectDelete from "../../components/client/delete_project";
+import { useEffect } from "react";
 
 const ProjectStatus = () => {
   const navigate = useNavigate();
   const projectStatus = useProjectStatus();
-
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
   return (
-    <div className={`text-black-variant-2 px-2 max-w-1100 mx-auto`}>
+    <div className={`text-black-variant-1 px-2 max-w-1100 mx-auto`}>
       {/* Goback to previous  */}
       <button
         className=" transparent w-auto btn-custom-secondary ms-0 p-1 text-black-variant-1"
@@ -32,31 +35,35 @@ const ProjectStatus = () => {
       justify-content-between
       p-4 border-card rounded d-flex`}
       >
-        {/* show Edit */}
-        <div>
-          <h5 className="font-weight-400 text-capitalize">
-            {projectStatus.currentProject.title}
-          </h5>
-          <p className="text-capitalize">
+        <div className="w-100">
+          <div className="d-flex justify-content-between gap-4 ">
+            <h5
+              className="font-weight-400 text-capitalize"
+              style={{ maxWidth: "600px" }}
+            >
+              {projectStatus.currentProject.title}
+            </h5>
+            <button
+              className="btn m-0 p-0"
+              onClick={() => projectStatus.setShowPoratal(true)}
+            >
+              <Edit className="text-black-variant-2" />
+            </button>
+          </div>
+          <p className="text-capitalize mt-3 text-black-variant-2">
             {projectStatus.currentProject.description}
           </p>
         </div>
-        <button
-          className="btn"
-          onClick={() => projectStatus.setShowPoratal(true)}
-        >
-          <Edit className="text-black-variant-2" />
-        </button>
       </div>
       <div className={`d-flex flex-column flex-md-row gap-4 mb-4`}>
         <div
-          className={` d-flex flex-column gap-3 col`}
+          className={` d-flex flex-column gap-4 col`}
           style={{ minHeight: 300 }}
         >
-          <div className={`col d-flex gap-3`}>
+          <div className={`col d-flex gap-4`}>
             <div className={`bg-white-v-4 col p-4 border-card rounded`}>
               {" "}
-              Budget
+              <h6>Budget</h6>
               <div className="h-100 w-100 mt-3">
                 <h3 className="font-weight-400 text-center">
                   {projectStatus.currentProject.project_price}
@@ -65,7 +72,7 @@ const ProjectStatus = () => {
             </div>
             <div className={`bg-white-v-4 col p-4 border-card rounded`}>
               {" "}
-              Posted Date
+              <h6>Posted Date</h6>
               <div className="h-100 w-100 mt-3">
                 <p>{projectStatus.currentProject.created_at}</p>
               </div>
@@ -73,8 +80,8 @@ const ProjectStatus = () => {
           </div>
 
           <div className={`bg-white-v-4 col p-4 border-card rounded`}>
-            skill required
-            <div className="d-flex gap-4 mt-3 flex-wrap align-items-center">
+            <h6>Skill required</h6>
+            <div className="d-flex gap-4 mt-4 flex-wrap align-items-center">
               {projectStatus.currentProject.skills_required.map((sk, index) => (
                 <RoundedText key={index} text={sk} />
               ))}
@@ -86,8 +93,8 @@ const ProjectStatus = () => {
           className={`bg-white-v-4 col p-4 border-card rounded`}
           style={{ height: 300 }}
         >
-          Status
-          <div className="d-flex flex-column mt-2 ms-1 ms-md-4">
+          <h6>Status</h6>
+          <div className="d-flex flex-column mt-4 ms-1 ms-md-4 ">
             {projectStatus.projectStatus.map((states, index) => (
               <div className="d-flex gap-3" key={index}>
                 <div
@@ -108,7 +115,7 @@ const ProjectStatus = () => {
 
       <div className={`bg-white-v-4 p-4 mb-3 border-card rounded`}>
         <h6>Project Progress</h6>
-        <p>Screen shot</p>
+        <p>Screenshoot</p>
       </div>
       <ProjectDelete
         setShowModal={projectStatus.setShowDelete}

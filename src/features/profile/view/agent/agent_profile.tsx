@@ -40,7 +40,7 @@ const ProfileAgent = () => {
             />
 
             <ChangeAddress profile={agentProfile} />
-            <ChangeClientName clientProfile={agentProfile} />
+            <ChangeClientName userProfile={agentProfile} />
             {/* detail */}
             <Detail agentDetail={agentDetail} />
             <ChangeAgentDetail agentDetail={agentDetail} />
@@ -78,11 +78,13 @@ const Detail = ({ agentDetail }: { agentDetail: UseAgentDetailType }) => {
           }`}
           onClick={list.onClick}
         >
-          <h6 className="m-0 text-black-variant-2">{list.title}</h6>
+          <h6 className="m-0 text-black-variant-1 text-capitalize">
+            {list.title}
+          </h6>
           {typeof list.value === "string" ? (
-            <p className="m-0">{list.value}</p>
+            <p className="m-0 text-black-variant-2">{list.value}</p>
           ) : (
-            <div className="d-flex gap-4">
+            <div className="d-flex gap-4 flex-wrap">
               {list.value.map((val, index) => (
                 <RoundedText text={val} key={index} />
               ))}

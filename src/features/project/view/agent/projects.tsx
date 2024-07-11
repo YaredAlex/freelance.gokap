@@ -112,13 +112,12 @@ const ProjectTable = ({
                     <ButtonPrimaryOutline
                       onClick={() => {
                         // projectContext?.setCurrentProject(project);
-                        // navigate(`status/${project.id}`);
+                        navigate(`status/${project.id}`);
                       }}
                       type="button"
                       title="manage"
                       className="py-2"
                       showBorder={false}
-                     
                     />
                   </div>
                 </td>
@@ -132,10 +131,10 @@ const ProjectTable = ({
           <h6 className="my-3">No project exits</h6>
           <div className="px-3" style={{ maxWidth: "200px" }}>
             <ButtonPrimary
-              title="Create Project"
+              title="Apply Project"
               type="button"
               className="py-2 px-3 mb-2"
-              onClick={() => navigate("create")}
+              onClick={() => navigate("/agent/dashboard")}
             />
           </div>
         </div>

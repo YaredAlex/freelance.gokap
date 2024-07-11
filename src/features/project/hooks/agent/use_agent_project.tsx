@@ -46,6 +46,7 @@ const useAgentProject = () => {
       {},
       (res) => {
         const projects = res.data.serialized_data;
+        console.log(projects);
         setAllData(projects);
         setCurrentRows(projects?.slice(indexOfFirstRow, indexOfLastRow));
         agentContext.dispatchAgent({

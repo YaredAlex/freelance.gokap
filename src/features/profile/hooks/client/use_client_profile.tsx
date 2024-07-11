@@ -157,12 +157,16 @@ export const useChangeClientName = () => {
     },
   });
 
-  const changeUserName = (data: { firstname: string; lastname: string }) => {
+  const changeUserName = (
+    data: { firstname: string; lastname: string },
+    setShow: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     //validate userinput
     sendRequest(
       data,
       () => {
         customToast({ message: "Name change success", type: "success" });
+        setShow(false);
       },
       (error) => {
         customToast({ message: error.message, type: "error" });

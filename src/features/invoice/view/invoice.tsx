@@ -54,7 +54,7 @@ const Invoice = () => {
               </div>
             </div>
             <ul
-              className="bg-white-variant-4   position-absolute w-100 text-black-variant-1"
+              className="bg-white-v-4   position-absolute w-100 text-black-variant-1"
               style={{ overflow: "hidden" }}
             >
               <li>current</li>
@@ -76,7 +76,7 @@ const Invoice = () => {
               </div>
             </div>
             <ul
-              className="bg-white-variant-4  position-absolute w-100"
+              className="bg-white-v-4  position-absolute w-100"
               style={{ overflow: "hidden" }}
             >
               <li>Success</li>

@@ -28,7 +28,6 @@ const useClientProject = () => {
   //UseEffect=>
   useEffect(() => {
     getClientProject.getClientProject((res) => {
-      console.log("response from project", res);
       projectDispatch({
         type: "saveproject",
         payload: res.data,

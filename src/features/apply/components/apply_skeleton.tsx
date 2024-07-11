@@ -11,7 +11,7 @@ export const ApplyProjectSkeleton = ({
           style={{ maxWidth: "900px", width: "100%" }}
         >
           {/* title */}
-          <div className="skeleton-title "></div>
+          <div className="skeleton-title"></div>
 
           {/* Description */}
           <div className="skeleton-description  d-flex gap-3 flex-column">
