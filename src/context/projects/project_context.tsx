@@ -24,14 +24,31 @@ export type ClientProjectType = {
   project_assigned_status: boolean;
   applied_count: number;
 };
-
+export type PostedProjectType = {
+  id: number;
+  project_category: string;
+  title: string;
+  description: string;
+  project_price: string;
+  project_deadline: string;
+  skills_required: string[];
+  client: string;
+  created_at?: string;
+  updated_at?: string;
+  payment_status?: number | string;
+  project_status?: number | string;
+  project_assigned_status?: boolean;
+  applied_count: number;
+};
 type ProjectContextType = {
-  projectData: { data: ClientProjectType[] };
+  projectData: { data: ClientProjectType[] | PostedProjectType };
   projectDispatch: React.Dispatch<ProjectActionType>;
   projectLoading: boolean;
   //   setLoadProject: React.Dispatch<React.SetStateAction<boolean>>;
-  currentProject: ClientProjectType;
-  setCurrentProject: React.Dispatch<React.SetStateAction<ClientProjectType>>;
+  currentProject: ClientProjectType | PostedProjectType;
+  setCurrentProject: React.Dispatch<
+    React.SetStateAction<ClientProjectType | PostedProjectType>
+  >;
 };
 
 const defaultProject: ClientProjectType = {
@@ -75,8 +92,9 @@ const ProjectContextProvider = ({
   const [projectData, projectDispatch] = useReducer(projectReducer, {
     data: [],
   });
-  const [currentProject, setCurrentProject] =
-    useState<ClientProjectType>(defaultProject);
+  const [currentProject, setCurrentProject] = useState<
+    ClientProjectType | PostedProjectType
+  >(defaultProject);
   // const getProject = useGetClientProject();
 
   useEffect(() => {}, []);
