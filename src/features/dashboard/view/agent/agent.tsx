@@ -7,7 +7,7 @@ import AgentBoardSkeleton from "../../components/agent/agent_board_skeleton";
 import { Filter, TickCircle } from "iconsax-react";
 import useAgentProject from "../../../project/hooks/agent/use_agent_project";
 import FilterProject from "../../components/agent/filter_project";
-import { ClientProjectType } from "../../../../context/projects/project_context";
+import { PostedProjectType } from "../../../../context/projects/project_context";
 
 const PostedProjects = () => {
   const agentBoard = useAgentBoard();
@@ -17,36 +17,39 @@ const PostedProjects = () => {
       <div className="position-relative">
         <div className="text-black-variant-1 mx-auto mt-4 max-w-1100 mx-auto">
           {/* SEARCH LABLE */}
-          <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4">
-            <div className="d-flex w-100 flex-row flex-sm-row gap-2 justify-content-between search-bar col ">
-              <input
-                type="text"
-                className="custom-input border-card rounded"
-                placeholder="Search by title or budget"
-                value={agentBoard.searchTerm}
-                onChange={(e) => agentBoard.setSearchTerm(e.target.value)}
-                style={{ width: "100%" }}
-              />
+          <form action="" onSubmit={(e) => agentBoard.handleSearch(e)}>
+            <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4">
+              <div className="d-flex w-100 flex-row flex-sm-row gap-2 justify-content-between search-bar col ">
+                <input
+                  type="text"
+                  className="custom-input border-card rounded"
+                  placeholder="Search by title or budget"
+                  value={agentBoard.searchTerm}
+                  onChange={(e) => agentBoard.setSearchTerm(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+              </div>
+              <div style={{ maxWidth: "150px" }}>
+                <ButtonPrimary
+                  title="search"
+                  type="submit"
+                  className="py-2"
+                  disabled={agentBoard.searchLoading}
+                />
+              </div>
+              <div
+                className="border-card d-flex align-items-center px-3 rounded"
+                style={{ position: "relative" }}
+              >
+                <Filter
+                  onClick={() =>
+                    agentBoard.setShowFilter(!agentBoard.showFilter)
+                  }
+                />
+                <FilterProject agentBoard={agentBoard} />
+              </div>
             </div>
-            <div style={{ maxWidth: "150px" }}>
-              <ButtonPrimary
-                title="search"
-                type="button"
-                className="py-2"
-                onClick={() => agentBoard.handleSearch()}
-                disabled={agentBoard.searchLoading}
-              />
-            </div>
-            <div
-              className="border-card d-flex align-items-center px-3 rounded"
-              style={{ position: "relative" }}
-            >
-              <Filter
-                onClick={() => agentBoard.setShowFilter(!agentBoard.showFilter)}
-              />
-              <FilterProject agentBoard={agentBoard} />
-            </div>
-          </div>
+          </form>
           {/* Project cards */}
           <div className="mb-4"></div>{" "}
           <div
@@ -60,6 +63,10 @@ const PostedProjects = () => {
                   <AgentBoardSkeleton />
                   <AgentBoardSkeleton />
                 </>
+              ) : agentBoard.currentRows.length == 0 ? (
+                <div className="p-4">
+                  <p className="text-center">No posted project found!</p>
+                </div>
               ) : (
                 agentBoard.currentRows.map((project, index) => {
                   const applied = appliedProject.alldata.find(
@@ -126,7 +133,7 @@ const ProjectPostedCard = ({
   isApplied,
 }: {
   agentBoard: UseAgentBoardType;
-  project: ClientProjectType;
+  project: PostedProjectType;
   isApplied: boolean;
 }) => {
   return (
@@ -142,7 +149,9 @@ const ProjectPostedCard = ({
     >
       <div className="d-flex justify-content-between">
         <p className="m-0 text-black-variant-3" style={{ fontSize: "14px" }}>
-          {agentBoard.timeAgo.format(new Date(project.created_at))}
+          {agentBoard.timeAgo.format(
+            new Date(project.created_at || Date.now())
+          )}
         </p>
         {isApplied && (
           <div className="d-flex gap-1">

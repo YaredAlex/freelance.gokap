@@ -48,6 +48,10 @@ const ApplyProjectDetail = ({
 }: {
   applyProject: ApplyProjectType;
 }) => {
+  const formatNumber = (num: string) => {
+    const res = parseInt(num) * 0.1;
+    return Number(res).toFixed(2);
+  };
   return (
     <div>
       <div
@@ -76,9 +80,10 @@ const ApplyProjectDetail = ({
               {applyProject.currentProject?.project_price}
             </h6>
             {/* Fee */}
-            <h5>Platform fee</h5>
-            <p>10%</p>
-            <p>{parseInt(applyProject.currentProject?.project_price) * 0.1}</p>
+            <h6 className="my-3 text-capitalize">Platform fee 10%</h6>
+            <p className="text-black-variant-2">
+              {formatNumber(applyProject.currentProject?.project_price)}
+            </p>
             {/* skills */}
             <h6 className="project-title my-3  text-capitalize">
               Skill and Experties

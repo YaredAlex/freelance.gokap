@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAxios } from "../../../../hooks/useAxios";
 import { useNavigate } from "react-router-dom";
 import {
-  ClientProjectType,
+  PostedProjectType,
   useProjectContext,
 } from "../../../../context/projects/project_context";
 import TimeAgo from "javascript-time-ago";
@@ -10,14 +10,14 @@ import { AxiosResponse } from "axios";
 
 const useAgentBoard = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentRows, setCurrentRows] = useState<ClientProjectType[]>([]);
+  const [currentRows, setCurrentRows] = useState<PostedProjectType[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [fetchProject, setFetchProject] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [priceFilter, setPriceFilter] = useState("");
   const [applicatFilter, setApplicantFilter] = useState("");
-  const [postedProject, setPostedProject] = useState<ClientProjectType[]>([]);
-  const [projectHolder, setProjectHolder] = useState<ClientProjectType[]>([]);
+  const [postedProject, setPostedProject] = useState<PostedProjectType[]>([]);
+  const [projectHolder, setProjectHolder] = useState<PostedProjectType[]>([]);
   const { setCurrentProject } = useProjectContext();
   const rowsPerPage = 5;
   const indexOfLastRow = currentPage * rowsPerPage;
@@ -57,21 +57,23 @@ const useAgentBoard = () => {
     getUnAssignedProject();
   }, [fetchProject]);
 
-  const handleSearch = () => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     // 'description'
     // 'min_price'
     // 'title'
     if (searchTerm.trim() == "") {
       setProjectHolder(postedProject);
+      setCurrentRows(postedProject.slice(indexOfFirstRow, indexOfLastRow));
       return;
     }
     searchProject.searchProject(`title=${searchTerm}`, (res) => {
       console.log(res);
-      // const searchResult = res.data.serialized_data;
-      // setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
-      // // Reset to first page when searching
-      // setCurrentPage(1);
-      // setProjectHolder(searchResult);
+      const searchResult = res.data.serialized_data;
+      setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
+      // Reset to first page when searching
+      setCurrentPage(1);
+      setProjectHolder(searchResult);
     });
     // const filteredData = postedProject.filter(
     //   (item) =>
@@ -83,7 +85,7 @@ const useAgentBoard = () => {
     // );
   };
 
-  const checkOutProject = (detail: ClientProjectType) => {
+  const checkOutProject = (detail: PostedProjectType) => {
     //setCurrentProject
     setCurrentProject(detail);
     navigator(`apply/${detail.id}`);
@@ -121,10 +123,10 @@ export type UseAgentBoardType = {
   loading: boolean;
   getUnAssignedProject: () => void;
   searchTerm: string;
-  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-  postedProject: ClientProjectType[];
-  checkOutProject: (detail: ClientProjectType) => void;
+  postedProject: PostedProjectType[];
+  checkOutProject: (detail: PostedProjectType) => void;
   priceFilterList: string[];
   applicatFilterList: string[];
   priceFilter: string;
@@ -133,9 +135,9 @@ export type UseAgentBoardType = {
   setApplicantFilter: React.Dispatch<React.SetStateAction<string>>;
   timeAgo: TimeAgo;
   rowsPerPage: number;
-  projectHolder: ClientProjectType[];
+  projectHolder: PostedProjectType[];
   currentPage: number;
-  currentRows: ClientProjectType[];
+  currentRows: PostedProjectType[];
   paginate: (pageNumber: number) => void;
   showFilter: boolean;
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
@@ -145,7 +147,7 @@ const useSearchProject = () => {
   // 'description'
   // 'min_price'
   // 'title'
-  const searchApi = "/api/user/search_project/?min_applicants=2";
+  const searchApi = "/api/user/search_project/?min_applicants=0";
   const { loading, sendRequest } = useAxios({
     headers: true,
     method: "GET",

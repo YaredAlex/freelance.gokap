@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-  ClientProjectType,
+  PostedProjectType,
   useProjectContext,
 } from "../../../context/projects/project_context";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,7 +25,7 @@ const useApplyProject = () => {
   // const controller = new AbortController();
 
   useEffect(() => {
-    if (id) {
+    if (id != null || id != undefined) {
       getProject.getProject(id, (res) => {
         setCurrentProject(res.data.serialized_data);
         console.log(res.data);
@@ -73,7 +73,7 @@ const useApplyProject = () => {
 export type ApplyProjectType = {
   getProjectLoading: boolean;
   loading: boolean;
-  currentProject: ClientProjectType;
+  currentProject: PostedProjectType;
   applyProject: () => void;
   proposal: string;
   setproposal: React.Dispatch<React.SetStateAction<string>>;
