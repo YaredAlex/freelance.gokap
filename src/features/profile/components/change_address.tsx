@@ -1,7 +1,7 @@
 import DefaultModal from "../../../components/popup/modal";
 import {
   UseClientProfileType,
-  useChangeClientAddress,
+  useChangeAddress,
 } from "../hooks/client/use_client_profile";
 import {
   ButtonPrimary,
@@ -10,7 +10,7 @@ import {
 import TextField from "../../../components/inputField/text_field";
 
 const ChangeAddress = ({ profile }: { profile: UseClientProfileType }) => {
-  const changeAddress = useChangeClientAddress();
+  const changeAddress = useChangeAddress();
   return (
     <DefaultModal
       loading={changeAddress.loading}
@@ -20,7 +20,7 @@ const ChangeAddress = ({ profile }: { profile: UseClientProfileType }) => {
     >
       <div className={``}>
         <form
-          onSubmit={changeAddress.handleSubmit(changeAddress.changeUserName)}
+          onSubmit={changeAddress.handleSubmit(changeAddress.changeAddress)}
         >
           <h5>Update Your Address</h5>
           <div
@@ -45,7 +45,7 @@ const ChangeAddress = ({ profile }: { profile: UseClientProfileType }) => {
               name="State"
             />
             <TextField
-              error={changeAddress.errors.state?.message}
+              error={changeAddress.errors.city?.message}
               register={changeAddress.register("city", {
                 required: "City is required",
               })}
@@ -54,7 +54,7 @@ const ChangeAddress = ({ profile }: { profile: UseClientProfileType }) => {
               name="City"
             />
             <TextField
-              error={changeAddress.errors.state?.message}
+              error={changeAddress.errors.zipcode?.message}
               register={changeAddress.register("zipcode", {
                 required: "Zipcode is required",
               })}

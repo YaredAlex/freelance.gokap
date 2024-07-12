@@ -184,11 +184,10 @@ export const useChangeClientName = () => {
     reset,
   };
 };
-export const useChangeClientAddress = () => {
-  const authContext = useAuthContext();
+export const useChangeAddress = () => {
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/${authContext.user.id}`,
-    method: "POST",
+    url: `/api/user/get_address/`,
+    method: "PUT",
     headers: true,
   });
   const {
@@ -205,7 +204,7 @@ export const useChangeClientAddress = () => {
     },
   });
 
-  const changeUserName = (data: {
+  const changeAddress = (data: {
     country: string;
     state: string;
     city: string;
@@ -213,7 +212,10 @@ export const useChangeClientAddress = () => {
   }) => {
     //validate userinput
     sendRequest(
-      data,
+      {
+        ...data,
+        zip_code: data.zipcode,
+      },
       () => {
         customToast({ message: "Address change success", type: "success" });
       },
@@ -228,7 +230,7 @@ export const useChangeClientAddress = () => {
     register,
     handleSubmit,
     errors,
-    changeUserName,
+    changeAddress,
     loading,
     reset,
   };
