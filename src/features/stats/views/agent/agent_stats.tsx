@@ -1,6 +1,9 @@
 import { Add, Edit2, Money, TickCircle, User, Wallet1 } from "iconsax-react";
 import BudgetChart from "../../../../components/chart/budget_chart";
-import { useProjectContext } from "../../../../context/projects/project_context";
+import {
+  ClientProjectType,
+  useProjectContext,
+} from "../../../../context/projects/project_context";
 import RecentProjectTable from "../../../../components/table/recent_project";
 import { ButtonPrimaryOutline } from "../../../../components/button/button";
 import { CustomLoadingSecondary } from "../../../../components/loading_page/custom_loading";
@@ -119,7 +122,7 @@ const AgentStats = () => {
         <RecentProjectTable
           data={
             clientHome.projectDetailConvert(
-              projectContext?.projectData.data || []
+              (projectContext?.projectData.data as ClientProjectType[]) || []
             ) || []
           }
         />

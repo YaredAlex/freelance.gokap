@@ -10,7 +10,6 @@ import { useThemeContext } from "./context/theme/theme_context";
 import Signup from "./features/authentication/view/signup/signup";
 import VerifyUser from "./features/authentication/view/verify/verify";
 import DashBoardRoute from "./routes/dashboard/dashboard_route";
-import AgentDashBoard from "./features/dashboard/view/agent/agent";
 import ClientDashBoard from "./features/dashboard/view/client/client_dashboard";
 import ResetPassword from "./features/authentication/view/forget_pass/forget_password";
 import Projects from "./features/project/projects";
@@ -25,6 +24,10 @@ import AgentStats from "./features/stats/views/agent/agent_stats";
 import AgentContextProvider from "./context/agent/agent_context";
 import LetsStart from "./features/authentication/view/onboard/onboard";
 import AgentProjectStatus from "./features/project/view/agent/agent_project_status";
+import AdminRoute from "./routes/adminboard/adminboard_route";
+import AgentDashboardPostedProject from "./features/dashboard/view/agent/agent";
+import AdminDashboardPostedProject from "./features/dashboard/view/admin/admin_board";
+import AssignProject from "./features/assign/view/assign_project";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
@@ -72,7 +75,10 @@ function App() {
 
                   {/* Freelancer dashboared */}
                   <Route path={`/agent/dashboard`} element={<DashBoardRoute />}>
-                    <Route path={``} element={<AgentDashBoard />} />
+                    <Route
+                      path={``}
+                      element={<AgentDashboardPostedProject />}
+                    />
                     <Route path={`apply/:id`} element={<ApplyProject />} />
                     <Route path={`stats/`} element={<AgentStats />} />
                     <Route path={`account`} element={<Profile />} />
@@ -86,6 +92,15 @@ function App() {
                     {/* 
                    
                    */}
+                  </Route>
+                  <Route path="/admin/dashboard" element={<DashBoardRoute />}>
+                    <Route path="" element={<AdminRoute />}>
+                      <Route
+                        path=""
+                        element={<AdminDashboardPostedProject />}
+                      />
+                      <Route path="assign/:id" element={<AssignProject />} />
+                    </Route>
                   </Route>
                 </Routes>
               </ProjectContextProvider>

@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   ClientProjectType,
+  PostedProjectType,
   useProjectContext,
 } from "../../../../context/projects/project_context";
 import useProjectForm, { ProjectFormType } from "./use_project_form";
@@ -172,7 +173,7 @@ export default useProjectStatus;
 export type ProjectStatusType = {
   handleEdit: (event: React.FormEvent<HTMLFormElement>) => void;
   projectForm: ProjectFormType;
-  currentProject: ClientProjectType;
+  currentProject: ClientProjectType | PostedProjectType;
   projectStatus: {
     name: string;
     state: boolean;

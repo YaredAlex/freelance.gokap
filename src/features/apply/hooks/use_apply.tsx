@@ -28,7 +28,6 @@ const useApplyProject = () => {
     if (id != null || id != undefined) {
       getProject.getProject(id, (res) => {
         setCurrentProject(res.data.serialized_data);
-        console.log(res.data);
       });
     } else navigate("/agent/dashboard/");
     return () => {};

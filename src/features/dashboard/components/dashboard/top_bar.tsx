@@ -36,13 +36,16 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
           <div className="d-flex gap-4 align-items-center">
             <GITLogo />
             {/* Greeting */}
-            <div className="text-blue-variant-1 mb-0 text-capitalize font-weight-400">
-              <h6> {user?.firstname}'s</h6>
+            <div className="text-blue-variant-1 mb-0 font-weight-400">
+              <div className="d-flex gap-2">
+                <h6 className="text-capitalize"> {user?.firstname}</h6>
+                <h6 className="text-capitalize"> {user?.lastname}</h6>
+              </div>
               <h6
-                className="
+                className="text-capitalize
   text-black-variant-2 mb-0"
               >
-                DashBoard
+                {user.type}
               </h6>
             </div>
           </div>

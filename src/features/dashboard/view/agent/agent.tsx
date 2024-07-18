@@ -9,7 +9,7 @@ import useAgentProject from "../../../project/hooks/agent/use_agent_project";
 import FilterProject from "../../components/agent/filter_project";
 import { PostedProjectType } from "../../../../context/projects/project_context";
 
-const PostedProjects = () => {
+const AgentDashboardPostedProject = () => {
   const agentBoard = useAgentBoard();
   const appliedProject = useAgentProject();
   return (
@@ -125,7 +125,7 @@ const PostedProjects = () => {
   );
 };
 
-export default PostedProjects;
+export default AgentDashboardPostedProject;
 
 const ProjectPostedCard = ({
   agentBoard,

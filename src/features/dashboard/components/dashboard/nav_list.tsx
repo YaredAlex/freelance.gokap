@@ -105,3 +105,45 @@ export const agentNavList = [
     ],
   },
 ];
+export const adminNavList = [
+  {
+    title: "Dashboard",
+    child: [
+      {
+        title: "Projects",
+        to: ``,
+        icon: (color: string) => <Home color={color} variant="Bold" />,
+      },
+    ],
+  },
+  {
+    title: "Projects",
+    child: [
+      {
+        title: "Assign Project",
+        to: ``,
+        icon: (color: string) => <Box color={color} variant="Bold" />,
+      },
+      {
+        title: "Projects",
+        to: `projects/`,
+        icon: (color: string) => <FolderAdd color={color} variant="Bold" />,
+      },
+    ],
+  },
+  {
+    title: "Account",
+    child: [
+      {
+        title: "Account",
+        to: `account`,
+        icon: (color: string) => <User color={color} variant="Bold" />,
+      },
+      {
+        title: "Invoice",
+        to: `invoice`,
+        icon: (color: string) => <Money color={color} variant="Bold" />,
+      },
+    ],
+  },
+];

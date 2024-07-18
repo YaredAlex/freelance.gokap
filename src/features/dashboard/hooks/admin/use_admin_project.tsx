@@ -6,8 +6,9 @@ import {
 import TimeAgo from "javascript-time-ago";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../hooks/useAxios";
+import { AxiosResponse } from "axios";
 
-const useAdminProject = () => {
+const useAdminBoard = () => {
   //load project with status
   const [currentPage, setCurrentPage] = useState(1);
   const [currentRows, setCurrentRows] = useState<ClientProjectType[]>([]);
@@ -83,10 +84,10 @@ const useAdminProject = () => {
     // );
   };
 
-  const checkOutProject = (detail: ClientProjectType) => {
+  const checkOutProject = (project: ClientProjectType) => {
     //setCurrentProject
-    setCurrentProject(detail);
-    navigator(`apply/${detail.id}`);
+    setCurrentProject(project);
+    navigator(`assign/${project.id}`);
   };
 
   return {
@@ -115,5 +116,61 @@ const useAdminProject = () => {
     setFetchProject,
   };
 };
+export type useAdminBoardType = {
+  searchLoading: boolean;
+  loading: boolean;
+  getUnAssignedProject: () => void;
+  searchTerm: string;
+  handleSearch: () => void;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  postedProject: ClientProjectType[];
+  checkOutProject: (detail: ClientProjectType) => void;
+  priceFilterList: string[];
+  applicatFilterList: string[];
+  priceFilter: string;
+  setPriceFilter: React.Dispatch<React.SetStateAction<string>>;
+  applicatFilter: string;
+  setApplicantFilter: React.Dispatch<React.SetStateAction<string>>;
+  timeAgo: TimeAgo;
+  rowsPerPage: number;
+  projectHolder: ClientProjectType[];
+  currentPage: number;
+  currentRows: ClientProjectType[];
+  paginate: (pageNumber: number) => void;
+  showFilter: boolean;
+  setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  setFetchProject: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export default useAdminBoard;
+const useSearchProject = () => {
+  // 'description'
+  // 'min_price'
+  // 'title'
+  const searchApi = "/api/user/search_project/?min_applicants=0";
+  const { loading, sendRequest } = useAxios({
+    headers: true,
+    method: "GET",
+    url: searchApi,
+  });
 
-export default useAdminProject;
+  const searchProject = (search: string, cb: (res: AxiosResponse) => void) => {
+    const newApi = `/api/user/search_project/?${search}`;
+
+    sendRequest(
+      {},
+      (res) => {
+        cb(res);
+      },
+      (error) => {
+        console.log(error);
+      },
+      true,
+      newApi
+    );
+  };
+
+  return {
+    loading,
+    searchProject,
+  };
+};

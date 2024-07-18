@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { agentNavList, clientNavList } from "./nav_list";
+import { adminNavList, agentNavList, clientNavList } from "./nav_list";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import { useThemeContext } from "../../../../context/theme/theme_context";
 
@@ -16,9 +16,11 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
   const iconColor = useThemeContext().isDark ? "white" : "#567";
   useEffect(() => {
     const type = authContext.user.type;
-    if (type === "client") setNavList(clientNavList);
-    else if (type === "freelancer") {
+    if (type.toLocaleLowerCase() === "client") setNavList(clientNavList);
+    else if (type.toLocaleLowerCase() === "freelancer") {
       setNavList(agentNavList);
+    } else if (type.toLocaleLowerCase() === "admin") {
+      setNavList(adminNavList);
     }
   }, []);
 

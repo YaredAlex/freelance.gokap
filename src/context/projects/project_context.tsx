@@ -41,7 +41,7 @@ export type PostedProjectType = {
   applied_count: number;
 };
 type ProjectContextType = {
-  projectData: { data: ClientProjectType[] | PostedProjectType };
+  projectData: { data: ClientProjectType[] | PostedProjectType[] };
   projectDispatch: React.Dispatch<ProjectActionType>;
   projectLoading: boolean;
   //   setLoadProject: React.Dispatch<React.SetStateAction<boolean>>;

@@ -54,12 +54,13 @@ const useClientProject = () => {
           ?.toString()
           .toLowerCase()
           .includes(value.toLowerCase())
-    );
+    ) as ClientProjectType[];
     setCurrentRows(filteredData.slice(indexOfFirstRow, indexOfLastRow));
     // Reset to first page when searching
     setCurrentPage(1);
     setAllData(filteredData);
-    if (e.target.value === "") setAllData(projectData.data);
+    if (e.target.value === "")
+      setAllData(projectData.data as ClientProjectType[]);
   };
   const goToProjectDetail = (detail: ClientProjectType) => {
     //setCurrentProject

@@ -1,6 +1,3 @@
-import useAgentBoard, {
-  UseAgentBoardType,
-} from "../../hooks/agent/agent_board";
 import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { ButtonPrimary } from "../../../../components/button/button";
 import AgentBoardSkeleton from "../../components/agent/agent_board_skeleton";
@@ -8,9 +5,12 @@ import { Filter, TickCircle } from "iconsax-react";
 import useAgentProject from "../../../project/hooks/agent/use_agent_project";
 import FilterProject from "../../components/agent/filter_project";
 import { ClientProjectType } from "../../../../context/projects/project_context";
+import useAdminBoard, {
+  useAdminBoardType,
+} from "../../hooks/admin/use_admin_project";
 
-const PostedProjects = () => {
-  const agentBoard = useAgentBoard();
+const AdminDashboardPostedProject = () => {
+  const adminBoard = useAdminBoard();
   const appliedProject = useAgentProject();
   return (
     <>
@@ -23,8 +23,8 @@ const PostedProjects = () => {
                 type="text"
                 className="custom-input border-card rounded"
                 placeholder="Search by title or budget"
-                value={agentBoard.searchTerm}
-                onChange={(e) => agentBoard.setSearchTerm(e.target.value)}
+                value={adminBoard.searchTerm}
+                onChange={(e) => adminBoard.setSearchTerm(e.target.value)}
                 style={{ width: "100%" }}
               />
             </div>
@@ -33,8 +33,8 @@ const PostedProjects = () => {
                 title="search"
                 type="button"
                 className="py-2"
-                onClick={() => agentBoard.handleSearch()}
-                disabled={agentBoard.searchLoading}
+                onClick={() => adminBoard.handleSearch()}
+                disabled={adminBoard.searchLoading}
               />
             </div>
             <div
@@ -42,9 +42,9 @@ const PostedProjects = () => {
               style={{ position: "relative" }}
             >
               <Filter
-                onClick={() => agentBoard.setShowFilter(!agentBoard.showFilter)}
+                onClick={() => adminBoard.setShowFilter(!adminBoard.showFilter)}
               />
-              <FilterProject agentBoard={agentBoard} />
+              <FilterProject agentBoard={adminBoard} />
             </div>
           </div>
           {/* Project cards */}
@@ -53,15 +53,15 @@ const PostedProjects = () => {
             className={`mb-3 bg-white-v-4 rounded border-card overflow-hidden`}
           >
             <div className="col">
-              {agentBoard.loading ||
+              {adminBoard.loading ||
               appliedProject.loading ||
-              agentBoard.searchLoading ? (
+              adminBoard.searchLoading ? (
                 <>
                   <AgentBoardSkeleton />
                   <AgentBoardSkeleton />
                 </>
               ) : (
-                agentBoard.currentRows.map((project, index) => {
+                adminBoard.currentRows.map((project, index) => {
                   const applied = appliedProject.alldata.find(
                     (p) => p.project_id.title === project.title
                   );
@@ -69,17 +69,17 @@ const PostedProjects = () => {
                     return (
                       <ProjectPostedCard
                         key={index}
-                        agentBoard={agentBoard}
+                        adminBoard={adminBoard}
                         project={project}
-                        isApplied={true}
+                        isAssigned={true}
                       />
                     );
                   return (
                     <ProjectPostedCard
                       key={index}
-                      agentBoard={agentBoard}
+                      adminBoard={adminBoard}
                       project={project}
-                      isApplied={false}
+                      isAssigned={false}
                     />
                   );
                 })
@@ -91,19 +91,19 @@ const PostedProjects = () => {
               {Array.from(
                 {
                   length: Math.ceil(
-                    agentBoard.projectHolder.length / agentBoard.rowsPerPage
+                    adminBoard.projectHolder.length / adminBoard.rowsPerPage
                   ),
                 },
                 (_, i) => (
                   <li
                     key={i}
                     className={`page-item ${
-                      i + 1 === agentBoard.currentPage ? "active" : ""
+                      i + 1 === adminBoard.currentPage ? "active" : ""
                     }`}
                   >
                     <button
                       className="page-link"
-                      onClick={() => agentBoard.paginate(i + 1)}
+                      onClick={() => adminBoard.paginate(i + 1)}
                     >
                       {i + 1}
                     </button>
@@ -118,16 +118,16 @@ const PostedProjects = () => {
   );
 };
 
-export default PostedProjects;
+export default AdminDashboardPostedProject;
 
 const ProjectPostedCard = ({
-  agentBoard,
+  adminBoard,
   project,
-  isApplied,
+  isAssigned,
 }: {
-  agentBoard: UseAgentBoardType;
+  adminBoard: useAdminBoardType;
   project: ClientProjectType;
-  isApplied: boolean;
+  isAssigned: boolean;
 }) => {
   return (
     <div
@@ -136,15 +136,13 @@ const ProjectPostedCard = ({
         maxWidth: "900px",
         width: "100%",
       }}
-      onClick={() =>
-        isApplied ? () => {} : agentBoard.checkOutProject(project)
-      }
+      onClick={() => adminBoard.checkOutProject(project)}
     >
       <div className="d-flex justify-content-between">
         <p className="m-0 text-black-variant-3" style={{ fontSize: "14px" }}>
-          {agentBoard.timeAgo.format(new Date(project.created_at))}
+          {adminBoard.timeAgo.format(new Date(project.created_at))}
         </p>
-        {isApplied && (
+        {isAssigned && (
           <div className="d-flex gap-1">
             <TickCircle variant="Bold" color="green" size={20} />
             <p className="text-sm">Applied</p>
@@ -174,12 +172,7 @@ const ProjectPostedCard = ({
             </span>
           </p>
           <p className="text-black-variant-3 font-weight-300">
-            Proposals:{" "}
-            {project.applied_count <= 5
-              ? "0 to 5"
-              : project.applied_count <= 10
-              ? "5 to 10"
-              : "10 to 20"}
+            Proposals: {project.applied_count}
           </p>
         </div>
         <p>

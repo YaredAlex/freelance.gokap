@@ -44,7 +44,7 @@ export const DashboardHorizontalSkeleton = ({
       <div className="d-flex flex-column gap-2 col">
         {/* title skeleton */}
         <div className="skeleton-title skeleton-link"></div>
-        <div className="skeleton-subtitle "></div>
+        <div className="skeleton-subtitle skeleton-link"></div>
         <div className="skeleton-subtitle w-100"></div>
       </div>
     </div>

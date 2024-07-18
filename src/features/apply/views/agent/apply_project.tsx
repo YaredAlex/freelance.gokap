@@ -9,10 +9,10 @@ import { ApplyProjectSkeleton } from "../../components/apply_skeleton";
 const ApplyProject = () => {
   const applyProject = useApplyProject();
   return (
-    <div className="table-responsive-container position-relative max-w-1100 mx-auto">
+    <div className="max-w-1100 mx-auto">
       {/* Goback to previous  */}
       <button
-        className=" transparent w-auto btn-custom-secondary ms-0 p-1 text-black-variant-1"
+        className="transparent w-auto btn-custom-secondary ms-0 p-1 text-black-variant-1"
         onClick={() => {
           applyProject.navigate(-1);
         }}
