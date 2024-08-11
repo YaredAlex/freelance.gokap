@@ -20,11 +20,11 @@ export const useAxios = (props:UseAxiosTypes)=>{
     const [apiError,setApiError] = useState<string | null>(null)
     const [url,setUrl] = useState(props.url)
     const useRefresh = useRefreshToken()
-    function sendRequest<T>(data:T,onSuccess:(res:AxiosResponse)=>void,onError:(error:AxiosError)=>void,requestRefresh:boolean = true,newUrl?:string){
+    function sendRequest<T>(data:T,onSuccess:(res:AxiosResponse)=>void,onError:(error:AxiosError)=>void,requestRefresh:boolean = true,newUrl?:string,method?:string){
         const token = secureLocalStorage.getItem("token") || ""
         setLoading(true)
         axios({
-            method:props.method,
+            method:method ? method: props.method,
             url:newUrl ? newUrl : url,
             
             headers:props.headers ? {'Content-Type':"application/json",'Authorization':`Bearer ${token}`}: undefined
