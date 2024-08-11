@@ -3,6 +3,7 @@ import ChangeAddress from "../../components/change_address";
 import ChangeClientName from "../../components/change_name";
 import ChangePassword from "../../components/change_password";
 import ChangeClientPhone from "../../components/change_phone";
+import ProfileSkeleton from "../../components/profile_wrapper_skeleton";
 import { useClientProfile } from "../../hooks/client/use_client_profile";
 
 // thing about passing auth here ** important
@@ -13,7 +14,17 @@ const ProfileClient = () => {
       className={`mt-sm-3 mt-2 p-sm-3 px-1 text-black-variant-1  mx-auto max-w-1100`}
     >
       <h5 className="mb-3">Account Information</h5>
-
+      {clientProfile.addressLoading ? (
+        <>
+          <div className="d-flex flex-column gap-4 mb-4">
+            <ProfileSkeleton />
+            <ProfileSkeleton />
+            <ProfileSkeleton />
+          </div>
+        </>
+      ) : (
+        <span></span>
+      )}
       <div className="d-flex flex-column gap-4">
         {/* Profile */}
         <AccountWrapper title={"Profile"} lists={clientProfile.profileList} />
