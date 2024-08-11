@@ -1,31 +1,14 @@
+import { useState } from "react";
 import { ButtonPrimary } from "../../../components/button/button";
 import RoundedText from "../../../components/rounded_text/rounded_text";
 import { ClientProjectType } from "../../../context/projects/project_context";
 import { ApplyProjectSkeleton } from "../../apply/components/apply_skeleton";
-import useAssignProject from "../hook/use_assign_project";
+import useAssignProject, { AppliedAgentType } from "../hook/use_assign_project";
+import { AssignModal } from "./admin/assign_modal";
 
 const AssignProject = () => {
   const assignProject = useAssignProject();
-  const appliedFreelancersList = [
-    {
-      first_name: "John",
-      skills: ["React", "Management", "Marketing"],
-      proposal:
-        "I have worked on differernt project from and have experiance on delvelopment of medias",
-      date: "10-04-2024",
-      completed_project: "0",
-      level: "Junior",
-    },
-    {
-      first_name: "Brown",
-      skills: ["Figma", "Java", "Management"],
-      proposal:
-        "This project is what i was waiting for, i would like to participate in this project until it is finished. i have great skill that can be inuse for this project",
-      date: "10-04-2024",
-      completed_project: "0",
-      level: "Junior",
-    },
-  ];
+  const [freelancer, setFreelancer] = useState<AppliedAgentType>();
   return (
     <div className="max-w-1100 mx-auto mt-4">
       {/* Fetch project by id */}
@@ -44,40 +27,60 @@ const AssignProject = () => {
       {/* display if any one have applied freelancer skills and there proposal */}
       <div className="mt-4 d-flex flex-column gap-4 text-black-variant-1 ">
         <h5>Applied Freelancers</h5>
-        {appliedFreelancersList.map((freelancer, index) => (
-          <div key={index} className="border-card p-4 rounded  bg-white-v-4">
-            {/* Name of freelancer and title of freelancer */}
-            <div>
-              <p>{freelancer.first_name}</p>
-            </div>
-            {/* proposal */}
-            <div className="my-2">
-              <h6>Proposal</h6>
-              <p>{freelancer.proposal}</p>
-            </div>
-            {/* skills of freelancer */}
-            <div className="d-flex gap-4 flex-wrap my-4">
-              {freelancer.skills.map((skill, index) => (
-                <RoundedText text={skill} key={index} />
-              ))}
-            </div>
-            {/* completion rate */}
-            <div className="my-2">
-              <p>Completion rate</p>
-            </div>
-            {/* button to assign to this */}
-            <div className="ms-auto" style={{ maxWidth: "200px" }}>
-              <ButtonPrimary
-                title="Assign"
-                onClick={() => {}}
-                type="button"
-                className="py-2"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
+        {assignProject.loadingFreelancers ? (
+          <div></div>
+        ) : (
+          <>
+            {assignProject.agentList.map((freelancer, index) => (
+              <div
+                key={index}
+                className="border-card p-4 rounded  bg-white-v-4"
+              >
+                {/* Name of freelancer and title of freelancer */}
+                <div>
+                  <p>
+                    {typeof freelancer.frelancer_id.user === "object"
+                      ? `${freelancer.frelancer_id.user.firstname} ${freelancer.frelancer_id.user.lastname}`
+                      : ""}
+                  </p>
+                </div>
+                {/* proposal */}
+                <div className="my-2">
+                  <p className="text-black-variant-2 text-xsm mb-2">Proposal</p>
+                  <p>{freelancer.proposal}</p>
+                </div>
+                {/* skills of freelancer */}
+                <div className="my-4">
+                  <p className="text-black-variant-2 text-xsm mb-2">Skills</p>
+                  <div className="d-flex gap-4 flex-wrap">
+                    {freelancer?.frelancer_id?.skills.map((skill, index) => (
+                      <RoundedText text={skill} key={index} />
+                    ))}
+                  </div>
+                </div>
+                {/* completion rate */}
+                <div className="my-2">
+                  <p>Completion rate</p>
+                </div>
+                {/* button to assign to this */}
 
+                <div className="ms-auto" style={{ maxWidth: "200px" }}>
+                  <ButtonPrimary
+                    title="Assign"
+                    onClick={() => {
+                      setFreelancer(freelancer);
+                      assignProject.setShowModal(true);
+                    }}
+                    type="button"
+                    className="py-2"
+                  />
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
+      <AssignModal assignProject={assignProject} freelancer={freelancer} />
       {/*  */}
     </div>
   );
