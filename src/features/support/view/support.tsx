@@ -40,6 +40,17 @@ const Support = () => {
             />
           ))}
         </div>
+        {/* <script> 
+          (function(t,e,s,n)
+          {
+          var o,a,c;
+          t.SMCX=t.SMCX||[],e.getElementById(n)||(o=e.getElementsByTagName(s),a=o[o.length-1],c=e.createElement(s),c.type="text/javascript",c.async=!0,c.id=n,c.src="https://widget.surveymonkey.com/collect/website/js/tRaiETqnLgj758hTBazgd2pEuw6LlDDON80YkLLzdEzJQNZXAQR6uBekmVo6VWut.js",a.parentNode.insertBefore(c,a))
+          
+          }
+          
+          )(window,document,"script","smcx-sdk")
+          </script>
+        <a style={{font:"12px",color:"#999"}}   href="www.surveymonkey.com"> Give your feedback</a> */}
       </div>
     </div>
   );
