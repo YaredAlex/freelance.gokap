@@ -27,7 +27,7 @@ const ClientrProjectTable = () => {
         </button>
       ) : (
         <div
-          className="table-responsive text-black-variant-1 mx-auto max-w-1100"
+          className="text-black-variant-1 mx-auto max-w-1100"
           style={{
             minWidth: "300px",
           }}
