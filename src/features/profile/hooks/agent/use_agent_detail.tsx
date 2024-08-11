@@ -28,7 +28,7 @@ const useAgentDetail = () => {
     },
     {
       title: "skill",
-      value: agentContext.agent.detail.skill,
+      value: agentContext.agent.detail.skills,
       onClick: () => {
         // setShowEditName(true);
       },
@@ -52,7 +52,7 @@ const useAgentDetail = () => {
           profession: detail.profession,
           reason_to_join: detail.reason_to_join,
           resume: null,
-          skill: detail.skills,
+          skills: detail.skills,
           user: detail.user,
           where_did_you_heard: detail.where_did_you_heard,
         },
