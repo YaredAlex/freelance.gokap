@@ -8,8 +8,8 @@ export type AgentDetailType = {
   profession: string;
   reason_to_join: string;
   resume: File | null;
-  skill: string[];
-  user: number;
+  skills: string[];
+  user: { firstname: string; lastname: string } | number;
   where_did_you_heard: string;
 };
 export type AgentStateType = {
@@ -28,7 +28,7 @@ const defaultState: AgentContextType = {
       profession: "",
       reason_to_join: "",
       resume: null,
-      skill: [],
+      skills: [],
       user: -1,
       where_did_you_heard: "",
     },
