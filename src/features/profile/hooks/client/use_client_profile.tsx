@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import { useForm } from "react-hook-form";
 import { useAxios } from "../../../../hooks/useAxios";
 import customToast from "../../../../components/custom_toast/custom_toast";
+import { useGetAddress } from "../../../../hooks/use_get_address";
 
 export const useClientProfile = () => {
   const authContext = useAuthContext();
@@ -10,6 +11,27 @@ export const useClientProfile = () => {
   const [showEditAddress, setShowEditAddress] = useState(false);
   const [showEditPass, setShowEditPass] = useState(false);
   const [showEditPhone, setShowEditPhone] = useState(false);
+  //get user profile and adress
+  const getAddress = useGetAddress();
+  useEffect(() => {
+    getAddress.getAddress((res) => {
+      const address = res.data;
+      authContext.dispatchUser({
+        type: "signin",
+
+        payload: {
+          ...authContext.user,
+          address: {
+            country: address.country,
+            city: address.city,
+            state: address.state,
+            zip_code: address.zip_code,
+          },
+        },
+      });
+    });
+  }, []);
+
   const profileList = [
     {
       title: "Name",
@@ -20,7 +42,9 @@ export const useClientProfile = () => {
     },
     {
       title: "Address",
-      value: "address",
+      value: authContext.user.address
+        ? `${authContext.user.address.city}, ${authContext.user.address.country}`
+        : "address",
       onClick: () => {
         setShowEditAddress(true);
       },
@@ -71,6 +95,7 @@ export const useClientProfile = () => {
     setShowEditPass,
     showEditPhone,
     setShowEditPhone,
+    addressLoading: getAddress.loading,
   };
 };
 
@@ -185,8 +210,9 @@ export const useChangeClientName = () => {
   };
 };
 export const useChangeAddress = () => {
+  const addressAPI = `/api/user/get_address/`;
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/get_address/`,
+    url: addressAPI,
     method: "PUT",
     headers: true,
   });
@@ -220,8 +246,34 @@ export const useChangeAddress = () => {
         customToast({ message: "Address change success", type: "success" });
       },
       (error) => {
-        customToast({ message: error.message, type: "error" });
-        console.log(error);
+        const message: { error: string } = error.response?.data as {
+          error: string;
+        };
+        console.log(error.response?.data);
+
+        if (message?.error === "The user has no address")
+          sendRequest(
+            {
+              ...data,
+              zip_code: data.zipcode,
+            },
+            () => {
+              customToast({
+                message: "Address change success",
+                type: "success",
+              });
+            },
+            (error) => {
+              customToast({ message: error.message, type: "error" });
+            },
+            true,
+            addressAPI,
+            "POST"
+          );
+        else {
+          customToast({ message: error.message, type: "error" });
+          console.log(error);
+        }
       }
     );
   };
@@ -253,12 +305,12 @@ export const useChangeClientPhone = () => {
     },
   });
 
-  const changeUserName = (data: { phone: string }) => {
+  const changeUserPhone = (data: { phone: string }) => {
     //validate userinput
     sendRequest(
       data,
       () => {
-        customToast({ message: "Address change success", type: "success" });
+        customToast({ message: "phone change success", type: "success" });
       },
       (error) => {
         customToast({ message: error.message, type: "error" });
@@ -271,7 +323,7 @@ export const useChangeClientPhone = () => {
     register,
     handleSubmit,
     errors,
-    changeUserName,
+    changeUserPhone,
     loading,
     reset,
   };
