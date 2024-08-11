@@ -19,7 +19,6 @@ const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
     };
 
     const today = new Date();
-
     const minDate = new Date();
     minDate.setDate(today.getDate() + 3);
     const maxDate = new Date();
