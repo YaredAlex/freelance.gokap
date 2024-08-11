@@ -8,6 +8,13 @@ export type UserAuthType = {
   email: string;
   type: string;
   created_at: string;
+  phone?: string;
+  address?: {
+    city: string;
+    country: string;
+    zip_code: string;
+    state: string;
+  };
 };
 
 type AuthContextType = {
