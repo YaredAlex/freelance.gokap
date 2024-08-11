@@ -24,7 +24,7 @@ const AccountWrapper = ({
           onClick={list.onClick}
         >
           <p className="m-0 text-black-variant-2">{list.title}</p>
-          <p className="m-0">{list.value}</p>
+          <p className="m-0 px-4">{list.value}</p>
           <ArrowRight2 size={20} />
         </div>
       ))}
