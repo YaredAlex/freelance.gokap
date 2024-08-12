@@ -31,7 +31,7 @@ const AssignProject = () => {
           <div></div>
         ) : (
           <>
-            {assignProject.agentList.map((freelancer, index) => (
+            {assignProject?.agentList?.map((freelancer, index) => (
               <div
                 key={index}
                 className="border-card p-4 rounded  bg-white-v-4"
@@ -39,23 +39,25 @@ const AssignProject = () => {
                 {/* Name of freelancer and title of freelancer */}
                 <div>
                   <p>
-                    {typeof freelancer.frelancer_id.user === "object"
-                      ? `${freelancer.frelancer_id.user.firstname} ${freelancer.frelancer_id.user.lastname}`
+                    {typeof freelancer.details.frelancer_id.user === "object"
+                      ? `${freelancer.details.frelancer_id.user.firstname} ${freelancer.details.frelancer_id.user.lastname}`
                       : ""}
                   </p>
                 </div>
                 {/* proposal */}
                 <div className="my-2">
                   <p className="text-black-variant-2 text-xsm mb-2">Proposal</p>
-                  <p>{freelancer.proposal}</p>
+                  <p>{freelancer.details.proposal}</p>
                 </div>
                 {/* skills of freelancer */}
                 <div className="my-4">
                   <p className="text-black-variant-2 text-xsm mb-2">Skills</p>
                   <div className="d-flex gap-4 flex-wrap">
-                    {freelancer?.frelancer_id?.skills.map((skill, index) => (
-                      <RoundedText text={skill} key={index} />
-                    ))}
+                    {freelancer.details.frelancer_id?.skills.map(
+                      (skill, index) => (
+                        <RoundedText text={skill} key={index} />
+                      )
+                    )}
                   </div>
                 </div>
                 {/* completion rate */}
@@ -87,6 +89,7 @@ const AssignProject = () => {
 };
 
 export default AssignProject;
+
 const ProjectDetail = ({ project }: { project: ClientProjectType }) => {
   const formatNumber = (num: string) => {
     const res = parseInt(num) * 0.1;

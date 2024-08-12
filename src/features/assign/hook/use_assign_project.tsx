@@ -12,12 +12,14 @@ import { AxiosResponse } from "axios";
 import { AgentDetailType } from "../../../context/agent/agent_context";
 
 export type AppliedAgentType = {
-  proposal: string;
-  applied_at: string;
-  status: string;
-  frelancer_id: AgentDetailType;
-  id: number;
-  project_id: number;
+  details: {
+    proposal: string;
+    applied_at: string;
+    status: string;
+    frelancer_id: AgentDetailType;
+    id: number;
+    project_id: number;
+  };
 };
 const useAssignProject = () => {
   // const [project, setProject] = useState(1);
@@ -46,7 +48,7 @@ const useAssignProject = () => {
       //call get freelancers
       getAppliedFreelancers.getFreelancers((res) => {
         console.log(res);
-        setAgentList(res.data.serialized_data);
+        setAgentList(res.data.freelancers);
       });
     } else navigate("/admin/dashboard/");
     return () => {};

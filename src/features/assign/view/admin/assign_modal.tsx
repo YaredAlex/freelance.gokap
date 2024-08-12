@@ -24,8 +24,8 @@ export const AssignModal = ({
         <h6 className="mb-2">Freelancer</h6>
         <div className="mb-4">
           <p>
-            {typeof freelancer?.frelancer_id.user === "object"
-              ? `${freelancer.frelancer_id.user.firstname} ${freelancer.frelancer_id.user.lastname}`
+            {typeof freelancer?.details.frelancer_id.user === "object"
+              ? `${freelancer.details.frelancer_id.user.firstname} ${freelancer.details.frelancer_id.user.lastname}`
               : ""}
           </p>
           <p>Intermediate</p>
@@ -33,12 +33,12 @@ export const AssignModal = ({
 
         <div className="mb-4">
           <p className="mb-2">Bio</p>
-          <p>{freelancer?.frelancer_id.bio}</p>
+          <p>{freelancer?.details.frelancer_id.bio}</p>
         </div>
         <div className="mb-4">
           <p className="mb-2">skill</p>
           <div className="d-flex gap-4 flex-wrap">
-            {freelancer?.frelancer_id?.skills.map((skill, index) => (
+            {freelancer?.details.frelancer_id?.skills.map((skill, index) => (
               <RoundedText text={skill} key={index} />
             ))}
           </div>

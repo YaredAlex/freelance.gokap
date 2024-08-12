@@ -1,0 +1,38 @@
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--skeleton-loading-1);
+  }
+  100% {
+    background-color: var(--skeleton-loading-2);
+  }
+}
+.circular-skeleton,
+.text-skeleton,
+.text-skeleton,
+.button-skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+.skeleton {
+  border-radius: 4px;
+}
+
+.circular-skeleton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+
+.text-skeleton {
+  width: 100px;
+  height: 16px;
+  margin: 8px 0;
+}
+
+.button-skeleton {
+  width: 80px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: #ccc;
+}

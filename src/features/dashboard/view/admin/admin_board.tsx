@@ -2,8 +2,7 @@ import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { ButtonPrimary } from "../../../../components/button/button";
 import AgentBoardSkeleton from "../../components/agent/agent_board_skeleton";
 import { Filter, TickCircle } from "iconsax-react";
-import useAgentProject from "../../../project/hooks/agent/use_agent_project";
-import FilterProject from "../../components/agent/filter_project";
+import FilterProject from "../../components/admin/filter_project";
 import { ClientProjectType } from "../../../../context/projects/project_context";
 import useAdminBoard, {
   useAdminBoardType,
@@ -11,7 +10,7 @@ import useAdminBoard, {
 
 const AdminDashboardPostedProject = () => {
   const adminBoard = useAdminBoard();
-  const appliedProject = useAgentProject();
+
   return (
     <>
       <div className="position-relative">
@@ -53,27 +52,13 @@ const AdminDashboardPostedProject = () => {
             className={`mb-3 bg-white-v-4 rounded border-card overflow-hidden`}
           >
             <div className="col">
-              {adminBoard.loading ||
-              appliedProject.loading ||
-              adminBoard.searchLoading ? (
+              {adminBoard.loading || adminBoard.searchLoading ? (
                 <>
                   <AgentBoardSkeleton />
                   <AgentBoardSkeleton />
                 </>
               ) : (
                 adminBoard.currentRows.map((project, index) => {
-                  const applied = appliedProject.alldata.find(
-                    (p) => p.project_id.title === project.title
-                  );
-                  if (applied)
-                    return (
-                      <ProjectPostedCard
-                        key={index}
-                        adminBoard={adminBoard}
-                        project={project}
-                        isAssigned={true}
-                      />
-                    );
                   return (
                     <ProjectPostedCard
                       key={index}

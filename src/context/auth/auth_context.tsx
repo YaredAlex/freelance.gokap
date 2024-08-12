@@ -2,7 +2,7 @@ import { createContext, useContext, useReducer } from "react";
 import { AuthActionType, authReducer } from "./auth_reducer";
 
 export type UserAuthType = {
-  id: string;
+  id: string | number;
   firstname: string;
   lastname: string;
   email: string;

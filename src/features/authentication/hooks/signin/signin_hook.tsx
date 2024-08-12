@@ -70,11 +70,10 @@ const useSignIn = () => {
       },
     });
 
-    //Load project when user log's in
-    // setLoadProject((prev) => !prev);
-    if (res.data.user_type === "client") {
-      navigator("/client/dashboard");
-    } else navigator(`/agent/dashboard`);
+    navigator(`/admin/dashboard`);
+    // if (res.data.user_type === "client") {
+    //   navigator("/client/dashboard");
+    // } else navigator(`/agent/dashboard`);
   };
 
   const onSubmit = async (data: { email: string; password: string }) => {

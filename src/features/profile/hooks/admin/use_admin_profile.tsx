@@ -1,26 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import { useForm } from "react-hook-form";
 import { useAxios } from "../../../../hooks/useAxios";
 import customToast from "../../../../components/custom_toast/custom_toast";
+import { useGetAddress } from "../../../../hooks/use_get_address";
 
-export const useAgentProfile = () => {
+export const useAdminProfile = () => {
   const authContext = useAuthContext();
   const [showEditName, setShowEditName] = useState(false);
   const [showEditAddress, setShowEditAddress] = useState(false);
   const [showEditPass, setShowEditPass] = useState(false);
   const [showEditPhone, setShowEditPhone] = useState(false);
+  //get user profile and adress
+  const getAddress = useGetAddress();
+  useEffect(() => {
+    getAddress.getAddress((res) => {
+      const address = res.data;
+      authContext.dispatchUser({
+        type: "signin",
+
+        payload: {
+          ...authContext.user,
+          address: {
+            country: address.country,
+            city: address.city,
+            state: address.state,
+            zip_code: address.zip_code,
+          },
+        },
+      });
+    });
+  }, []);
+
   const profileList = [
     {
       title: "Name",
-      value: `${authContext.user.firstname} ${authContext.user.lastname}`,
+      value: authContext.user.firstname,
       onClick: () => {
         setShowEditName(true);
       },
     },
     {
       title: "Address",
-      value: "address",
+      value: authContext.user.address
+        ? `${authContext.user.address.city}, ${authContext.user.address.country}`
+        : "address",
       onClick: () => {
         setShowEditAddress(true);
       },
@@ -31,7 +55,6 @@ export const useAgentProfile = () => {
       onClick: () => {},
     },
   ];
-
   const accountList = [
     {
       title: "Email",
@@ -72,10 +95,11 @@ export const useAgentProfile = () => {
     setShowEditPass,
     showEditPhone,
     setShowEditPhone,
+    addressLoading: getAddress.loading,
   };
 };
 
-export type UseAgentProfileType = {
+export type UseAdminProfileType = {
   profileList: {
     title: string;
     value: string;
@@ -95,7 +119,7 @@ export type UseAgentProfileType = {
   setShowEditPhone: React.Dispatch<React.SetStateAction<boolean>>;
   showEditPhone: boolean;
 };
-export const useChangeAgentPassword = () => {
+export const useChangeAdminPassword = () => {
   const { loading, sendRequest } = useAxios({
     url: "/api/user/change-password/",
     method: "POST",
@@ -139,7 +163,7 @@ export const useChangeAgentPassword = () => {
   };
 };
 
-export const useChangeAgentName = () => {
+export const useChangeAdminName = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
     url: `/api/user/update-user/`,
@@ -158,12 +182,16 @@ export const useChangeAgentName = () => {
     },
   });
 
-  const changeUserName = (data: { firstname: string; lastname: string }) => {
+  const changeUserName = (
+    data: { firstname: string; lastname: string },
+    setShow: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
     //validate userinput
     sendRequest(
       data,
       () => {
         customToast({ message: "Name change success", type: "success" });
+        setShow(false);
       },
       (error) => {
         customToast({ message: error.message, type: "error" });
@@ -181,11 +209,11 @@ export const useChangeAgentName = () => {
     reset,
   };
 };
-export const useChangeAgentAddress = () => {
-  const authContext = useAuthContext();
+export const useChangeAddress = () => {
+  const addressAPI = `/api/user/get_address/`;
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/${authContext.user.id}`,
-    method: "POST",
+    url: addressAPI,
+    method: "PUT",
     headers: true,
   });
   const {
@@ -202,7 +230,7 @@ export const useChangeAgentAddress = () => {
     },
   });
 
-  const changeUserName = (data: {
+  const changeAddress = (data: {
     country: string;
     state: string;
     city: string;
@@ -210,13 +238,42 @@ export const useChangeAgentAddress = () => {
   }) => {
     //validate userinput
     sendRequest(
-      data,
+      {
+        ...data,
+        zip_code: data.zipcode,
+      },
       () => {
         customToast({ message: "Address change success", type: "success" });
       },
       (error) => {
-        customToast({ message: error.message, type: "error" });
-        console.log(error);
+        const message: { error: string } = error.response?.data as {
+          error: string;
+        };
+        console.log(error.response?.data);
+
+        if (message?.error === "The user has no address")
+          sendRequest(
+            {
+              ...data,
+              zip_code: data.zipcode,
+            },
+            () => {
+              customToast({
+                message: "Address change success",
+                type: "success",
+              });
+            },
+            (error) => {
+              customToast({ message: error.message, type: "error" });
+            },
+            true,
+            addressAPI,
+            "POST"
+          );
+        else {
+          customToast({ message: error.message, type: "error" });
+          console.log(error);
+        }
       }
     );
   };
@@ -225,12 +282,12 @@ export const useChangeAgentAddress = () => {
     register,
     handleSubmit,
     errors,
-    changeUserName,
+    changeAddress,
     loading,
     reset,
   };
 };
-export const useChangeAgentPhone = () => {
+export const useChangeAdminPhone = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
     url: `/api/user/update-user/${authContext.user.id}`,
@@ -248,12 +305,12 @@ export const useChangeAgentPhone = () => {
     },
   });
 
-  const changeUserName = (data: { phone: string }) => {
+  const changeUserPhone = (data: { phone: string }) => {
     //validate userinput
     sendRequest(
       data,
       () => {
-        customToast({ message: "Address change success", type: "success" });
+        customToast({ message: "phone change success", type: "success" });
       },
       (error) => {
         customToast({ message: error.message, type: "error" });
@@ -266,7 +323,7 @@ export const useChangeAgentPhone = () => {
     register,
     handleSubmit,
     errors,
-    changeUserName,
+    changeUserPhone,
     loading,
     reset,
   };

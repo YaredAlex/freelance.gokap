@@ -1,7 +1,7 @@
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const Texts_EN = {
     signIn_greeting_title : "Hello, There!",
-    signIn_greeting_subtitle : "Welcome Back to Gokap InnoTech Where Opportunities Await.",
+    signIn_greeting_subtitle : "Welcome to Admin page",
     txt_sign_up : "SIGN UP",
     txt_new_account : "create new account?",
     txt_sign_in : "sign in",

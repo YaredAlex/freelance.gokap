@@ -1,13 +1,9 @@
 import { MdCheckBoxOutlineBlank, MdOutlineCheckBox } from "react-icons/md";
-import { UseAgentBoardType } from "../../hooks/agent/agent_board";
+
 import { ButtonPrimary } from "../../../../components/button/button";
 import { useAdminBoardType } from "../../hooks/admin/use_admin_project";
 
-const FilterProject = ({
-  agentBoard,
-}: {
-  agentBoard: UseAgentBoardType | useAdminBoardType;
-}) => {
+const FilterProject = ({ agentBoard }: { agentBoard: useAdminBoardType }) => {
   return (
     <div
       className={`project-filter text-black-variant-3 col p-4 rounded bg-white-v-4 border-card ${
