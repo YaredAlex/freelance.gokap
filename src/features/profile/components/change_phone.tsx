@@ -23,7 +23,7 @@ const ChangeClientPhone = ({
       modalId="phone"
     >
       <div className={``}>
-        <form onSubmit={changePhone.handleSubmit(changePhone.changeUserName)}>
+        <form onSubmit={changePhone.handleSubmit(changePhone.changeUserPhone)}>
           <h5>Update Your Phone</h5>
           <div
             className={`d-flex flex-column justify-content-between p-2 gap-2`}

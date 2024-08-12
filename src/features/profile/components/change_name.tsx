@@ -8,12 +8,11 @@ import {
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
-import { UseAgentProfileType } from "../hooks/agent/use_agent_profile";
 
 const ChangeClientName = ({
   userProfile,
 }: {
-  userProfile: UseClientProfileType | UseAgentProfileType;
+  userProfile: UseClientProfileType;
 }) => {
   const changeName = useChangeClientName();
   return (
