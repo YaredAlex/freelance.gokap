@@ -3,7 +3,7 @@ import { UserAuthType } from "../../../context/auth/auth_context";
 import { useAxios } from "../../../hooks/useAxios";
 import { useEffect, useState } from "react";
 // models/User.ts
-
+import TimeAgo from "javascript-time-ago";
 const useGetClients = () => {
   const { sendRequest, loading } = useAxios({
     headers: true,
@@ -11,7 +11,7 @@ const useGetClients = () => {
     url: "/api/user/get_client_details/",
   });
   const [users, setUsers] = useState<UserAuthType[]>([]);
-
+  const timeAgo = new TimeAgo("en");
   const getClients = () => {
     sendRequest(
       {},
@@ -36,6 +36,7 @@ const useGetClients = () => {
     loading,
     users,
     setUsers,
+    timeAgo,
   };
 };
 

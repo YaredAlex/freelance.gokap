@@ -1,3 +1,4 @@
+import TimeAgo from "javascript-time-ago";
 import { UserAuthType } from "../../../context/auth/auth_context";
 import { useAxios } from "../../../hooks/useAxios";
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ const useGetFreelancers = () => {
     method: "GET",
     url: "/api/user/get_frelancers_details/",
   });
+  const timeAgo = new TimeAgo("en");
   const [freelancer, setFreelancers] = useState<UserAuthType[]>([
     {
       id: 1,
@@ -42,6 +44,7 @@ const useGetFreelancers = () => {
     getFreelancers,
     loading,
     freelancer,
+    timeAgo,
   };
 };
 
