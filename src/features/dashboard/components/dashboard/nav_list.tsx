@@ -1,4 +1,4 @@
-import { Box, FolderAdd, Home, Money, User } from "iconsax-react";
+import { Home, Money, People, User, UserSquare } from "iconsax-react";
 
 export const adminNavList = [
   {
@@ -17,12 +17,12 @@ export const adminNavList = [
       {
         title: "Users",
         to: `clients/`,
-        icon: (color: string) => <Box color={color} variant="Bold" />,
+        icon: (color: string) => <User color={color} variant="Bold" />,
       },
       {
         title: "Freelancers",
         to: `freelancers/`,
-        icon: (color: string) => <FolderAdd color={color} variant="Bold" />,
+        icon: (color: string) => <People color={color} variant="Bold" />,
       },
     ],
   },
@@ -32,7 +32,7 @@ export const adminNavList = [
       {
         title: "Account",
         to: `account`,
-        icon: (color: string) => <User color={color} variant="Bold" />,
+        icon: (color: string) => <UserSquare color={color} variant="Bold" />,
       },
       {
         title: "Invoice",
