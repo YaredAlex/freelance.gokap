@@ -13,7 +13,8 @@
   border-bottom: 1px solid var(--border-card);
 }
 
-.admin-table thead {
+.admin-table thead,
+.admin-table tbody {
   background-color: var(--white-variant-4);
 }
 

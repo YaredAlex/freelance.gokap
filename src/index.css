@@ -323,6 +323,9 @@ p {
 .text-error {
   color: rgb(206, 4, 4);
 }
+.text-green {
+  color: #00bc5a;
+}
 .text-gray {
   color: gray;
 }
