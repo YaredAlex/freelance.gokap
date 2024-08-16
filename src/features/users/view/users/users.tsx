@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import useGetClients from "../../hooks/use_get_clients";
 import "./users.css";
 import TableSkeletonRow from "../../components/table_skeleton";
+
 const ClientList = () => {
   const getClients = useGetClients();
 
@@ -40,8 +41,14 @@ const ClientList = () => {
                 <td>{user.firstname}</td>
                 <td>{user.lastname}</td>
                 <td>{user.email}</td>
-                <td>{user.created_at}</td>
-                <td>{"Not Verified"}</td>
+                <td>{new Date(user.created_at).toDateString()}</td>
+                <td
+                  className={`${
+                    user.is_verified ? "text-green" : "text-error"
+                  }`}
+                >
+                  {user.is_verified ? "Verified" : "Not Verified"}
+                </td>
                 <td>
                   <Link to={`${user.id}`} className="manage-btn">
                     Manage
