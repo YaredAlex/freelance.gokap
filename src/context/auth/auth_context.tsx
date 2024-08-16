@@ -9,6 +9,8 @@ export type UserAuthType = {
   type: string;
   created_at: string;
   phone?: string;
+  is_verified?: string;
+  user_type?: string;
   address?: {
     city: string;
     country: string;
