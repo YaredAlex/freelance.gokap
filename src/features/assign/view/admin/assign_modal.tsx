@@ -15,7 +15,7 @@ export const AssignModal = ({
 }) => {
   return (
     <DefaultModal
-      loading={false}
+      loading={assignProject.loading}
       showModal={assignProject.showModal}
       setShowModal={assignProject.setShowModal}
       modalId="assign_modal"
@@ -48,6 +48,11 @@ export const AssignModal = ({
             title="Assign"
             onClick={() => {
               assignProject.setShowModal(false);
+              const fid =
+                typeof freelancer?.details.frelancer_id.user === "object"
+                  ? freelancer?.details.frelancer_id.user.id
+                  : -1;
+              assignProject.assignProject(fid);
             }}
             type="button"
             className="py-2"
