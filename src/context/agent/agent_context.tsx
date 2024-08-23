@@ -9,7 +9,9 @@ export type AgentDetailType = {
   reason_to_join: string;
   resume: File | null;
   skills: string[];
-  user: { firstname: string; lastname: string } | number;
+  user:
+    | { firstname: string; lastname: string; id: number; user_type: string }
+    | number;
   where_did_you_heard: string;
 };
 export type AgentStateType = {
