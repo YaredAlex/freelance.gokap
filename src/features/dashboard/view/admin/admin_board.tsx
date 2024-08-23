@@ -15,27 +15,31 @@ const AdminDashboardPostedProject = () => {
     <>
       <div className="position-relative">
         <div className="text-black-variant-1 mx-auto mt-4 max-w-1100 mx-auto">
-          {/* SEARCH LABLE */}
+          {/* SEARCH BAR */}
           <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4">
-            <div className="d-flex w-100 flex-row flex-sm-row gap-2 justify-content-between search-bar col ">
-              <input
-                type="text"
-                className="custom-input border-card rounded"
-                placeholder="Search by title or budget"
-                value={adminBoard.searchTerm}
-                onChange={(e) => adminBoard.setSearchTerm(e.target.value)}
-                style={{ width: "100%" }}
-              />
-            </div>
-            <div style={{ maxWidth: "150px" }}>
-              <ButtonPrimary
-                title="search"
-                type="button"
-                className="py-2"
-                onClick={() => adminBoard.handleSearch()}
-                disabled={adminBoard.searchLoading}
-              />
-            </div>
+            <form
+              onSubmit={(e) => adminBoard.handleSearch(e)}
+              className="col d-flex gap-4"
+            >
+              <div className="d-flex w-100 flex-row flex-sm-row gap-2 justify-content-between ">
+                <input
+                  type="text"
+                  className="custom-input border-card rounded"
+                  placeholder="Search by title or budget"
+                  value={adminBoard.searchTerm}
+                  onChange={(e) => adminBoard.setSearchTerm(e.target.value)}
+                  style={{ width: "100%" }}
+                />
+              </div>
+              <div style={{ maxWidth: "150px" }}>
+                <ButtonPrimary
+                  title="search"
+                  type="submit"
+                  className="py-2"
+                  disabled={adminBoard.searchLoading}
+                />
+              </div>
+            </form>
             <div
               className="border-card d-flex align-items-center px-3 rounded"
               style={{ position: "relative" }}
@@ -135,7 +139,14 @@ const ProjectPostedCard = ({
         )}
       </div>
       {/* title */}
-      <h6 className="project-title my-2 text-capitalize">{project.title}</h6>
+      <div className="d-flex justify-content-between">
+        <h6 className="project-title my-2 text-capitalize">{project.title}</h6>
+        <RoundedText
+          error={true}
+          className="text-xsm"
+          text={project.project_assigned_status ? "assigned" : "Unassigned"}
+        />
+      </div>
       {/* Description */}
       <p className="project-description my-3 text-sm text-black-variant-3">
         {project.description}
