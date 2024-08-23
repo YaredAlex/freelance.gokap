@@ -1,17 +1,30 @@
 import { useState } from "react";
-import { ButtonPrimary } from "../../../components/button/button";
+import {
+  ButtonFlexOutline,
+  ButtonPrimary,
+} from "../../../components/button/button";
 import RoundedText from "../../../components/rounded_text/rounded_text";
 import { ClientProjectType } from "../../../context/projects/project_context";
 import { ApplyProjectSkeleton } from "../../apply/components/apply_skeleton";
 import useAssignProject, { AppliedAgentType } from "../hook/use_assign_project";
 import { AssignModal } from "./admin/assign_modal";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "iconsax-react";
 
 const AssignProject = () => {
   const assignProject = useAssignProject();
   const [freelancer, setFreelancer] = useState<AppliedAgentType>();
+  const navigate = useNavigate();
   return (
     <div className="max-w-1100 mx-auto mt-4">
-      {/* Fetch project by id */}
+      <div style={{ maxWidth: "40px" }}>
+        <ButtonFlexOutline
+          className="p-1 bg-white-v-4 text-black-variant-1"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft />
+        </ButtonFlexOutline>
+      </div>
 
       {assignProject.getProjectLoading ? (
         <div>

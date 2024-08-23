@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useAxios } from "../../../hooks/useAxios";
 import { useEffect, useState } from "react";
 import { PostedProjectType } from "../../../context/projects/project_context";
+import customToast from "../../../components/custom_toast/custom_toast";
 
 const useManageFreelance = () => {
   const { id } = useParams();
@@ -11,17 +12,18 @@ const useManageFreelance = () => {
   const { sendRequest, loading } = useAxios({
     headers: true,
     method: "GET",
-    url: `//api/user/get_addigned_project_using_frelancer_id/${id}`,
+    url: `/api/user/get_addigned_project_using_frelancer_id/${id}`,
   });
   const getAssignedProject = () => {
     sendRequest(
       {},
       (res) => {
         console.log(res);
-        setAssignedProjects([]);
+        const data = res.data.data;
+        setAssignedProjects(data);
       },
       (error) => {
-        console.log(error);
+        customToast({ message: error.message, type: "error" });
       }
     );
   };

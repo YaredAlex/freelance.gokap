@@ -13,12 +13,12 @@ const useGetFreelancers = () => {
   const timeAgo = new TimeAgo("en");
   const [freelancer, setFreelancers] = useState<UserAuthType[]>([
     {
-      id: 1,
-      firstname: "yared",
-      lastname: "yared",
-      email: "yareda25@gmail.com",
-      created_at: "22022000",
-      type: "client",
+      id: 0,
+      firstname: "",
+      lastname: "",
+      email: "",
+      created_at: "",
+      type: "",
     },
   ]);
 

@@ -30,7 +30,7 @@ const useAssignProject = () => {
   const [showModal, setShowModal] = useState(false);
   const getProject = useGetProjectById();
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/apply_project/",
+    url: "/api/user/assign-projects/",
     headers: true,
     method: "POST",
   });
@@ -43,25 +43,24 @@ const useAssignProject = () => {
     if (id != null || id != undefined) {
       getProject.getProject(id, (res) => {
         setCurrentProject(res.data.serialized_data);
-        console.log(res.data);
       });
       //call get freelancers
       getAppliedFreelancers.getFreelancers((res) => {
-        console.log(res);
         setAgentList(res.data.freelancers);
       });
     } else navigate("/admin/dashboard/");
     return () => {};
   }, [fetchProject]);
 
-  const assignProject = () => {
+  const assignProject = (fid: number) => {
     // check condition
     sendRequest(
       {
         project_id: id,
+        frelancer_id: fid,
       },
       () => {
-        customToast({ message: "Project applied", type: "success" });
+        customToast({ message: "Project assigned", type: "success" });
         navigate(-1);
       },
       (error) => {
@@ -91,7 +90,7 @@ export type useAssignProjectType = {
   currentProject: ClientProjectType | PostedProjectType;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   showModal: boolean;
-  assignProject: () => void;
+  assignProject: (fid: number) => void;
 };
 export default useAssignProject;
 

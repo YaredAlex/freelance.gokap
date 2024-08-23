@@ -7,6 +7,7 @@ import TimeAgo from "javascript-time-ago";
 import { useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../hooks/useAxios";
 import { AxiosResponse } from "axios";
+import customToast from "../../../../components/custom_toast/custom_toast";
 
 const useAdminBoard = () => {
   //load project with status
@@ -38,12 +39,15 @@ const useAdminBoard = () => {
     sendRequest(
       {},
       (res) => {
-        setPostedProject(res.data.data);
-        setProjectHolder(res.data.data);
-        setCurrentRows(res.data.data.slice(indexOfFirstRow, indexOfLastRow));
+        const data = res.data.data;
+        setPostedProject(data);
+        setProjectHolder(data);
+        setCurrentRows(data.slice(indexOfFirstRow, indexOfLastRow));
         paginate(1);
+        console.log(data);
       },
       (error) => {
+        customToast({ message: error.message, type: "error" });
         console.log(error);
       }
     );
@@ -58,21 +62,25 @@ const useAdminBoard = () => {
     getUnAssignedProject();
   }, [fetchProject]);
 
-  const handleSearch = () => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     // 'description'
     // 'min_price'
     // 'title'
-    if (searchTerm.trim() == "") {
+    e.preventDefault();
+    if (searchTerm.trim() === "") {
       setProjectHolder(postedProject);
+      setCurrentRows(postedProject.slice(indexOfFirstRow, indexOfLastRow));
+      // Reset to first page when searching
+      setCurrentPage(1);
       return;
     }
     searchProject.searchProject(`title=${searchTerm}`, (res) => {
       console.log(res);
-      // const searchResult = res.data.serialized_data;
-      // setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
-      // // Reset to first page when searching
-      // setCurrentPage(1);
-      // setProjectHolder(searchResult);
+      const searchResult = res.data.serialized_data;
+      setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
+      // Reset to first page when searching
+      setCurrentPage(1);
+      setProjectHolder(searchResult);
     });
     // const filteredData = postedProject.filter(
     //   (item) =>
@@ -121,7 +129,7 @@ export type useAdminBoardType = {
   loading: boolean;
   getUnAssignedProject: () => void;
   searchTerm: string;
-  handleSearch: () => void;
+  handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   postedProject: ClientProjectType[];
   checkOutProject: (detail: ClientProjectType) => void;
@@ -142,6 +150,7 @@ export type useAdminBoardType = {
   setFetchProject: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export default useAdminBoard;
+
 const useSearchProject = () => {
   // 'description'
   // 'min_price'
