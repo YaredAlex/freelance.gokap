@@ -38,19 +38,17 @@ const AgentProjectStatus = () => {
             {projectStatus.propasalData?.project_id.description}
           </p>
           {/* budget */}
-          <div className={`pt-4`}>
+          <div className={`pt-4 d-flex gap-2`}>
             {" "}
-            <h6>Budget</h6>
-            <div className="h-100 w-100 mt-3">
-              <h5 className="font-weight-400 text-black-variant-2">
-                {projectStatus.propasalData?.project_id.project_price}
-              </h5>
-            </div>
+            <h6>Budget:</h6>
+            <h6 className=" text-black-variant-2">
+              {projectStatus.propasalData?.project_id.project_price}
+            </h6>
           </div>
           {/* Skill */}
           <div className={`pt-4`}>
             <h6>Skill required</h6>
-            <div className="d-flex gap-4 mt-4 flex-wrap align-items-center">
+            <div className="d-flex gap-4 mt-3 flex-wrap align-items-center">
               {projectStatus.propasalData?.project_id.skills_required.map(
                 (sk, index) => (
                   <RoundedText key={index} text={sk} />

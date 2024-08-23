@@ -15,7 +15,7 @@ export const useChangeAgentDetail = (
     languages: "",
   });
   const [personalSkill, setPersonalSkill] = useState(
-    agentContext.agent.detail.skill
+    agentContext.agent.detail.skills
   );
   const [bio, setBio] = useState(agentContext.agent.detail.bio);
   const [lang, setLang] = useState(Languages);
@@ -88,7 +88,7 @@ export const useChangeAgentDetail = (
               ...agentContext.agent.detail,
               bio: detail.bio,
               language: detail.languages,
-              skill: detail.skills,
+              skills: detail.skills,
             },
             appliedProject: agentContext.agent.appliedProject,
           },

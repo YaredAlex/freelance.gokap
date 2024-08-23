@@ -28,6 +28,7 @@ import AdminRoute from "./routes/adminboard/adminboard_route";
 import AgentDashboardPostedProject from "./features/dashboard/view/agent/agent";
 import AdminDashboardPostedProject from "./features/dashboard/view/admin/admin_board";
 import AssignProject from "./features/assign/view/assign_project";
+import PrivacyPage from "./features/privacy/privacy";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
@@ -49,6 +50,7 @@ function App() {
                   <Route path="" element={<Signin />} />
                   <Route path="/signin" element={<Signin />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
                   <Route path="/verify-user" element={<VerifyUser />} />
                   <Route path={`/reset-password`} element={<ResetPassword />} />
                   <Route
