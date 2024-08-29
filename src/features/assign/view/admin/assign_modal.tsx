@@ -24,8 +24,8 @@ export const AssignModal = ({
         <h6 className="mb-2">Freelancer</h6>
         <div className="mb-4">
           <p>
-            {typeof freelancer?.details.frelancer_id.user === "object"
-              ? `${freelancer.details.frelancer_id.user.firstname} ${freelancer.details.frelancer_id.user.lastname}`
+            {typeof freelancer?.details.frelancer.user === "object"
+              ? `${freelancer.details.frelancer.user.firstname} ${freelancer.details.frelancer.user.lastname}`
               : ""}
           </p>
           <p>Intermediate</p>
@@ -33,12 +33,12 @@ export const AssignModal = ({
 
         <div className="mb-4">
           <p className="mb-2">Bio</p>
-          <p>{freelancer?.details.frelancer_id.bio}</p>
+          <p>{freelancer?.details.frelancer.bio}</p>
         </div>
         <div className="mb-4">
           <p className="mb-2">skill</p>
           <div className="d-flex gap-4 flex-wrap">
-            {freelancer?.details.frelancer_id?.skills.map((skill, index) => (
+            {freelancer?.details.frelancer?.skills.map((skill, index) => (
               <RoundedText text={skill} key={index} />
             ))}
           </div>
@@ -47,10 +47,9 @@ export const AssignModal = ({
           <ButtonPrimary
             title="Assign"
             onClick={() => {
-              assignProject.setShowModal(false);
               const fid =
-                typeof freelancer?.details.frelancer_id.user === "object"
-                  ? freelancer?.details.frelancer_id.user.id
+                typeof freelancer?.details.frelancer.user === "object"
+                  ? freelancer?.details.frelancer.user.id
                   : -1;
               assignProject.assignProject(fid);
             }}

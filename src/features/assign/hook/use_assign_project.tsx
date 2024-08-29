@@ -16,7 +16,7 @@ export type AppliedAgentType = {
     proposal: string;
     applied_at: string;
     status: string;
-    frelancer_id: AgentDetailType;
+    frelancer: AgentDetailType;
     id: number;
     project_id: number;
   };
@@ -28,9 +28,10 @@ const useAssignProject = () => {
   const [fetchProject, setFetchProject] = useState(false);
   const [agentList, setAgentList] = useState<AppliedAgentType[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const getProject = useGetProjectById();
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/assign-projects/",
+    url: "/api/manager/assign_project/",
     headers: true,
     method: "POST",
   });
@@ -46,7 +47,8 @@ const useAssignProject = () => {
       });
       //call get freelancers
       getAppliedFreelancers.getFreelancers((res) => {
-        setAgentList(res.data.freelancers);
+        const data = res.data.serialized_data;
+        setAgentList(data);
       });
     } else navigate("/admin/dashboard/");
     return () => {};
@@ -56,8 +58,8 @@ const useAssignProject = () => {
     // check condition
     sendRequest(
       {
-        project_id: id,
-        frelancer_id: fid,
+        project: id,
+        frelancer: fid,
       },
       () => {
         customToast({ message: "Project assigned", type: "success" });
@@ -65,7 +67,7 @@ const useAssignProject = () => {
       },
       (error) => {
         const message = JSON.parse(error?.request?.response);
-        customToast({ message: JSON.stringify(message), type: "error" });
+        customToast({ message: JSON.stringify(message.errors), type: "error" });
         console.log(message?.error);
       }
     );
@@ -81,6 +83,8 @@ const useAssignProject = () => {
     showModal,
     setShowModal,
     agentList,
+    setShowInviteModal,
+    showInviteModal,
     loadingFreelancers: getAppliedFreelancers.loading,
   };
 };
@@ -91,6 +95,9 @@ export type useAssignProjectType = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   showModal: boolean;
   assignProject: (fid: number) => void;
+  setShowInviteModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showInviteModal: boolean;
+  loadingFreelancers: boolean;
 };
 export default useAssignProject;
 
@@ -99,7 +106,7 @@ const useGetAppliedFreelancers = () => {
   const { loading, sendRequest } = useAxios({
     headers: true,
     method: "GET",
-    url: `api/user/applied/freelancers/${id}/`,
+    url: `api/manager/applied/freelancers/${id}/`,
   });
 
   const getFreelancers = (cb: (res: AxiosResponse) => void) => {

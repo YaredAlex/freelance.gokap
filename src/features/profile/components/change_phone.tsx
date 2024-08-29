@@ -1,20 +1,21 @@
 import DefaultModal from "../../../components/popup/modal";
-import {
-  UseClientProfileType,
-  useChangeClientPhone,
-} from "../hooks/client/use_client_profile";
+
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
+import {
+  UseAdminProfileType,
+  useChangeAdminPhone,
+} from "../hooks/admin/use_admin_profile";
 
 const ChangeClientPhone = ({
   clientProfile,
 }: {
-  clientProfile: UseClientProfileType;
+  clientProfile: UseAdminProfileType;
 }) => {
-  const changePhone = useChangeClientPhone();
+  const changePhone = useChangeAdminPhone();
   return (
     <DefaultModal
       loading={changePhone.loading}

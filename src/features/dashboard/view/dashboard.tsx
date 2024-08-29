@@ -1,6 +1,6 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import "./dashboard.css";
-import useDashBoard from "../hooks/dashboard/dashboard_hook";
+
 import CustomLoading from "../../../components/loading_page/custom_loading";
 import DashBoardTopbar from "../components/dashboard/top_bar";
 import SideBar from "../components/dashboard/side_bar";
@@ -11,7 +11,7 @@ import useAgentDetail from "../../../hooks/use_agent_detail";
 
 //Passdown auth to childern ** important to consider
 const DashBoard = ({ children }: { children: ReactNode }) => {
-  const { showNav, setShowNav } = useDashBoard();
+  const [showNav, setShowNav] = useState(false);
   const profile = useGetProfile();
   const agentDetail = useAgentDetail();
   const authContext = useAuthContext();

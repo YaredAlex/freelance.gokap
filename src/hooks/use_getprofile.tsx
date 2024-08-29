@@ -3,10 +3,10 @@ import { useAxios } from "./useAxios";
 import { AxiosError, AxiosResponse } from "axios";
 import { useAuthContext } from "../context/auth/auth_context";
 import customToast from "../components/custom_toast/custom_toast";
+import { profileApi } from "../util/api";
 
 const useGetProfile = () => {
   const authContext = useAuthContext();
-  const profileApi = "/api/user/profile/";
   const { sendRequest, loading } = useAxios({
     url: profileApi,
     method: "GET",
@@ -18,21 +18,22 @@ const useGetProfile = () => {
     email: "",
   });
   const onSuccess = (res: AxiosResponse) => {
+    const data = res.data.serialized_data;
     authContext.dispatchUser({
       type: "signin",
       payload: {
-        email: res.data.msg.email,
-        firstname: res.data.msg.firstname,
-        lastname: res.data.msg.lastname,
-        id: res.data.msg.id,
-        type: res.data.msg.user_type,
-        created_at: res.data.msg.created_at,
+        email: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        id: data.id,
+        type: data.user_type,
+        created_at: data.created_at,
       },
     });
     setUserProfile({
-      email: res.data.msg.email,
-      firstname: res.data.msg.firstname,
-      lastname: res.data.msg.lastname,
+      email: data.email,
+      firstname: data.firstname,
+      lastname: data.lastname,
     });
   };
   const onError = (error: AxiosError) => {
@@ -53,3 +54,28 @@ const useGetProfile = () => {
 };
 
 export default useGetProfile;
+
+export const useGetProfileById = (id: number | string) => {
+  const { sendRequest, loading } = useAxios({
+    url: `api/user/profile/${id}`,
+    method: "GET",
+    headers: true,
+  });
+
+  const getProfile = (cb: (res: AxiosResponse) => void) => {
+    sendRequest(
+      {},
+      (res) => {
+        cb(res);
+      },
+      (error) => {
+        customToast({ message: error.message, type: "error" });
+      }
+    );
+  };
+
+  return {
+    loading,
+    getProfile,
+  };
+};

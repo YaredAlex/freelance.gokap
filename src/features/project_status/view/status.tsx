@@ -1,21 +1,17 @@
-import { useState } from "react";
+import { ArrowLeft } from "iconsax-react";
 import {
   ButtonFlexOutline,
   ButtonPrimary,
 } from "../../../components/button/button";
-import RoundedText from "../../../components/rounded_text/rounded_text";
-import { ClientProjectType } from "../../../context/projects/project_context";
-import { ApplyProjectSkeleton } from "../../apply/components/apply_skeleton";
-import useAssignProject, { AppliedAgentType } from "../hook/use_assign_project";
-import { AssignModal } from "./admin/assign_modal";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Send2 } from "iconsax-react";
-import { InvitationModal } from "./admin/invitation_modal";
+import { ApplyProjectSkeleton } from "../../apply/components/apply_skeleton";
+import useProjectStatus from "../hook/use_status";
+import { ClientProjectType } from "../../../context/projects/project_context";
+import RoundedText from "../../../components/rounded_text/rounded_text";
 
-const AssignProject = () => {
-  const assignProject = useAssignProject();
-  const [freelancer, setFreelancer] = useState<AppliedAgentType>();
+const ProjectAssignedStatus = () => {
   const navigate = useNavigate();
+  const projectStatus = useProjectStatus();
   return (
     <div className="max-w-1100 mx-auto mt-2 text-black-variant-1">
       <div
@@ -23,15 +19,15 @@ const AssignProject = () => {
         className="d-flex gap-4 align-items-center mb-2"
       >
         <ButtonFlexOutline
-          className="p-1 bg-white-v-4 text-black-variant-1 m-0"
+          className="p-1 bg-white-v-4 text-black-variant-1"
           onClick={() => navigate(-1)}
         >
           <ArrowLeft />
         </ButtonFlexOutline>
-        <p>Assign</p>
+        <p>Status</p>
       </div>
 
-      {assignProject.getProjectLoading ? (
+      {projectStatus.loading ? (
         <div>
           <ApplyProjectSkeleton />
           <div className="mb-4"></div>
@@ -39,31 +35,17 @@ const AssignProject = () => {
         </div>
       ) : (
         <ProjectDetail
-          project={assignProject.currentProject as ClientProjectType}
+          project={projectStatus.currentProject as ClientProjectType}
         />
       )}
       {/* display if any one have applied freelancer skills and there proposal */}
       <div className="mt-4 d-flex flex-column gap-4 text-black-variant-1 ">
-        <div className="d-flex gap-4 flex-wrap justify-content-between align-items-center">
-          <h5>Applied Freelancers</h5>
-          <div style={{ maxWidth: "max-content" }}>
-            <ButtonFlexOutline
-              className="p-2  green-varient-2
-               green-varient-2-hover text-white"
-              onClick={() => {
-                assignProject.setShowInviteModal(true);
-              }}
-            >
-              <span>Send Invitation</span>
-              <Send2 />
-            </ButtonFlexOutline>
-          </div>
-        </div>
-        {assignProject.loadingFreelancers ? (
-          <div></div>
+        <h5>Progress Freelancers</h5>
+        {projectStatus.loading ? (
+          <div>Wait loading</div>
         ) : (
           <>
-            {assignProject?.agentList?.map((freelancer, index) => (
+            {projectStatus?.agentList?.map((freelancer, index) => (
               <div
                 key={index}
                 className="border-card p-4 rounded  bg-white-v-4"
@@ -100,10 +82,10 @@ const AssignProject = () => {
 
                 <div className="ms-auto" style={{ maxWidth: "200px" }}>
                   <ButtonPrimary
-                    title="Assign"
+                    title="unassign"
                     onClick={() => {
-                      setFreelancer(freelancer);
-                      assignProject.setShowModal(true);
+                      //   setFreelancer(freelancer);
+                      //   assignProject.setShowModal(true);
                     }}
                     type="button"
                     className="py-2"
@@ -111,24 +93,15 @@ const AssignProject = () => {
                 </div>
               </div>
             ))}
-            {assignProject?.agentList.length < 1 && (
-              <div>No Applied Freealncer</div>
-            )}
           </>
         )}
       </div>
-      <AssignModal assignProject={assignProject} freelancer={freelancer} />
-      <InvitationModal
-        assignProject={assignProject}
-        project={assignProject.currentProject as ClientProjectType}
-      />
       {/*  */}
     </div>
   );
 };
 
-export default AssignProject;
-
+export default ProjectAssignedStatus;
 const ProjectDetail = ({ project }: { project: ClientProjectType }) => {
   const formatNumber = (num: string) => {
     const res = parseInt(num) * 0.1;
@@ -138,7 +111,7 @@ const ProjectDetail = ({ project }: { project: ClientProjectType }) => {
     <div>
       <div
         className="text-black-variant-1 
-          bg-white-v-4 rounded p-2 border-card"
+            bg-white-v-4 rounded p-2 border-card"
       >
         <div className="d-flex gap-4">
           <div className="ms-4" style={{ maxWidth: "700px", width: "100%" }}>

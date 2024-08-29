@@ -34,7 +34,10 @@ const useSignIn = () => {
   const onError = (error: AxiosError) => {
     const message = JSON.parse(error?.request?.response);
     console.log(message);
-    if (message?.msg == "User not verified" || error.status == 401) {
+    if (
+      message?.msg.toLowerCase() == "user not verified" ||
+      error.status == 401
+    ) {
       authContext.dispatchUser({
         type: "signin",
         payload: {
@@ -70,10 +73,9 @@ const useSignIn = () => {
       },
     });
 
-    navigator(`/admin/dashboard`);
-    // if (res.data.user_type === "client") {
-    //   navigator("/client/dashboard");
-    // } else navigator(`/agent/dashboard`);
+    if (res.data.user_type.toLowerCase() !== "superuser") {
+      customToast({ message: "unauthorized access", type: "error" });
+    } else navigator(`/admin/dashboard`);
   };
 
   const onSubmit = async (data: { email: string; password: string }) => {

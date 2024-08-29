@@ -51,7 +51,7 @@ const FreelancersList = () => {
                   </td>
 
                   <td>
-                    <Link className="manage-btn" to={`12`}>
+                    <Link className="manage-btn" to={`${user.id}`}>
                       Manage
                     </Link>
                   </td>

@@ -8,7 +8,7 @@ const useGetClients = () => {
   const { sendRequest, loading } = useAxios({
     headers: true,
     method: "GET",
-    url: "/api/user/get_client_details/",
+    url: "/api/client/all/",
   });
   const [users, setUsers] = useState<UserAuthType[]>([]);
   const timeAgo = new TimeAgo("en");
@@ -16,13 +16,12 @@ const useGetClients = () => {
     sendRequest(
       {},
       (res) => {
-        const data = res.data.data;
+        const data = res.data.serialized_data;
         setUsers(data);
       },
       (error) => {
         const message = error.response?.request.message;
         customToast({ message: message, type: "error" });
-        console.log(error);
       }
     );
   };

@@ -1,12 +1,13 @@
 import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { ButtonPrimary } from "../../../../components/button/button";
 import AgentBoardSkeleton from "../../components/agent/agent_board_skeleton";
-import { Filter, TickCircle } from "iconsax-react";
+import { Filter } from "iconsax-react";
 import FilterProject from "../../components/admin/filter_project";
 import { ClientProjectType } from "../../../../context/projects/project_context";
 import useAdminBoard, {
   useAdminBoardType,
 } from "../../hooks/admin/use_admin_project";
+import { Link } from "react-router-dom";
 
 const AdminDashboardPostedProject = () => {
   const adminBoard = useAdminBoard();
@@ -50,6 +51,38 @@ const AdminDashboardPostedProject = () => {
               <FilterProject agentBoard={adminBoard} />
             </div>
           </div>
+          {/* Navigators */}
+          <div>
+            <div className="d-flex gap-4">
+              <Link
+                to={"/admin/dashboard?project=all"}
+                className={`${
+                  adminBoard.activeNav === "all" ? "d-active" : ""
+                } p-2`}
+                onClick={() => adminBoard.loadProject("all")}
+              >
+                All
+              </Link>
+              <Link
+                className={`${
+                  adminBoard.activeNav === "unassigned" ? "d-active" : ""
+                } p-2`}
+                to={"/admin/dashboard?project=unassigned"}
+                onClick={() => adminBoard.loadProject("unassigned")}
+              >
+                Unassigned
+              </Link>
+              <Link
+                className={`${
+                  adminBoard.activeNav === "assigned" ? "d-active" : ""
+                } p-2`}
+                to={"/admin/dashboard?project=assigned"}
+                onClick={() => adminBoard.loadProject("assigned")}
+              >
+                assigned
+              </Link>
+            </div>
+          </div>
           {/* Project cards */}
           <div className="mb-4"></div>{" "}
           <div
@@ -68,7 +101,6 @@ const AdminDashboardPostedProject = () => {
                       key={index}
                       adminBoard={adminBoard}
                       project={project}
-                      isAssigned={false}
                     />
                   );
                 })
@@ -112,11 +144,9 @@ export default AdminDashboardPostedProject;
 const ProjectPostedCard = ({
   adminBoard,
   project,
-  isAssigned,
 }: {
   adminBoard: useAdminBoardType;
   project: ClientProjectType;
-  isAssigned: boolean;
 }) => {
   return (
     <div
@@ -131,20 +161,14 @@ const ProjectPostedCard = ({
         <p className="m-0 text-black-variant-3" style={{ fontSize: "14px" }}>
           {adminBoard.timeAgo.format(new Date(project.created_at))}
         </p>
-        {isAssigned && (
-          <div className="d-flex gap-1">
-            <TickCircle variant="Bold" color="green" size={20} />
-            <p className="text-sm">Applied</p>
-          </div>
-        )}
       </div>
       {/* title */}
       <div className="d-flex justify-content-between">
         <h6 className="project-title my-2 text-capitalize">{project.title}</h6>
         <RoundedText
-          error={true}
+          error={project.project_assigned_status ? false : true}
           className="text-xsm"
-          text={project.project_assigned_status ? "assigned" : "Unassigned"}
+          text={project.project_assigned_status ? "assigned" : "unassigned"}
         />
       </div>
       {/* Description */}

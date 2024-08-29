@@ -126,6 +126,11 @@
 .dashboard-menu-bar {
   display: none;
 }
+.d-active {
+  text-decoration: underline;
+  background-color: var(--green-variant-2);
+  border-radius: 5px;
+}
 @media screen and (max-width: 1200px) {
   .dashboard-left {
     position: fixed;

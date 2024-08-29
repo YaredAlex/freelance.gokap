@@ -6,10 +6,10 @@ export const useGetProjectById = () => {
   const { sendRequest, loading } = useAxios({
     headers: true,
     method: "GET",
-    url: "/api/user/get-client/project/0",
+    url: "/api/project/detail/:id",
   });
   const getProject = (id: string, cb: (res: AxiosResponse) => void) => {
-    const projectRequestApi = `/api/user/get-client/project/${id}`;
+    const projectRequestApi = `/api/project/detail/${id}`;
     sendRequest(
       {},
       (res) => {

@@ -121,7 +121,7 @@ export type UseAdminProfileType = {
 };
 export const useChangeAdminPassword = () => {
   const { loading, sendRequest } = useAxios({
-    url: "/api/user/change-password/",
+    url: "/api/user/change_password/",
     method: "POST",
     headers: true,
   });
@@ -166,7 +166,7 @@ export const useChangeAdminPassword = () => {
 export const useChangeAdminName = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/`,
+    url: `/api/user/update/`,
     method: "PATCH",
     headers: true,
   });
@@ -210,7 +210,7 @@ export const useChangeAdminName = () => {
   };
 };
 export const useChangeAddress = () => {
-  const addressAPI = `/api/user/get_address/`;
+  const addressAPI = `/api/user/address/`;
   const { loading, sendRequest } = useAxios({
     url: addressAPI,
     method: "PUT",
@@ -290,7 +290,7 @@ export const useChangeAddress = () => {
 export const useChangeAdminPhone = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/${authContext.user.id}`,
+    url: `/api/user/update/${authContext.user.id}`,
     method: "POST",
     headers: true,
   });
