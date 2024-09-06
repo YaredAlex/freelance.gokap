@@ -46,7 +46,7 @@ export const useGetAllFreelancers = () => {
   const { sendRequest, loading } = useAxios({
     headers: true,
     method: "GET",
-    url: "/api/freelancer/all",
+    url: "/api/freelancer/all/details",
   });
   const getFreelancers = (cb: (res: AxiosResponse) => void) => {
     sendRequest(
