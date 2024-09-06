@@ -57,14 +57,15 @@ const useClientHome = () => {
   const getClientProject = useGetClientProject();
   useEffect(() => {
     getClientProject.getClientProject((res) => {
-      const [min, max] = getMinMaxBudget(res.data || []);
+      const data = res.data.serialized_data;
+      const [min, max] = getMinMaxBudget(data || []);
       setBudget({
         maxBudget: max,
         minBudget: min,
       });
       setCardState({
-        projectCreated: res.data.length,
-        projectCompeleted: res.data.filter(
+        projectCreated: data.length,
+        projectCompeleted: data.filter(
           (item: { project_status: number }) => item?.project_status === 2
         ).length,
         investment: 0,

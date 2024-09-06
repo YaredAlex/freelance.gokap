@@ -6,6 +6,7 @@ import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { ButtonPrimary } from "../../../../components/button/button";
 import ProjectDelete from "../../components/client/delete_project";
 import { useEffect } from "react";
+import { ProjectStatusSkeleton } from "../../components/client/project_status_skeleton";
 
 const ProjectStatus = () => {
   const navigate = useNavigate();
@@ -14,7 +15,9 @@ const ProjectStatus = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
   return (
-    <div className={`text-black-variant-1 px-2 max-w-1100 mx-auto`}>
+    <div
+      className={`text-black-variant-1 px-2 max-w-1100 mx-auto position-relative`}
+    >
       {/* Goback to previous  */}
       <button
         className=" transparent w-auto btn-custom-secondary ms-0 p-1 text-black-variant-1"
@@ -30,6 +33,12 @@ const ProjectStatus = () => {
         projectStatus={projectStatus}
         showPortal={projectStatus.showPortal}
       />
+      {/* show loading if project is loading */}
+      {projectStatus.loading && (
+        <>
+          <ProjectStatusSkeleton />
+        </>
+      )}
       <div
         className={`bg-white-v-4 mb-4 
       justify-content-between

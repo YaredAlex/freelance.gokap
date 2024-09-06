@@ -18,21 +18,22 @@ const useGetProfile = () => {
     email: "",
   });
   const onSuccess = (res: AxiosResponse) => {
+    const data = res.data.serialized_data;
     authContext.dispatchUser({
       type: "signin",
       payload: {
-        email: res.data.msg.email,
-        firstname: res.data.msg.firstname,
-        lastname: res.data.msg.lastname,
-        id: res.data.msg.id,
-        type: res.data.msg.user_type,
-        created_at: res.data.msg.created_at,
+        email: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        id: data.id,
+        type: data.user_type,
+        created_at: data.created_at,
       },
     });
     setUserProfile({
-      email: res.data.msg.email,
-      firstname: res.data.msg.firstname,
-      lastname: res.data.msg.lastname,
+      email: data.email,
+      firstname: data.firstname,
+      lastname: data.lastname,
     });
   };
   const onError = (error: AxiosError) => {

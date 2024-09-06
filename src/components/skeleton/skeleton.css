@@ -27,12 +27,10 @@
 .skeleton-title {
   animation: skeleton-loading 1s linear infinite alternate;
   height: 1rem;
-  width: 50%;
 }
 .skeleton-subtitle {
   animation: skeleton-loading 1s linear infinite alternate;
   height: 1rem;
-  width: 40%;
 }
 
 .skeleton-icon {
@@ -44,33 +42,15 @@
 
 .skeleton-link {
   height: 14px;
-  width: 80px;
+  min-width: 100px;
+  animation: skeleton-loading 1s linear infinite alternate;
 }
 .skeleton-title,
 .skeleton-subtitle,
 .skeleton-text,
 .skeleton-line,
-.skeleton-pill {
+.skeleton-pill,
+.skeleton-link {
   border-radius: 6px;
-}
-.skeleton-line {
-  height: 1rem;
-  border-radius: 0.25rem;
-  animation: skeleton-loading 1s linear infinite alternate;
-}
-.skeleton-pill {
-  height: 24px;
-  width: 80px;
-  border-radius: 12px;
-  animation: skeleton-loading 1s linear infinite alternate;
-}
-.skeleton-title {
-  animation: skeleton-loading 1s linear infinite alternate;
-  height: 1rem;
-  width: 50%;
-}
-.skeleton-subtitle {
-  animation: skeleton-loading 1s linear infinite alternate;
-  height: 1rem;
-  width: 40%;
+  min-width: 100px;
 }

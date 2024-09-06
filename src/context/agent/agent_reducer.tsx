@@ -17,7 +17,7 @@ export function agentReducer(state: AgentStateType, action: AgentActionType) {
         profession: "",
         reason_to_join: "",
         resume: null,
-        skill: [],
+        skills: [],
         user: -1,
         where_did_you_heard: "",
       };

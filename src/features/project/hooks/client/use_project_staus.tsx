@@ -9,10 +9,12 @@ import customToast from "../../../../components/custom_toast/custom_toast";
 import { useEffect, useState } from "react";
 import { useAxios } from "../../../../hooks/useAxios";
 import { useForm } from "react-hook-form";
+import { useGetProjectById } from "../../../../hooks/use_get_project_id";
+import TimeAgo from "javascript-time-ago";
 
 const useEditProject = (id: string) => {
   const { sendRequest, loading } = useAxios({
-    url: `/api/user/update_project/${id}`,
+    url: `/api/project/update/${id}/`,
     method: "PUT",
     headers: true,
   });
@@ -28,7 +30,7 @@ export const useDeleteProject = () => {
   const projectContext = useProjectContext();
   const id = projectContext.currentProject.id;
   const { sendRequest, loading } = useAxios({
-    url: `/api/user/delete_project/${id}`,
+    url: `/api/project/delete/${id}`,
     method: "DELETE",
     headers: true,
   });
@@ -83,6 +85,8 @@ const useProjectStatus = () => {
   const [showPortal, setShowPoratal] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const navigate = useNavigate();
+  const getProjectById = useGetProjectById();
+  const timeAgo = new TimeAgo("en-US");
   const [projectStatus, setProjectStatus] = useState([
     {
       name: "Project Assigned",
@@ -107,16 +111,21 @@ const useProjectStatus = () => {
   ]);
 
   useEffect(() => {
-    if (!projectContext.currentProject.client || !id)
-      navigate("/client/dashboard/projects");
-    setEditFrom();
+    //Get project by Id
+    if (!id) navigate("/client/dashboard/projects");
+    else if (projectContext.currentProject.id === -1)
+      getProjectById.getProject(id!, (res) => {
+        const data = res.data.serialized_data;
+        data.created_at = timeAgo.format(new Date(data.created_at));
+        projectContext.setCurrentProject(data);
+        setEditFrom(data);
+      });
+    else setEditFrom(projectContext.currentProject as ClientProjectType);
   }, []);
 
-  const setEditFrom = () => {
-    projectForm.setPersonalSkills(
-      projectContext.currentProject.skills_required
-    );
-    projectForm.setProjectInput(projectContext.currentProject);
+  const setEditFrom = (project: ClientProjectType) => {
+    projectForm.setPersonalSkills(project.skills_required);
+    projectForm.setProjectInput(project);
   };
 
   const handleEdit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -155,6 +164,7 @@ const useProjectStatus = () => {
     );
   };
   return {
+    loading: getProjectById.loading,
     handleEdit,
     projectForm,
     currentProject: projectContext.currentProject,

@@ -5,7 +5,7 @@ import useProjectForm from "./use_project_form";
 const useCreateProject = () => {
   const projectForm = useProjectForm();
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/create_project/",
+    url: "/api/project/create/",
     method: "POST",
     headers: true,
   });

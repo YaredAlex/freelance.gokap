@@ -5,7 +5,7 @@ import customToast from "../../../../components/custom_toast/custom_toast";
 const UseForgetPass = () => {
   const [linkSent, setLinkSent] = useState(false);
   const [email, setEmail] = useState("");
-  const forgetApiLink = "/api/user/password-reset-link/";
+  const forgetApiLink = "/api/user/reset_password/";
   const { loading, sendRequest } = useAxios({
     url: forgetApiLink,
     method: "POST",

@@ -28,12 +28,13 @@ const useClientProject = () => {
   //UseEffect=>
   useEffect(() => {
     getClientProject.getClientProject((res) => {
+      const data = res.data.serialized_data;
       projectDispatch({
         type: "saveproject",
-        payload: res.data,
+        payload: data,
       });
-      setAllData(res.data);
-      const projects = detailConvert(res.data) || [];
+      setAllData(data);
+      const projects = detailConvert(data) || [];
       setCurrentRows(projects?.slice(indexOfFirstRow, indexOfLastRow));
     });
     return () => {

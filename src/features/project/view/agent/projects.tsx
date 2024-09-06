@@ -100,7 +100,7 @@ const ProjectTable = ({
                 //   gotoProjectDetail(project, index);
                 // }}
               >
-                <td className="p-3">{project?.project_id.title}</td>
+                <td className="p-3">{project?.project.title}</td>
                 <td className="p-3">{project?.proposal}</td>
                 <td className="p-3">{project?.status}</td>
 

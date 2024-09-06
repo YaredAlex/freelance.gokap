@@ -8,7 +8,7 @@ export const useChangeAgentDetail = (
   setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const agentContext = useAgentContext();
-  const editAgentDetailApi = "/api/user/update/freelancer_details";
+  const editAgentDetailApi = "/api/freelancer/update/";
   const [errors, setErrors] = useState({
     bio: "",
     skills: "",
@@ -80,7 +80,7 @@ export const useChangeAgentDetail = (
       data,
       (res) => {
         customToast({ message: "edit success", type: "success" });
-        const detail = res.data.data;
+        const detail = res.data.serialized_data;
         agentContext.dispatchAgent({
           type: "setdetail",
           payload: {

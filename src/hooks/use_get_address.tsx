@@ -1,8 +1,9 @@
 import { AxiosResponse } from "axios";
 import { useAxios } from "./useAxios";
+import customToast from "../components/custom_toast/custom_toast";
 
 export const useGetAddress = () => {
-  const addressApi = "/api/user/get_address/";
+  const addressApi = "/api/user/address/";
   const { sendRequest, loading } = useAxios({
     method: "GET",
     url: addressApi,
@@ -16,7 +17,8 @@ export const useGetAddress = () => {
         onsuccess(res);
       },
       (error) => {
-        console.log(error);
+        const message = error.message;
+        customToast({ message: message, type: "error" });
       }
     );
   };

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useAgentDetail = () => {
-  const agentProfileApi = "/api/user/freelancer_details";
+  const agentProfileApi = "/api/freelancer/detail/";
   const agentContext = useAgentContext();
   const navigate = useNavigate();
   const [showEdit, setShowEdit] = useState(false);

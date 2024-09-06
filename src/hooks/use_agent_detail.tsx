@@ -10,7 +10,7 @@ import customToast from "../components/custom_toast/custom_toast";
 import { useAuthContext } from "../context/auth/auth_context";
 
 const useAgentDetail = () => {
-  const agentProfileApi = "/api/user/freelancer_details";
+  const agentProfileApi = "/api/freelancer/detail/";
   const agentContext = useAgentContext();
   const authContext = useAuthContext();
   const navigate = useNavigate();
@@ -44,6 +44,7 @@ const useAgentDetail = () => {
   ];
   const onSuccess = (res: AxiosResponse) => {
     const detail = res.data.serialized_data;
+    // console.log(res);
     agentContext.dispatchAgent({
       type: "setdetail",
       payload: {

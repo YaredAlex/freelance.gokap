@@ -28,7 +28,7 @@ const useAgentBoard = () => {
   const priceFilterList = ["500-1000", "1K-2K", "2k-5K", ">5k"];
   const applicatFilterList = ["0-5", "5-10", ">10"];
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/get_unassigned_project",
+    url: "/api/project/unassigned/",
     headers: true,
     method: "GET",
   });
@@ -37,9 +37,10 @@ const useAgentBoard = () => {
     sendRequest(
       {},
       (res) => {
-        setPostedProject(res.data.data);
-        setProjectHolder(res.data.data);
-        setCurrentRows(res.data.data.slice(indexOfFirstRow, indexOfLastRow));
+        const data = res.data.serialized_data;
+        setPostedProject(data);
+        setProjectHolder(data);
+        setCurrentRows(data.slice(indexOfFirstRow, indexOfLastRow));
         paginate(1);
       },
       (error) => {
@@ -53,6 +54,7 @@ const useAgentBoard = () => {
     window.scrollTo({ top: 0, behavior: "instant" });
     setCurrentRows(projectHolder.slice(indexOfFirstRow, indexOfLastRow));
   }, [currentPage]);
+
   useEffect(() => {
     getUnAssignedProject();
   }, [fetchProject]);
@@ -67,14 +69,17 @@ const useAgentBoard = () => {
       setCurrentRows(postedProject.slice(indexOfFirstRow, indexOfLastRow));
       return;
     }
-    searchProject.searchProject(`title=${searchTerm}`, (res) => {
-      console.log(res);
-      const searchResult = res.data.serialized_data;
-      setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
-      // Reset to first page when searching
-      setCurrentPage(1);
-      setProjectHolder(searchResult);
-    });
+    searchProject.searchProject(
+      `title=${searchTerm}&description=${searchTerm}`,
+      (res) => {
+        console.log(res);
+        const searchResult = res.data.serialized_data;
+        setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
+        // Reset to first page when searching
+        setCurrentPage(1);
+        setProjectHolder(searchResult);
+      }
+    );
     // const filteredData = postedProject.filter(
     //   (item) =>
     //     item.title?.toLowerCase().includes(value.toLowerCase()) ||
@@ -147,7 +152,7 @@ const useSearchProject = () => {
   // 'description'
   // 'min_price'
   // 'title'
-  const searchApi = "/api/user/search_project/?min_applicants=0";
+  const searchApi = "/api/project/search?min_applicants=0";
   const { loading, sendRequest } = useAxios({
     headers: true,
     method: "GET",
@@ -155,7 +160,7 @@ const useSearchProject = () => {
   });
 
   const searchProject = (search: string, cb: (res: AxiosResponse) => void) => {
-    const newApi = `/api/user/search_project/?${search}`;
+    const newApi = `/api/project/search?${search}`;
 
     sendRequest(
       {},

@@ -17,7 +17,7 @@ const useApplyProject = () => {
   const [proposal, setproposal] = useState("");
   const getProject = useGetProjectById();
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/apply_project/",
+    url: "/api/freelancer/apply/",
     headers: true,
     method: "POST",
   });
@@ -42,8 +42,9 @@ const useApplyProject = () => {
     }
     sendRequest(
       {
-        project_id: id,
+        project: id,
         proposal: proposal,
+        file: "",
       },
       () => {
         customToast({ message: "Project applied", type: "success" });

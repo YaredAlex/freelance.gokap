@@ -97,7 +97,7 @@ export type UseAgentProfileType = {
 };
 export const useChangeAgentPassword = () => {
   const { loading, sendRequest } = useAxios({
-    url: "/api/user/change-password/",
+    url: "/api/user/change_password/",
     method: "POST",
     headers: true,
   });
@@ -142,7 +142,7 @@ export const useChangeAgentPassword = () => {
 export const useChangeAgentName = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/`,
+    url: `/api/user/update/`,
     method: "PATCH",
     headers: true,
   });
@@ -182,9 +182,8 @@ export const useChangeAgentName = () => {
   };
 };
 export const useChangeAgentAddress = () => {
-  const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/${authContext.user.id}`,
+    url: `/api/user/adress/`,
     method: "POST",
     headers: true,
   });
@@ -202,7 +201,7 @@ export const useChangeAgentAddress = () => {
     },
   });
 
-  const changeUserName = (data: {
+  const changeUserAddress = (data: {
     country: string;
     state: string;
     city: string;
@@ -225,7 +224,7 @@ export const useChangeAgentAddress = () => {
     register,
     handleSubmit,
     errors,
-    changeUserName,
+    changeUserAddress,
     loading,
     reset,
   };
@@ -233,7 +232,7 @@ export const useChangeAgentAddress = () => {
 export const useChangeAgentPhone = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/${authContext.user.id}`,
+    url: `/api/user/phone/${authContext.user.id}`,
     method: "POST",
     headers: true,
   });
@@ -248,7 +247,7 @@ export const useChangeAgentPhone = () => {
     },
   });
 
-  const changeUserName = (data: { phone: string }) => {
+  const changeUserPhone = (data: { phone: string }) => {
     //validate userinput
     sendRequest(
       data,
@@ -266,7 +265,7 @@ export const useChangeAgentPhone = () => {
     register,
     handleSubmit,
     errors,
-    changeUserName,
+    changeUserPhone,
     loading,
     reset,
   };

@@ -3,6 +3,7 @@ import TimeAgo from "javascript-time-ago";
 import { useAxios } from "../../../../hooks/useAxios";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useAgentContext } from "../../../../context/agent/agent_context";
+import { useNavigate } from "react-router-dom";
 
 type ProjectType = {
   client: number;
@@ -11,15 +12,16 @@ type ProjectType = {
   project_price: number;
   title: string;
   skills_required: string[];
+  id: number;
 };
 
 export type AppliedProjectType = {
   proposal: string;
   applied_at: string;
   status: string;
-  frelancer_id: number;
+  frelancer: number;
   id: number;
-  project_id: ProjectType;
+  project: ProjectType;
 };
 
 const useAgentProject = () => {
@@ -28,6 +30,7 @@ const useAgentProject = () => {
   const [alldata, setAllData] = useState<AppliedProjectType[]>([]);
   const [showPortal, setShowPortal] = useState(false);
   const [showReload, setShowReload] = useState(false);
+  const navigate = useNavigate();
   const rowsPerPage = 5;
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
@@ -36,7 +39,7 @@ const useAgentProject = () => {
   const controller = new AbortController();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/get_applied_project",
+    url: "/api/freelancer/applied/projects/",
     headers: true,
     method: "GET",
   });
@@ -46,7 +49,6 @@ const useAgentProject = () => {
       {},
       (res) => {
         const projects = res.data.serialized_data;
-        console.log(projects);
         setAllData(projects);
         setCurrentRows(projects?.slice(indexOfFirstRow, indexOfLastRow));
         agentContext.dispatchAgent({
@@ -66,7 +68,6 @@ const useAgentProject = () => {
   useEffect(() => {
     //calling get applied project
     getAppliedProject();
-
     return () => {
       controller.abort();
     };
@@ -81,7 +82,10 @@ const useAgentProject = () => {
     const filteredData = alldata.filter(
       (item) =>
         item.proposal?.toLowerCase().includes(value.toLowerCase()) ||
-        item.id?.toString().toLowerCase().includes(value.toLowerCase())
+        item.project.title
+          ?.toString()
+          .toLowerCase()
+          .includes(value.toLowerCase())
     );
     setCurrentRows(filteredData.slice(indexOfFirstRow, indexOfLastRow));
     // Reset to first page when searching
@@ -93,7 +97,7 @@ const useAgentProject = () => {
     //setCurrentProject
     console.log(detail);
     // setCurrentProject(detail);
-    // navigator(`status/${detail.id}`);
+    navigate(`status/${detail.id}`);
   };
   return {
     currentPage,

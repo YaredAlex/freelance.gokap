@@ -8,7 +8,7 @@ const useVerify = () => {
   const [email, setEmail] = useState(authContext.user.email);
   const [verified, setVerified] = useState(false);
   const { loading, sendRequest } = useAxios({
-    url: "/api/user/verify-user/",
+    url: "/api/user/send/verification/",
     method: "POST",
     headers: false,
   });

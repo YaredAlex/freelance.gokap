@@ -17,7 +17,6 @@ const SelectSkill = ({
   maxWidth,
 }: SelectSkillProp) => {
   const [showSkillList, setShowSkillList] = useState(false);
-  console.log(selectedSkill);
   const [skills, setSkills] = useState(skillsList);
   return (
     <div

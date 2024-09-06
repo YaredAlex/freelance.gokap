@@ -12,6 +12,7 @@ import { PostedProjectType } from "../../../../context/projects/project_context"
 const AgentDashboardPostedProject = () => {
   const agentBoard = useAgentBoard();
   const appliedProject = useAgentProject();
+
   return (
     <>
       <div className="position-relative">
@@ -70,7 +71,7 @@ const AgentDashboardPostedProject = () => {
               ) : (
                 agentBoard.currentRows.map((project, index) => {
                   const applied = appliedProject.alldata.find(
-                    (p) => p.project_id.title === project.title
+                    (p) => p.project.id === project.id
                   );
                   if (applied)
                     return (

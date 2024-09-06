@@ -24,10 +24,7 @@ import AgentStats from "./features/stats/views/agent/agent_stats";
 import AgentContextProvider from "./context/agent/agent_context";
 import LetsStart from "./features/authentication/view/onboard/onboard";
 import AgentProjectStatus from "./features/project/view/agent/agent_project_status";
-import AdminRoute from "./routes/adminboard/adminboard_route";
 import AgentDashboardPostedProject from "./features/dashboard/view/agent/agent";
-import AdminDashboardPostedProject from "./features/dashboard/view/admin/admin_board";
-import AssignProject from "./features/assign/view/assign_project";
 import PrivacyPage from "./features/privacy/privacy";
 
 function App() {
@@ -94,15 +91,6 @@ function App() {
                     {/* 
                    
                    */}
-                  </Route>
-                  <Route path="/admin/dashboard" element={<DashBoardRoute />}>
-                    <Route path="" element={<AdminRoute />}>
-                      <Route
-                        path=""
-                        element={<AdminDashboardPostedProject />}
-                      />
-                      <Route path="assign/:id" element={<AssignProject />} />
-                    </Route>
                   </Route>
                 </Routes>
               </ProjectContextProvider>

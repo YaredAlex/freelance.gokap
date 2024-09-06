@@ -121,7 +121,7 @@ export type UseClientProfileType = {
 };
 export const useChangeClientPassword = () => {
   const { loading, sendRequest } = useAxios({
-    url: "/api/user/change-password/",
+    url: "/api/user/change_password/",
     method: "POST",
     headers: true,
   });
@@ -166,7 +166,7 @@ export const useChangeClientPassword = () => {
 export const useChangeClientName = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/`,
+    url: `/api/user/update/`,
     method: "PATCH",
     headers: true,
   });
@@ -194,7 +194,11 @@ export const useChangeClientName = () => {
         setShow(false);
       },
       (error) => {
-        customToast({ message: error.message, type: "error" });
+        const message = error.response?.data as { errors: string };
+        customToast({
+          message: message.errors,
+          type: "error",
+        });
         console.log(error);
       }
     );
@@ -210,7 +214,7 @@ export const useChangeClientName = () => {
   };
 };
 export const useChangeAddress = () => {
-  const addressAPI = `/api/user/get_address/`;
+  const addressAPI = `/api/user/address/`;
   const { loading, sendRequest } = useAxios({
     url: addressAPI,
     method: "PUT",
@@ -288,9 +292,8 @@ export const useChangeAddress = () => {
   };
 };
 export const useChangeClientPhone = () => {
-  const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/update-user/${authContext.user.id}`,
+    url: `/api/user/phone/`,
     method: "POST",
     headers: true,
   });

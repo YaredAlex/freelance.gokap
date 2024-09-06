@@ -11,7 +11,7 @@ const useGetClientProject = () => {
   const projectContext = useProjectContext();
   const [projectData, setProjectData] = useState<ClientProjectType[]>();
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/get-client-project/",
+    url: "/api/client/projects/",
     method: "GET",
     headers: true,
   });
@@ -19,11 +19,12 @@ const useGetClientProject = () => {
     sendRequest(
       {},
       (res) => {
+        const data = res.data.serialized_data;
         projectContext.projectDispatch({
           type: "saveproject",
-          payload: res.data,
+          payload: data,
         });
-        setProjectData(res.data);
+        setProjectData(data);
         if (cb) {
           cb(res);
         }

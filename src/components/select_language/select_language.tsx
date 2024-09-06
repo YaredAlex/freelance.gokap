@@ -122,7 +122,9 @@ const SelectLanguage = ({
                   const { value } = e.target;
                   if (value != "") {
                     setLang((lang) =>
-                      lang.filter((x) => x.name.toLowerCase().includes(value))
+                      lang.filter((x) =>
+                        x.name.toLowerCase().includes(value.toLowerCase())
+                      )
                     );
                   } else setLang(Languages);
                 }}

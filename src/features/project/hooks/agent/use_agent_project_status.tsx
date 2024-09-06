@@ -1,39 +1,49 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useGetProjectById } from "../../../../hooks/use_get_project_id";
 import { AppliedProjectType } from "./use_agent_project";
 import { useAgentContext } from "../../../../context/agent/agent_context";
+import { useAxios } from "../../../../hooks/useAxios";
+import { AxiosResponse } from "axios";
+import customToast from "../../../../components/custom_toast/custom_toast";
 
 const useAgentProjectStatus = () => {
   //Project Status
   const { id } = useParams();
   //   const projectContext = useProjectContext();
   //   const [loading,setLoading] = useState(false);
-  const getProject = useGetProjectById();
   const agentContext = useAgentContext();
   const [propasalData, setProposalData] = useState<
     AppliedProjectType | undefined
   >();
   const navigate = useNavigate();
-  //   const { currentProject, setCurrentProject } = useProjectContext();
+  const getAppliedProjectById = useGetAppliedProjectById();
   useEffect(() => {
-    if (id) {
-      //   getProject.getProject(id, (res) => {
-      //     setCurrentProject(res.data.serialized_data);
-      //     console.log(res.data);
-      //   });
-      //Get proposal from context
-      const res = agentContext.agent.appliedProject.find(
-        (project) => project.id == parseInt(id)
-      );
-      if (!res) navigate("/agent/dashboard/projects");
+    if (!id) {
+      navigate("/agent/dashboard/projects");
+      return;
+    }
+    //Get proposal from context
+    const res = agentContext.agent.appliedProject.find(
+      (project) => project.id == parseInt(id)
+    );
+
+    if (res?.id) {
       setProposalData(res);
-    } else navigate("/agent/dashboard/projects");
+    } else {
+      getAppliedProjectById.getProject(id, (res) => {
+        const data = res.data.serialized_data[0];
+        console.log(res);
+        setProposalData(data);
+      });
+      // getProject.getProject(id, (res) => {
+      //   setProposalData(res.data.serialized_data);
+      // });
+    }
     return () => {};
   }, []);
 
   return {
-    getProjectLoading: getProject.loading,
+    loading: getAppliedProjectById.loading,
     propasalData,
   };
 };
@@ -41,6 +51,36 @@ const useAgentProjectStatus = () => {
 export default useAgentProjectStatus;
 
 export type AgentProjectStatusType = {
-  getProjectLoading: boolean;
+  loading: boolean;
   propasalData: AppliedProjectType | undefined;
+};
+
+const useGetAppliedProjectById = () => {
+  const { sendRequest, loading } = useAxios({
+    headers: true,
+    method: "GET",
+    url: "/api/freelancer/applied/projects/<int:applied_id>/",
+  });
+
+  const getProject = (
+    id: string | number,
+    cb: (res: AxiosResponse) => void
+  ) => {
+    sendRequest(
+      {},
+      (res) => cb(res),
+      (error) => {
+        console.log(error);
+        const message = error.response?.data as { errors: string };
+        customToast({ message: message.errors, type: "error" });
+      },
+      true,
+      `/api/freelancer/applied/projects/${id}/`
+    );
+  };
+
+  return {
+    loading,
+    getProject,
+  };
 };
