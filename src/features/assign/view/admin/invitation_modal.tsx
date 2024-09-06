@@ -7,6 +7,7 @@ import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { ClientProjectType } from "../../../../context/projects/project_context";
 import { useInviteFreelancer } from "../../hook/use_invite";
 import { useAssignProjectType } from "../../hook/use_assign_project";
+import { Fragment } from "react/jsx-runtime";
 
 export const InvitationModal = ({
   project,
@@ -68,7 +69,7 @@ export const InvitationModal = ({
             <tbody className="">
               {invite.agentList.length > 0 ? (
                 invite.agentList?.map((freelancer, index) => (
-                  <>
+                  <Fragment key={index}>
                     {freelancer.is_verified && (
                       <tr key={index} className="border-light-bottom">
                         <td className="p-2 ps-4" style={{ maxWidth: "100px" }}>
@@ -105,7 +106,7 @@ export const InvitationModal = ({
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))
               ) : (
                 <tr className="border-light-bottom">
