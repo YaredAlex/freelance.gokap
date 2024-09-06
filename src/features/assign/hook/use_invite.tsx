@@ -34,7 +34,9 @@ export const useInviteFreelancer = () => {
       { email: freelancer.email, project_id: project.id }
     );
   };
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {};
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(e);
+  };
 
   return {
     invite,
