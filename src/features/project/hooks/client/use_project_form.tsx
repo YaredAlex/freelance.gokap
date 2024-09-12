@@ -31,7 +31,7 @@ const useProjectForm = () => {
     title: "Project title is required",
     submission: "Project date is required",
     description: "Project description is required",
-    budget: "budget is required field",
+    budget: "500 - 20,000 range",
     skill: "at least 2 skill is required",
   };
   const validateProjectInput = () => {
@@ -58,7 +58,11 @@ const useProjectForm = () => {
         return { ...e, title: projectError.title };
       });
     }
-    if (!projectInput.project_price) {
+    if (
+      !projectInput.project_price ||
+      parseInt(projectInput.project_price) < 500 ||
+      parseInt(projectInput.project_price) > 20000
+    ) {
       isValid = false;
       setErrors((e) => {
         return { ...e, project_price: projectError.budget };

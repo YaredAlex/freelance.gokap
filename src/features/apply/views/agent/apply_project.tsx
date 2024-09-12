@@ -9,7 +9,7 @@ import { ApplyProjectSkeleton } from "../../components/apply_skeleton";
 const ApplyProject = () => {
   const applyProject = useApplyProject();
   return (
-    <div className="max-w-1100 mx-auto">
+    <div className="max-w-1100 mx-auto position-relative">
       {/* Goback to previous  */}
       <button
         className="transparent w-auto btn-custom-secondary ms-0 p-1 text-black-variant-1"
@@ -22,7 +22,10 @@ const ApplyProject = () => {
 
       {applyProject.loading && (
         <>
-          <div className="text-black-variant-2 position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
+          <div
+            className="text-black-variant-2 max-w-1100 mx-auto w-100 position-fixed d-flex justify-content-center align-items-center"
+            style={{ height: "100vh", top: "0" }}
+          >
             <CustomLoadingSecondary title="loading" />
           </div>
         </>

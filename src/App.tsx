@@ -26,6 +26,7 @@ import LetsStart from "./features/authentication/view/onboard/onboard";
 import AgentProjectStatus from "./features/project/view/agent/agent_project_status";
 import AgentDashboardPostedProject from "./features/dashboard/view/agent/agent";
 import PrivacyPage from "./features/privacy/privacy";
+import Payment from "./features/payment/view/payment";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
@@ -67,6 +68,7 @@ function App() {
                     <Route path={`account`} element={<Profile />} />
                     <Route path={`invoice`} element={<Invoice />} />
                     <Route path={`support`} element={<Support />} />
+                    <Route path={"payment"} element={<Payment />} />
                   </Route>
                   {/* onboarding */}
 

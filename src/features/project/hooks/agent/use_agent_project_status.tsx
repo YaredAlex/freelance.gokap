@@ -32,7 +32,6 @@ const useAgentProjectStatus = () => {
     } else {
       getAppliedProjectById.getProject(id, (res) => {
         const data = res.data.serialized_data[0];
-        console.log(res);
         setProposalData(data);
       });
       // getProject.getProject(id, (res) => {

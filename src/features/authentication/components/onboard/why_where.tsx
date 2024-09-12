@@ -84,9 +84,12 @@ const WhyAndWhere = ({
             value={hearedAboutUs}
           >
             <option value="">Select</option>
-            <option value="Instagram">Instagram</option>
-            <option value="Youtube">Youtube</option>
-            <option value="Friends">Friends</option>
+            <option value="F">Friends</option>
+            <option value="TM">Team Member</option>
+            <option value="Fa">Facebook</option>
+            <option value="T">Twitter</option>
+            <option value="G">Google</option>
+            <option value="O">Others</option>
           </select>
         </div>
       </div>
