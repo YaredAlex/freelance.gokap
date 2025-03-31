@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useAxios } from "../../../../hooks/useAxios";
 import { AxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
-import { signInApiPoint } from "../../../../util/api";
+import { signInApiPoint, signInGoogleApiPoint } from "../../../../util/api";
 import { GTexts } from "../../../../util/string_constants";
 import secureLocalStorage from "react-secure-storage";
 import customToast from "../../../../components/custom_toast/custom_toast";
@@ -34,7 +34,7 @@ const useSignIn = () => {
   const onError = (error: AxiosError) => {
     const message = JSON.parse(error?.request?.response);
     console.log(message);
-    if (message?.msg == "User not verified" || error.status == 401) {
+    if (message?.errors == "User not verified" || error.status == 401) {
       authContext.dispatchUser({
         type: "signin",
         payload: {
@@ -48,13 +48,13 @@ const useSignIn = () => {
     if (message.errors?.non_field_errors) {
       customToast({ message: GTexts.txt_invalid_email_pass, type: "error" });
       return;
-    } else
-      customToast({ message: "email or password not valid", type: "error" });
+    } else customToast({ message: message.errors, type: "error" });
     //TODO: when user email is not validated
   };
 
   // on success request
   const onSuccess = (res: AxiosResponse) => {
+    console.log("success login", res.data);
     const token = res.data.token.access;
     const refresh = res.data.token.refresh;
     secureLocalStorage.setItem("token", token);
@@ -81,6 +81,9 @@ const useSignIn = () => {
     data.email = data.email.toLowerCase();
     sendRequest(data, onSuccess, onError, false);
   };
+  const signInWithGoogle = async (token: string) => {
+    sendRequest({ token }, onSuccess, onError, false, signInGoogleApiPoint);
+  };
 
   return {
     showPassword,
@@ -90,6 +93,7 @@ const useSignIn = () => {
     onSubmit,
     handleSubmit,
     loading,
+    signInWithGoogle,
   };
 };
 

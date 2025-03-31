@@ -9,10 +9,12 @@ import {
   ButtonFlexOutline,
   ButtonPrimary,
 } from "../../../../components/button/button";
+import { useEffect } from "react";
 
 const Signin = () => {
   const path_to_signup: string = "/signup";
   const icon_color = "#87A781";
+  const GoogleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
   const {
     showPassword,
     setShowPassword,
@@ -20,9 +22,39 @@ const Signin = () => {
     errors,
     onSubmit,
     handleSubmit,
+    signInWithGoogle,
     loading,
   } = useSignIn();
+  // On component mount, check if OAuth returned an access token/id token in URL hash.
+  useEffect(() => {
+    if (window.location.hash) {
+      const hash = window.location.hash.substring(1);
+      const params = new URLSearchParams(hash);
+      // Use id_token to get user info; adjust parameter if needed.
+      const idToken = params.get("id_token") || params.get("access_token");
+      console.log("id token", idToken);
+      if (idToken) {
+        try {
+          // extract user email from token and sign them in
+          signInWithGoogle(idToken);
+          window.history.replaceState(null, "", window.location.pathname);
+        } catch (error) {
+          console.error("Error decoding token:", error);
+        }
+      }
+    }
+  }, []);
 
+  // Function to trigger Google OAuth2.0 signup.
+  const handleGoogleSignIn = () => {
+    const callbackUrl = window.location.origin + "/signin";
+    const googleClientId = GoogleClientID;
+    // Using response_type with both token and id_token to retrieve user info.
+    const targetUrl = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${encodeURIComponent(
+      callbackUrl
+    )}&response_type=token&client_id=${googleClientId}&scope=openid%20email%20profile`;
+    window.location.href = targetUrl;
+  };
   return (
     <AuthLayout loading={loading}>
       <div
@@ -143,7 +175,7 @@ const Signin = () => {
               <span className="px-2">OR</span>
               <hr className="col" />
             </div>
-            <ButtonFlexOutline className="m-0 p-1">
+            <ButtonFlexOutline className="m-0 p-1" onClick={handleGoogleSignIn}>
               <div style={{ height: "42px" }}>
                 <img
                   src={ic_google}

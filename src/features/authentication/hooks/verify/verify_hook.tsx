@@ -33,8 +33,7 @@ const useVerify = () => {
       },
       (error) => {
         const message = JSON.parse(error?.request?.response);
-        console.log(message.errors);
-        if (message.errors?.errors?.non_field_errors) {
+        if (message.errors?.non_field_errors) {
           customToast({
             message: "Invalid email address",
             type: "error",
