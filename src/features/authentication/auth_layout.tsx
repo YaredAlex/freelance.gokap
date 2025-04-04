@@ -1,5 +1,5 @@
 import React from "react";
-import CustomLoading from "../../components/loading_page/custom_loading";
+import { CustomLoadingSecondary } from "../../components/loading_page/custom_loading";
 import CustomToastContainer from "../../components/custom_toast/toast_container";
 import "../../components/button/button.css";
 import Footer from "../../components/footer/footer";
@@ -21,7 +21,7 @@ const AuthLayout = ({
       <div>
         {loading && (
           <div className="text-black-variant-2 position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
-            <CustomLoading />
+            <CustomLoadingSecondary title="Processing" />
           </div>
         )}
         <header
@@ -55,7 +55,7 @@ const AuthLayout = ({
               {children}
             </div>
           ) : (
-            <div>{children}</div>
+            <>{children}</>
           )}
         </div>
         <Footer />

@@ -2,20 +2,20 @@
 import { useForm } from "react-hook-form";
 import { useAxios } from "../../../../hooks/useAxios";
 import { AxiosError, AxiosResponse } from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signInApiPoint, signInGoogleApiPoint } from "../../../../util/api";
 import { GTexts } from "../../../../util/string_constants";
-import secureLocalStorage from "react-secure-storage";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../../context/auth/auth_context";
+import { saveTokensToSecureStorage } from "../../../../context/auth/auth_storage";
 
 const useSignIn = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    watch,
+    getValues,
   } = useForm({
     defaultValues: {
       email: "",
@@ -30,16 +30,27 @@ const useSignIn = () => {
     headers: false,
   });
   const authContext = useAuthContext();
+
+  useEffect(() => {
+    //check if user is already logged in
+    console.log("signInHook called");
+    if (authContext.user.role && authContext.user.is_verified !== null)
+      routeUser({
+        role: authContext.user.role,
+        is_verified: authContext.user.is_verified,
+        email: authContext.user.email,
+      });
+  }, [authContext.user]);
   //Function that handle Error
   const onError = (error: AxiosError) => {
     const message = JSON.parse(error?.request?.response);
     console.log(message);
-    if (message?.errors == "User not verified" || error.status == 401) {
+    if (message?.errors == "User not verified") {
       authContext.dispatchUser({
         type: "signin",
         payload: {
           ...authContext.user,
-          email: watch("email"),
+          email: getValues().email,
         },
       });
       customToast({ message: "User not verified", type: "error" });
@@ -54,29 +65,41 @@ const useSignIn = () => {
 
   // on success request
   const onSuccess = (res: AxiosResponse) => {
-    console.log("success login", res.data);
     const token = res.data.token.access;
     const refresh = res.data.token.refresh;
-    secureLocalStorage.setItem("token", token);
-    secureLocalStorage.setItem("refresh", refresh);
-    //save token secure//
-
+    saveTokensToSecureStorage(token, refresh);
+    const data = res.data;
     authContext.dispatchUser({
       type: "signin",
       payload: {
         ...authContext.user,
-        email: watch("email"),
-        type: res.data.user_type,
+        email: data.email,
+        role: data.role,
+        id: data.user_id,
+        is_verified: data.is_verified,
       },
     });
-
-    //Load project when user log's in
-    // setLoadProject((prev) => !prev);
-    if (res.data.user_type === "client") {
-      navigator("/client/dashboard");
-    } else navigator(`/agent/dashboard`);
+    routeUser({
+      is_verified: data.is_verified,
+      role: data.role,
+      email: data.email,
+    });
   };
 
+  //routing user based on information
+  const routeUser = (data: {
+    role: string;
+    is_verified: boolean | null;
+    email: string;
+  }) => {
+    if (!data.is_verified) {
+      navigator(`/verify-user?email=${data.email}`);
+    } else if (!data.role) {
+      navigator("/preference");
+    } else if (data.role === "client") {
+      navigator("/client/dashboard");
+    } else navigator("/agent/dashboard");
+  };
   const onSubmit = async (data: { email: string; password: string }) => {
     data.email = data.email.toLowerCase();
     sendRequest(data, onSuccess, onError, false);
@@ -92,7 +115,7 @@ const useSignIn = () => {
     errors,
     onSubmit,
     handleSubmit,
-    loading,
+    loading: loading || authContext.loading,
     signInWithGoogle,
   };
 };

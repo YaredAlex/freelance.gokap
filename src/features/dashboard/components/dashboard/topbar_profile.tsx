@@ -1,11 +1,15 @@
 import { MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 import CircularAvatar from "../../../../components/circularAvatar/circular_avatar";
-import { UserAuthType } from "../../../../context/auth/auth_context";
+import {
+  useAuthContext,
+  UserAuthType,
+} from "../../../../context/auth/auth_context";
 import { useThemeContext } from "../../../../context/theme/theme_context";
 
 const TopBarProfile = ({ user }: { user: UserAuthType }) => {
   const { setIsDark, isDark } = useThemeContext();
+  const authContext = useAuthContext();
 
   return (
     <div
@@ -16,7 +20,7 @@ const TopBarProfile = ({ user }: { user: UserAuthType }) => {
     >
       <CircularAvatar
         size={40}
-        text={user.firstname.slice(0, 2)}
+        text={user.firstname?.slice(0, 2) ?? ""}
         bgcolor={"bg-gray-secondary"}
         className={"cursor-pointer"}
       />
@@ -73,11 +77,14 @@ const TopBarProfile = ({ user }: { user: UserAuthType }) => {
               Profile
             </Link>
             <hr />
-            <Link to={"/signin"} className={`text-gray-secondary p-1`}>
+            <button
+              className={`text-gray-secondary p-1`}
+              onClick={authContext.logout}
+            >
               {" "}
               <MdLogout />
               Logout
-            </Link>
+            </button>
             <span></span>
           </div>
         </div>

@@ -10,13 +10,8 @@ import {
 } from "../../../../components/button/button.tsx";
 import ic_google from "../../../../assets/icon/google.png";
 import { useEffect } from "react";
-import axios from "axios";
-interface DecodedToken {
-  email?: string;
-  name?: string;
-  sub?: string;
-  // Add additional fields as needed
-}
+import RegistrationConfirmation from "../registration_confirmation/confirmation.tsx";
+
 const Signup = () => {
   const icon_color = "#87A781";
   const path_to_signin = "/signin";
@@ -27,32 +22,14 @@ const Signup = () => {
     setCheckedbox,
     showPassword,
     setShowPassword,
-    setUserType,
     register,
     handleSubmit,
+    signUpWithGoogle,
     onSubmit,
     loading,
     errors,
+    showRegistrationConfirmation,
   } = useSignUp();
-
-  // Function to create the user in your database.
-  const createUserInDatabase = async (accessToken: string) => {
-    try {
-      // Example API call to your backend to create a user.
-      // await fetch('/api/users', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(user),
-      // });
-      const response = await axios(
-        `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${accessToken}`
-      );
-      // setUserDetails(data);
-      console.log("User data from Google:", response.data);
-    } catch (error) {
-      console.error("Error creating user in database:", error);
-    }
-  };
 
   // On component mount, check if OAuth returned an access token/id token in URL hash.
   useEffect(() => {
@@ -61,11 +38,10 @@ const Signup = () => {
       const params = new URLSearchParams(hash);
       // Use id_token to get user info; adjust parameter if needed.
       const idToken = params.get("id_token") || params.get("access_token");
-      console.log("id token", idToken);
       if (idToken) {
         try {
-          createUserInDatabase(idToken);
           // Clear the hash from the URL if needed.
+          signUpWithGoogle(idToken);
           window.history.replaceState(null, "", window.location.pathname);
         } catch (error) {
           console.error("Error decoding token:", error);
@@ -84,6 +60,9 @@ const Signup = () => {
     )}&response_type=token&client_id=${googleClientId}&scope=openid%20email%20profile`;
     window.location.href = targetUrl;
   };
+
+  if (showRegistrationConfirmation)
+    return <RegistrationConfirmation username="show user name" />;
 
   return (
     <AuthLayout loading={loading}>

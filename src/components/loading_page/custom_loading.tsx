@@ -1,31 +1,30 @@
 import { useThemeContext } from "../../context/theme/theme_context";
 import ReactLoading from "react-loading";
+import "./custom_loading.css";
 const CustomLoading = () => {
   const { isDark } = useThemeContext();
-  if (isDark)
-    return <ReactLoading color="white" type="spin" height={50} width={50} />;
+  const color = isDark ? "#ffffff" : "#333333";
 
-  return <ReactLoading color="black" type="spin" height={50} width={50} />;
+  return (
+    <div className="loader-container">
+      <ReactLoading color={color} type="spin" height={50} width={50} />
+    </div>
+  );
 };
 
 export default CustomLoading;
 
 export const CustomLoadingSecondary = ({ title }: { title: string }) => {
   return (
-    <div
-      className="position-absolute d-flex bg-modal align-items-center justify-content-center w-100 h-100"
-      style={{
-        zIndex: "100",
-        top: 0,
-      }}
-    >
-      {" "}
-      <div
-        className="text-black-variant-2 d-flex align-items-center justify-content-center flex-column bg-white-v-4 p-4 border-card rounded gap-2"
-        style={{ minWidth: "150px", height: "150px" }}
-      >
-        <h6>{title}</h6>
-        <CustomLoading />
+    <div className="loader-overlay">
+      <div className="loader-modal">
+        <h6 className="loader-title">{title}</h6>
+        <div className="loader-animation">
+          <CustomLoading />
+        </div>
+        <div className="loader-progress">
+          <div className="progress-bar"></div>
+        </div>
       </div>
     </div>
   );

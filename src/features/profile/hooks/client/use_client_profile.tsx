@@ -18,7 +18,6 @@ export const useClientProfile = () => {
       const address = res.data;
       authContext.dispatchUser({
         type: "signin",
-
         payload: {
           ...authContext.user,
           address: {
@@ -51,7 +50,7 @@ export const useClientProfile = () => {
     },
     {
       title: "Member Since",
-      value: new Date(authContext.user.created_at).toDateString(),
+      value: new Date(authContext.user.created_at as string).toDateString(),
       onClick: () => {},
     },
   ];

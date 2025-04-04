@@ -1,0 +1,142 @@
+/* Base styles for loader containers */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Overlay style for secondary loader */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal style for secondary loader */
+.loader-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  min-width: 200px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Title style */
+.loader-title {
+  margin: 0;
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: #333;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Animation container */
+.loader-animation {
+  margin: 10px 0;
+  position: relative;
+}
+
+/* Add pulse effect around the spinner */
+.loader-animation::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.03);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Progress bar container */
+.loader-progress {
+  width: 100%;
+  height: 4px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+/* Animated progress bar */
+.progress-bar {
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(90deg, #4776e6, #8e54e9);
+  border-radius: 2px;
+  animation: progressMove 1.5s infinite ease-in-out;
+}
+
+/* Keyframe animations */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+@keyframes progressMove {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(170%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark mode adjustments */
+.dark-theme .loader-modal {
+  background: #2a2a2a;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.dark-theme .loader-title {
+  color: #ffffff;
+}
+
+.dark-theme .loader-progress {
+  background-color: #3a3a3a;
+}
+
+.dark-theme .loader-animation::after {
+  background-color: rgba(255, 255, 255, 0.05);
+}

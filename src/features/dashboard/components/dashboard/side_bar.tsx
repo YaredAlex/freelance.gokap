@@ -15,7 +15,7 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
   const authContext = useAuthContext();
   const iconColor = useThemeContext().isDark ? "white" : "#567";
   useEffect(() => {
-    const type = authContext.user.type;
+    const type = authContext.user.role as string;
     if (type.toLocaleLowerCase() === "client") setNavList(clientNavList);
     else if (type.toLocaleLowerCase() === "freelancer") {
       setNavList(agentNavList);

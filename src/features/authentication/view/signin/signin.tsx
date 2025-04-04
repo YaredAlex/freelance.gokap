@@ -32,7 +32,6 @@ const Signin = () => {
       const params = new URLSearchParams(hash);
       // Use id_token to get user info; adjust parameter if needed.
       const idToken = params.get("id_token") || params.get("access_token");
-      console.log("id token", idToken);
       if (idToken) {
         try {
           // extract user email from token and sign them in

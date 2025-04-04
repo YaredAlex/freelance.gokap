@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAxios } from "../../../../hooks/useAxios";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useAuthContext } from "../../../../context/auth/auth_context";
@@ -13,13 +13,6 @@ const useVerify = () => {
     headers: false,
   });
 
-  useEffect(() => {
-    console.log(authContext.user);
-    if (authContext.user.email != "") {
-      setEmail(authContext.user.email);
-      verifyUser();
-    }
-  }, []);
   const verifyUser = () => {
     sendRequest(
       {
@@ -47,7 +40,7 @@ const useVerify = () => {
   };
   const sendVerification = (e: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
-    if (email.length < 5)
+    if (!email || email.length < 5)
       customToast({ message: "Invail email", type: "error" });
     else {
       verifyUser();

@@ -33,7 +33,6 @@ const useCreateProject = () => {
       },
       (error) => {
         const message = JSON.parse(error?.request?.response);
-        console.log(message);
         customToast({
           message: `${JSON.stringify(message.errors)}`,
           type: "error",

@@ -4,10 +4,9 @@ import { useAxios } from "../../../../hooks/useAxios";
 import { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { GTexts } from "../../../../util/string_constants";
-import { useNavigate } from "react-router-dom";
-import secureLocalStorage from "react-secure-storage";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import customToast from "../../../../components/custom_toast/custom_toast";
+import { saveTokensToSecureStorage } from "../../../../context/auth/auth_storage";
 const useSignUp = () => {
   const signupApi = "/api/user/register/";
   const {
@@ -30,7 +29,9 @@ const useSignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [userType, setUserType] = useState("");
   const [checkbox, setCheckedbox] = useState(false);
-  const navigator = useNavigate();
+  const [showRegistrationConfirmation, setShowRegistrationConfirmation] =
+    useState(false);
+  // const navigator = useNavigate();
   const authContext = useAuthContext();
 
   const { loading, sendRequest } = useAxios({
@@ -49,11 +50,6 @@ const useSignUp = () => {
     console.log(message);
     if (message.errors?.email) {
       customToast({ message: "user email already exists", type: "error" });
-
-      return;
-    }
-    if (message.errors?.user_type) {
-      customToast({ message: "Please select preference!", type: "error" });
       return;
     }
     //TODO: when user email is not validated
@@ -65,21 +61,18 @@ const useSignUp = () => {
     console.log(res);
     const token = res.data.token.access;
     const refresh = res.data.token.refresh;
-    console.log("token  ", token);
-    console.log("refresh  ", refresh);
-    secureLocalStorage.setItem("token", token);
-    secureLocalStorage.setItem("refresh", refresh);
+    saveTokensToSecureStorage(token, refresh);
     authContext.dispatchUser({
       type: "signup",
       payload: {
         ...authContext.user,
-        firstname: watch("firstname"),
-        lastname: watch("lastname"),
-        email: watch("email"),
-        type: watch("user_type"),
+        firstname: res.data.first_name,
+        lastname: res.data.last_name,
+        email: res.data.email,
+        role: res.data.role,
       },
     });
-    navigator(`/verify-user`);
+    setShowRegistrationConfirmation(true);
   };
 
   //onSubmit fun
@@ -89,17 +82,10 @@ const useSignUp = () => {
     email: string;
     password: string;
     cnfpassword: string;
-    user_type: string;
+    user_type: string | null;
   }) => {
-    data.user_type = userType;
+    data.user_type = null;
     data.email = data.email.toLowerCase();
-    if (!userType) {
-      customToast({
-        message: "Please select Preference",
-        type: "error",
-      });
-      return;
-    }
     if (!checkbox) {
       customToast({
         message: "Please agree to term and condition",
@@ -108,6 +94,15 @@ const useSignUp = () => {
     } else sendRequest(data, onSuccess, onError, false);
   };
 
+  const signUpWithGoogle = async (token: string) => {
+    sendRequest(
+      { token },
+      onSuccess,
+      onError,
+      false,
+      "/api/user/register/google/"
+    );
+  };
   return {
     showConfirm,
     setShowConfirm,
@@ -122,6 +117,8 @@ const useSignUp = () => {
     setUserType,
     loading,
     userType,
+    signUpWithGoogle,
+    showRegistrationConfirmation,
   };
 };
 

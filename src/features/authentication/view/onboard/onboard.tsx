@@ -8,7 +8,7 @@ import CustomToastContainer from "../../../../components/custom_toast/toast_cont
 import useGetProfile from "../../../../hooks/use_getprofile";
 import { useEffect } from "react";
 
-const LetsStart = () => {
+const OnBoardPage = () => {
   const onBoard = useOnBoard();
   const authContext = useAuthContext();
   const getProfile = useGetProfile();
@@ -151,4 +151,4 @@ const LetsStart = () => {
   );
 };
 
-export default LetsStart;
+export default OnBoardPage;

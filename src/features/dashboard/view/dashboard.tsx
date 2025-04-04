@@ -4,31 +4,39 @@ import useDashBoard from "../hooks/dashboard/dashboard_hook";
 import CustomLoading from "../../../components/loading_page/custom_loading";
 import DashBoardTopbar from "../components/dashboard/top_bar";
 import SideBar from "../components/dashboard/side_bar";
-import useGetProfile from "../../../hooks/use_getprofile";
-import { useAuthContext } from "../../../context/auth/auth_context";
 import CustomToastContainer from "../../../components/custom_toast/toast_container";
-import useAgentDetail from "../../../hooks/use_agent_detail";
+import { useAuthContext } from "../../../context/auth/auth_context";
+import { useNavigate } from "react-router-dom";
 
 //Passdown auth to childern ** important to consider
-const DashBoard = ({ children }: { children: ReactNode }) => {
+const DashBoard = ({
+  children,
+  role,
+}: {
+  children: ReactNode;
+  role: string;
+}) => {
   const { showNav, setShowNav } = useDashBoard();
-  const profile = useGetProfile();
-  const agentDetail = useAgentDetail();
   const authContext = useAuthContext();
+  const navigator = useNavigate();
   useEffect(() => {
-    profile.getProfile();
-  }, []);
+    console.log(authContext.user);
+    if (!authContext.isInitialized) {
+      authContext.initializeAuth();
+    }
+    if (authContext.isInitialized && authContext.user.role != role)
+      navigator("/signin"); // or some thing about your are trying to access unauthorized page
+  }, [authContext.isInitialized]);
   return (
     <div
       className="
-  min-height-100vh
-  position-relative
-  bg-white-v-3
-  "
+        min-height-100vh
+        position-relative
+        bg-white-v-3
+        "
     >
       <CustomToastContainer />
-      {/* Right side */}
-      {profile.loading || agentDetail.loading ? (
+      {!authContext.isInitialized ? (
         <>
           <div
             className="d-flex align-items-center justify-content-center flex-column text-black-variant-1"

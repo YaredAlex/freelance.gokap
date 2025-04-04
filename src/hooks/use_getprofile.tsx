@@ -16,6 +16,7 @@ const useGetProfile = () => {
     firstname: "",
     lastname: "",
     email: "",
+    type: "",
   });
   const onSuccess = (res: AxiosResponse) => {
     const data = res.data.serialized_data;
@@ -26,19 +27,21 @@ const useGetProfile = () => {
         firstname: data.firstname,
         lastname: data.lastname,
         id: data.id,
-        type: data.user_type,
+        role: data.user_type,
         created_at: data.created_at,
+        is_verified: data.is_verified,
       },
     });
     setUserProfile({
       email: data.email,
       firstname: data.firstname,
       lastname: data.lastname,
+      type: data.user_type,
     });
   };
   const onError = (error: AxiosError) => {
     // const message = JSON.stringify(error?.request?.response);
-    customToast({ message: "Error on Profile", type: "error" });
+    customToast({ message: "Error on fetching profile", type: "error" });
     console.log(error);
   };
 

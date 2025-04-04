@@ -1,23 +1,22 @@
 import { Navigate, Outlet } from "react-router-dom";
-import CustomLoading from "../../components/loading_page/custom_loading";
-import useGetProfile from "../../hooks/use_getprofile";
-import { useEffect } from "react";
+import { useAuthContext } from "../../context/auth/auth_context";
 
-const ProtectedRoutes = () => {
-  const profile = useGetProfile();
-  useEffect(() => {
-    profile.getProfile();
-  }, []);
+export const PreferenceProtectRoute = () => {
+  const { user } = useAuthContext();
+  console.log(user);
+  if (!user.id) {
+    // return <Navigate to={`/signin`} />;
+    return <Outlet />;
+  }
+  if (!user.role) {
+    return <Outlet />; // Allows access to /preference
+  }
 
-  return profile.loading ? (
-    <div className="text-black-variant-2 position-absolute w-100 h-100 d-flex justify-content-center align-items-center bg-dark-blue">
-      <CustomLoading />
-    </div>
-  ) : profile.userProfile.email != "" ? (
-    <Outlet />
+  return user.role === "client" ? (
+    <Navigate to="/client/dashboard" replace />
   ) : (
-    <Navigate to={`/signin`} />
+    <Navigate to="/agent/dashboard" replace />
   );
 };
 
-export default ProtectedRoutes;
+export default PreferenceProtectRoute;

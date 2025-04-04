@@ -23,7 +23,8 @@ export const useAxios = (props:UseAxiosTypes)=>{
     function sendRequest<T>(data:T,onSuccess:(res:AxiosResponse)=>void,onError:(error:AxiosError)=>void,requestRefresh:boolean = true,newUrl?:string,method?:string){
         const token = secureLocalStorage.getItem("token") || ""
         setLoading(true)
-        axios({
+        return new Promise((resolve,reject)=>{
+          axios({
             method:method ? method: props.method,
             url:newUrl ? newUrl : url,
             
@@ -32,6 +33,7 @@ export const useAxios = (props:UseAxiosTypes)=>{
            data
          }).then(res=>{
             setResponse(res.data)
+            resolve(res.data)
             onSuccess(res)
          }
             
@@ -54,13 +56,14 @@ export const useAxios = (props:UseAxiosTypes)=>{
               }catch(e){
                 customToast({message: "Server Error 500", type:"error"});
               }
-             
-            //refreshRef.current = true;
-           
+            reject(e)
          })
-         .finally(()=>
+         .finally(()=>{
             setLoading(false)
+            
+          }
          )
+        }) 
     }
     return {
         loading,

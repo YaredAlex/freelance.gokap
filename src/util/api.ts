@@ -2,5 +2,7 @@
 export const base_url = "http://localhost:8000";
 export const signInApiPoint = "/api/user/login/";
 export const signInGoogleApiPoint = "/api/user/login/google/";
-export const signUpApiPoint = "/api/user/signup";
+export const signUpApiPoint = "/api/user/register";
+export const signUpGoogleApiPoint = "/api/user/register/google/"
+
 //list all apis

@@ -45,7 +45,7 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
                 className="text-capitalize
   text-black-variant-2 mb-0"
               >
-                {user.type}
+                {user.role}
               </h6>
             </div>
           </div>

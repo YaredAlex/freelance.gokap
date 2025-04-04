@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useThemeContext } from "./context/theme/theme_context";
 import Signup from "./features/authentication/view/signup/signup";
 import VerifyUser from "./features/authentication/view/verify/verify";
-import DashBoardRoute from "./routes/dashboard/dashboard_route";
 import ClientDashBoard from "./features/dashboard/view/client/client_dashboard";
 import ResetPassword from "./features/authentication/view/forget_pass/forget_password";
 import Projects from "./features/project/projects";
@@ -22,17 +21,22 @@ import Support from "./features/support/view/support";
 import ApplyProject from "./features/apply/views/agent/apply_project";
 import AgentStats from "./features/stats/views/agent/agent_stats";
 import AgentContextProvider from "./context/agent/agent_context";
-import LetsStart from "./features/authentication/view/onboard/onboard";
 import AgentProjectStatus from "./features/project/view/agent/agent_project_status";
 import AgentDashboardPostedProject from "./features/dashboard/view/agent/agent";
 import PrivacyPage from "./features/privacy/privacy";
 import Payment from "./features/payment/view/payment";
+import Preference from "./features/authentication/view/preference/preference";
+import PreferenceProtectRoute from "./routes/protected/onboarding_route";
+import ClientDashboardRoute from "./routes/dashboard/client_dashboard";
+import AgentDashboardRoute from "./routes/dashboard/agent_dashboard";
+import RegistrationConfirmation from "./features/authentication/view/registration_confirmation/confirmation";
+import OnBoardPage from "./features/authentication/view/onboard/onboard";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setIsDark(true);
+      setIsDark(false);
     } else setIsDark(false);
     console.log(isDark);
   }, []);
@@ -40,9 +44,9 @@ function App() {
   return (
     <>
       <div className={`${isDark ? "dark-theme" : ""}`}>
-        <AuthContextProvider>
-          <AgentContextProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+          <AuthContextProvider>
+            <AgentContextProvider>
               <ProjectContextProvider>
                 <Routes>
                   <Route path="" element={<Signin />} />
@@ -50,10 +54,14 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/privacy" element={<PrivacyPage />} />
                   <Route path="/verify-user" element={<VerifyUser />} />
+                  <Route
+                    path="/confirmation"
+                    element={<RegistrationConfirmation username="Yared" />}
+                  />
                   <Route path={`/reset-password`} element={<ResetPassword />} />
                   <Route
                     path={"/client/dashboard"}
-                    element={<DashBoardRoute />}
+                    element={<ClientDashboardRoute />}
                   >
                     <Route path={``} element={<ClientDashBoard />} />
                     <Route path={`projects`} element={<Projects />} />
@@ -72,10 +80,15 @@ function App() {
                   </Route>
                   {/* onboarding */}
 
-                  <Route path={`/onboard`} element={<LetsStart />} />
-
+                  <Route element={<PreferenceProtectRoute />}>
+                    <Route path={`/preference`} element={<Preference />} />
+                  </Route>
                   {/* Freelancer dashboared */}
-                  <Route path={`/agent/dashboard`} element={<DashBoardRoute />}>
+                  <Route path={`/onboard`} element={<OnBoardPage />} />
+                  <Route
+                    path={`/agent/dashboard`}
+                    element={<AgentDashboardRoute />}
+                  >
                     <Route
                       path={``}
                       element={<AgentDashboardPostedProject />}
@@ -96,9 +109,9 @@ function App() {
                   </Route>
                 </Routes>
               </ProjectContextProvider>
-            </BrowserRouter>
-          </AgentContextProvider>
-        </AuthContextProvider>
+            </AgentContextProvider>
+          </AuthContextProvider>
+        </BrowserRouter>
       </div>
     </>
   );
