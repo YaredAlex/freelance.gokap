@@ -15,12 +15,12 @@ export const useChangeAgentDetail = (
     languages: "",
   });
   const [personalSkill, setPersonalSkill] = useState(
-    agentContext.agent.detail.skills
+    agentContext.agent.detail?.skills ?? []
   );
-  const [bio, setBio] = useState(agentContext.agent.detail.bio);
+  const [bio, setBio] = useState(agentContext.agent.detail?.bio);
   const [lang, setLang] = useState(Languages);
   const [userLanguage, setUserLanguage] = useState(
-    agentContext.agent.detail.language || []
+    agentContext.agent.detail?.language || []
   );
 
   const { sendRequest, loading } = useAxios({
@@ -44,7 +44,7 @@ export const useChangeAgentDetail = (
       });
       valid = false;
     }
-    if (bio.split(" ").length < 50) {
+    if (bio && bio.split(" ").length < 50) {
       setErrors((prev) => {
         return { ...prev, bio: "words should be atleast 50" };
       });
@@ -56,7 +56,7 @@ export const useChangeAgentDetail = (
       });
       valid = false;
     }
-    if (personalSkill.length < 1) {
+    if (personalSkill && personalSkill.length < 1) {
       setErrors((prev) => {
         return { ...prev, skills: "at least one skill is required" };
       });

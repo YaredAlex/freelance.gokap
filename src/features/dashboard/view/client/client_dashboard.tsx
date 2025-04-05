@@ -51,8 +51,8 @@ const ClientDashBoard = () => {
               <div className="d-flex justify-content-between  gap-4">
                 <DashBoardProjectCard
                   icon={<User size={iconSize} />}
-                  title={authContext.user.firstname}
-                  subtitle={authContext.user.email}
+                  title={authContext.user?.firstname}
+                  subtitle={authContext.user?.email}
                 />
                 {/* View all projects */}
                 <div className="" style={{ width: "150px" }}>

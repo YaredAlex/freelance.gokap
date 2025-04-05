@@ -22,17 +22,7 @@ const useRefreshToken = () => {
   };
   const onError = (error: AxiosError) => {
     console.log("refresh error ", error);
-    authContext.dispatchUser({
-      type: "logout",
-      payload: {
-        id: "",
-        firstname: "",
-        lastname: "",
-        email: "",
-        type: "",
-        created_at: "",
-      },
-    });
+    authContext.logout();
     navigator(`/signin`);
     return;
     //Earse user move to login in

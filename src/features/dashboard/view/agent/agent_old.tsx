@@ -114,7 +114,11 @@ const AgentDashBoard = () => {
         >
           <CircularAvatar
             size={130}
-            text={authContext.user?.firstname.slice(0, 2)}
+            text={
+              authContext.user?.firstname
+                ? authContext.user?.firstname.slice(0, 2)
+                : "UK"
+            }
             fontSize={2.5}
             bgcolor="#802cff"
             className={""}

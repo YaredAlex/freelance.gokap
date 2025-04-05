@@ -26,7 +26,11 @@ const TransactionDetail = ({
           size={60}
           bgcolor={"#00bc5a"}
           className={"mt-2"}
-          text={authContext?.user?.firstname.slice(0, 2)}
+          text={
+            authContext.user?.firstname
+              ? authContext.user?.firstname.slice(0, 2)
+              : "UK"
+          }
         />
         <p className="m-0 my-2">
           Paid for <span className="font-weight-500">{detail.project}</span>

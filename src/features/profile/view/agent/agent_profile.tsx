@@ -85,7 +85,7 @@ const Detail = ({ agentDetail }: { agentDetail: UseAgentDetailType }) => {
             <p className="m-0 text-black-variant-2">{list.value}</p>
           ) : (
             <div className="d-flex gap-4 flex-wrap">
-              {list.value.map((val, index) => (
+              {list.value?.map((val, index) => (
                 <RoundedText text={val} key={index} />
               ))}
             </div>

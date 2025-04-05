@@ -9,6 +9,7 @@ import useClientProject, {
 } from "../../hooks/client/useclientproject_hook";
 import { useProjectContext } from "../../../../context/projects/project_context";
 import ProjectTableSkeleton from "../../components/client/project_skeleton";
+import StatusBadge from "../../../../components/status_bage/status_bage";
 // considering passing auth and project here *** important **
 const ClientrProjectTable = () => {
   const clientProject = useClientProject();
@@ -104,16 +105,10 @@ const ProjectTable = ({
                 <td className="p-3">{project?.title}</td>
                 <td className="p-3">{project?.created_at}</td>
                 <td className="p-3">
-                  <span
-                    style={{
-                      color: project.payment_status === 2 ? "green" : "red",
-                    }}
-                  >
-                    {project.payment_status == 1 ? "Paid" : "Pending"}
-                  </span>
+                  <StatusBadge type="payment" code={project.payment_status} />
                 </td>
                 <td className="p-3">
-                  {project?.project_status === 1 ? "assigned" : "unassigned"}
+                  <StatusBadge type="project" code={project.project_status} />
                 </td>
                 <td className="p-3">
                   {new Date(project?.project_deadline).toLocaleDateString()}

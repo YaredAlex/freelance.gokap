@@ -3,14 +3,14 @@ import { AgentActionType, agentReducer } from "./agent_reducer";
 import { AppliedProjectType } from "../../features/project/hooks/agent/use_agent_project";
 
 export type AgentDetailType = {
-  bio: string | null;
-  language: string[];
-  profession: string | null;
-  reason_to_join: string | null;
-  resume: File | null;
-  skills: string[];
-  user: { firstname: string; lastname: string } | null;
-  where_did_you_heard: string | null;
+  bio?: string;
+  language?: string[];
+  profession?: string;
+  reason_to_join?: string;
+  resume?: File;
+  skills?: string[];
+  user?: { firstname: string; lastname: string };
+  where_did_you_heard?: string;
 };
 export type AgentStateType = {
   detail: AgentDetailType | null;

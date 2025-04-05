@@ -23,13 +23,13 @@ export function authReducer(state: UserAuthType, action: AuthActionType): UserAu
       removeTokensFromSecureStorage();
       localStorage.removeItem('info')
       return {
-        id: null,
-        email: null,
-        role: null,
-        firstname: null,
-        lastname: null,
-        created_at:null,
-        is_verified:null,
+        id: undefined,
+        email: undefined,
+        role: undefined,
+        firstname: undefined,
+        lastname: undefined,
+        created_at:undefined,
+        is_verified:undefined,
       };
 
     default:

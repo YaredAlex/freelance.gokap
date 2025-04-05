@@ -14,7 +14,7 @@ export const detailConvert = (
       title: detail.title,
       id: detail.id,
       created_at: timeAgo.format(Date.parse(detail?.created_at)),
-      project_status: detail.project_status === 1 ? "assigned" : "unassigned",
+      project_status: detail.project_status,
       project_price: detail.project_price,
       skills_required: detail.skills_required,
       description: detail.description,

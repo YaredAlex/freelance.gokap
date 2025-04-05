@@ -6,6 +6,7 @@ import {
 } from "../../../../context/projects/project_context";
 import useGetClientProject from "./usegetproject_hook";
 import { detailConvert } from "../../../../hooks/detail_convert";
+import { projectStatusLabel } from "../../../../util/project_data_parser";
 
 const useClientHome = () => {
   const timeAgo = new TimeAgo("en-US");
@@ -22,7 +23,7 @@ const useClientHome = () => {
   const [cardState, setCardState] = useState({
     projectCreated: projectContext?.projectData.data.length,
     projectCompeleted: projectContext?.projectData.data.filter(
-      (item) => item?.project_status === 2
+      (item) => projectStatusLabel(item?.project_status) === "completed"
     ).length,
     investment: 0,
   });
@@ -66,7 +67,8 @@ const useClientHome = () => {
       setCardState({
         projectCreated: data.length,
         projectCompeleted: data.filter(
-          (item: { project_status: number }) => item?.project_status === 2
+          (item: { project_status: number }) =>
+            projectStatusLabel(item?.project_status) === "completed"
         ).length,
         investment: 0,
       });

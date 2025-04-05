@@ -118,9 +118,9 @@ const useSignIn = () => {
       payload: {
         ...authContext.user,
         email: data.email,
-        role: data.role,
-        id: data.user_id,
+        role: data.role ?? null,
         is_verified: data.is_verified,
+        created_at: data.created_at ?? null, // Ensure created_at is not undefined
       },
     });
 
@@ -134,7 +134,7 @@ const useSignIn = () => {
   //routing user based on information
   const routeUser = (data: {
     role: string | null;
-    is_verified: boolean | null;
+    is_verified?: boolean;
     email: string;
   }) => {
     if (redirectPath) navigator(redirectPath);

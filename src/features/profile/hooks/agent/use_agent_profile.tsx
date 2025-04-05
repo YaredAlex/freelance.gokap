@@ -13,7 +13,7 @@ export const useAgentProfile = () => {
   const profileList = [
     {
       title: "Name",
-      value: `${authContext.user.firstname} ${authContext.user.lastname}`,
+      value: `${authContext.user?.firstname} ${authContext.user?.lastname}`,
       onClick: () => {
         setShowEditName(true);
       },
@@ -27,7 +27,9 @@ export const useAgentProfile = () => {
     },
     {
       title: "Member Since",
-      value: new Date(authContext.user.created_at).toDateString(),
+      value: new Date(
+        authContext.user?.created_at ?? Date.now()
+      ).toDateString(),
       onClick: () => {},
     },
   ];
@@ -35,7 +37,7 @@ export const useAgentProfile = () => {
   const accountList = [
     {
       title: "Email",
-      value: authContext.user.email,
+      value: authContext.user?.email,
       onClick: () => {},
     },
     {
@@ -153,8 +155,8 @@ export const useChangeAgentName = () => {
     reset,
   } = useForm({
     defaultValues: {
-      firstname: authContext.user.firstname,
-      lastname: authContext.user.lastname,
+      firstname: authContext.user?.firstname,
+      lastname: authContext.user?.lastname,
     },
   });
 
@@ -232,7 +234,7 @@ export const useChangeAgentAddress = () => {
 export const useChangeAgentPhone = () => {
   const authContext = useAuthContext();
   const { loading, sendRequest } = useAxios({
-    url: `/api/user/phone/${authContext.user.id}`,
+    url: `/api/user/phone/${authContext.user?.id}`,
     method: "POST",
     headers: true,
   });

@@ -29,7 +29,6 @@ import Preference from "./features/authentication/view/preference/preference";
 import ClientDashboardRoute from "./routes/dashboard/client_dashboard";
 import AgentDashboardRoute from "./routes/dashboard/agent_dashboard";
 import OnBoardPage from "./features/authentication/view/onboard/onboard";
-import OnBoardingRoute from "./routes/protected/onboarding_route";
 import NotFound from "./features/404_page";
 
 function App() {
@@ -75,9 +74,7 @@ function App() {
                     <Route path={"payment"} element={<Payment />} />
                   </Route>
                   {/* onboarding */}
-                  <Route element={<OnBoardingRoute />}>
-                    <Route path={`/onboard`} element={<OnBoardPage />} />
-                  </Route>
+                  <Route path={`/onboard`} element={<OnBoardPage />} />
                   {/* Prefrence */}
                   <Route path={`/preference`} element={<Preference />} />
                   {/* Freelancer dashboared */}

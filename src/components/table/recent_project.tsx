@@ -4,6 +4,7 @@ import {
   useProjectContext,
 } from "../../context/projects/project_context";
 import { ButtonPrimaryOutline } from "../button/button";
+import StatusBadge from "../status_bage/status_bage";
 
 const RecentProjectTable = ({ data }: { data: ClientProjectType[] }) => {
   const navigate = useNavigate();
@@ -34,7 +35,9 @@ const RecentProjectTable = ({ data }: { data: ClientProjectType[] }) => {
             data?.map((project, index) => (
               <tr key={index} className="border-light-bottom">
                 <td className="p-2">{project.title}</td>
-                <td className="p-2">{project.project_status}</td>
+                <td className="p-2">
+                  <StatusBadge type="project" code={project.project_status} />
+                </td>
                 <td className="p-2">{project.project_price}</td>
                 <td className="p-2">
                   <div style={{ maxWidth: "200px", height: "max-content" }}>

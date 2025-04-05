@@ -35,7 +35,7 @@ const ChangeAgentDetail = ({
                 changeDetail.setBio(e.target.value);
               }}
               name="bio"
-              value={changeDetail.bio}
+              value={changeDetail.bio ?? ""}
               error={changeDetail.errors.bio}
               placeholder="Your bio"
               title=""
@@ -48,7 +48,7 @@ const ChangeAgentDetail = ({
               <SelectSkill
                 error={changeDetail.errors.skills}
                 showTitle={false}
-                selectedSkill={changeDetail.personalSkill}
+                selectedSkill={changeDetail.personalSkill ?? []}
                 setSelectedSkill={changeDetail.setPersonalSkill}
                 maxWidth="100%"
               />

@@ -7,10 +7,8 @@ import SideBar from "../components/dashboard/side_bar";
 import CustomToastContainer from "../../../components/custom_toast/toast_container";
 import { useAuthContext } from "../../../context/auth/auth_context";
 
-//Passdown auth to childern ** important to consider
 const DashBoard = ({
   children,
-  role,
   initialized,
 }: {
   children: ReactNode;

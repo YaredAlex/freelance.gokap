@@ -6,10 +6,10 @@ function DashBoardProjectCard({
   link,
   subtitle,
 }: {
-  title: string;
+  title?: string | null;
   icon: React.ReactNode;
   link?: string;
-  subtitle: string;
+  subtitle?: string | null;
   className?: string;
 }) {
   return (

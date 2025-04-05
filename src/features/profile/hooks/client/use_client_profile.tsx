@@ -101,12 +101,12 @@ export const useClientProfile = () => {
 export type UseClientProfileType = {
   profileList: {
     title: string;
-    value: string;
+    value?: string | null;
     onClick: () => void;
   }[];
   accountList: {
     title: string;
-    value: string;
+    value?: string | null;
     onClick: () => void;
   }[];
   showEditAddress: boolean;
@@ -182,7 +182,7 @@ export const useChangeClientName = () => {
   });
 
   const changeUserName = (
-    data: { firstname: string; lastname: string },
+    data: { firstname?: string; lastname?: string },
     setShow: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
     //validate userinput

@@ -7,13 +7,13 @@ import { useAxios } from "../../hooks/useAxios";
 import { AxiosError, AxiosResponse } from "axios";
 
 export type UserAuthType = {
-  id: string | null;
-  firstname?: string | null;
-  lastname?: string | null;
-  email?: string | null;
-  role: string | null;
-  created_at: string | null;
-  is_verified: boolean | null;
+  id?: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  role?: string;
+  created_at?: string;
+  is_verified?: boolean;
   phone?: string;
   address?: {
     city: string;
@@ -47,14 +47,16 @@ export const useAuthContext = () => {
 };
 const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, dispatchUser] = useReducer(authReducer, {
-    id: null,
-    firstname: null,
-    lastname: null,
-    email: null,
-    role: null,
-    created_at: null,
-    is_verified: null,
-  });
+    id: undefined,
+    firstname: undefined,
+    lastname: undefined,
+    email: undefined,
+    role: undefined,
+    created_at: undefined,
+    is_verified: undefined,
+    phone: undefined,
+    address: undefined,
+  } as UserAuthType);
   const navigate = useNavigate();
   const [needProfile, setNeedProfile] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);

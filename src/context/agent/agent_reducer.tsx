@@ -13,13 +13,13 @@ export function agentReducer(state: AgentStateType, action: AgentActionType) {
       return state;
     case "removedetail":
       state.detail = {
-        bio: null,
+        bio: undefined,
         language: [],
         profession: "",
         reason_to_join: "",
-        resume: null,
+        resume: undefined,
         skills: [],
-        user: null,
+        user: undefined,
         where_did_you_heard: "",
       };
       return state;

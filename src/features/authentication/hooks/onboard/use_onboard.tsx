@@ -15,6 +15,7 @@ type UserInfo = {
   bio: string;
   skills: string[];
   language: string[];
+  resume?: File;
 };
 
 export type BoardingPropTypes = {
@@ -55,6 +56,7 @@ const useOnBoard = () => {
     bio: "",
     skills: [],
     language: [],
+    resume: undefined,
   });
   const [currentPage, setCurrentPage] = useState(0);
   const [gotoNext, setGotoNext] = useState(false);

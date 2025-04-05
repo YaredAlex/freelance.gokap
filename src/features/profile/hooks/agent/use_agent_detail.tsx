@@ -1,17 +1,18 @@
 import { useAxios } from "../../../../hooks/useAxios";
 import {
-  AgentContextType,
   AgentStateType,
   useAgentContext,
 } from "../../../../context/agent/agent_context";
 import { AxiosError, AxiosResponse } from "axios";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const useAgentDetail = () => {
   const agentProfileApi = "/api/freelancer/detail/";
   const agentContext = useAgentContext();
   const navigate = useNavigate();
+  const [showEdit, setShowEdit] = useState(false);
   const { sendRequest, loading } = useAxios({
     url: agentProfileApi,
     method: "GET",
@@ -51,7 +52,7 @@ const useAgentDetail = () => {
           language: detail.languages,
           profession: detail.profession,
           reason_to_join: detail.reason_to_join,
-          resume: null,
+          resume: undefined,
           skills: detail.skills,
           user: detail.user,
           where_did_you_heard: detail.where_did_you_heard,
@@ -94,25 +95,28 @@ const useAgentDetail = () => {
     loading,
     getDetail,
     detailList,
+    showEdit,
+    setShowEdit,
   };
 };
 
 export default useAgentDetail;
 
-export type UseAgentDetail = {
+export type UseAgentDetailType = {
   loading: boolean;
   getDetail: () => Promise<void>;
-  agentContext: AgentContextType;
   detailList: (
     | {
         title: string;
-        value: string;
+        value?: string;
         onClick: () => void;
       }
     | {
         title: string;
-        value: string[];
+        value?: string[];
         onClick: () => void;
       }
   )[];
+  showEdit: boolean;
+  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };

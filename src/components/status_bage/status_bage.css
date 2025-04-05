@@ -1,0 +1,103 @@
+/* Common Badge Styles */
+.status-badge {
+  display: inline-block;
+  padding: 0.1rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 1rem;
+  text-transform: capitalize;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+/* Project Status Styles */
+.bg-project-completed {
+  background-color: rgba(33, 135, 57, 0.1);
+}
+.text-project-completed {
+  color: #218739;
+}
+.border-project-completed {
+  border: 1px solid rgba(33, 135, 57, 0.3);
+}
+
+.bg-project-ongoing {
+  background-color: rgba(26, 115, 232, 0.1);
+}
+.text-project-ongoing {
+  color: #1a73e8;
+}
+.border-project-ongoing {
+  border: 1px solid rgba(26, 115, 232, 0.3);
+}
+
+.bg-project-paused {
+  background-color: rgba(193, 154, 0, 0.1);
+}
+.text-project-paused {
+  color: #c19a00;
+}
+.border-project-paused {
+  border: 1px solid rgba(193, 154, 0, 0.3);
+}
+
+.bg-project-unassigned {
+  background-color: rgba(108, 117, 125, 0.1);
+}
+.text-project-unassigned {
+  color: #6c757d;
+}
+.border-project-unassigned {
+  border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.bg-project-unknown {
+  background-color: rgba(173, 181, 189, 0.1);
+}
+.text-project-unknown {
+  color: #adb5bd;
+}
+.border-project-unknown {
+  border: 1px solid rgba(173, 181, 189, 0.3);
+}
+
+/* Payment Status Styles */
+.bg-payment-paid {
+  background-color: rgba(33, 135, 57, 0.1);
+}
+.text-payment-paid {
+  color: #218739;
+}
+.border-payment-paid {
+  border: 1px solid rgba(33, 135, 57, 0.3);
+}
+
+.bg-payment-partial {
+  background-color: rgba(133, 100, 4, 0.1);
+}
+.text-payment-partial {
+  color: #856404;
+}
+.border-payment-partial {
+  border: 1px solid rgba(133, 100, 4, 0.3);
+}
+
+.bg-payment-unpaid {
+  background-color: rgba(114, 28, 36, 0.1);
+}
+.text-payment-unpaid {
+  color: #721c24;
+}
+.border-payment-unpaid {
+  border: 1px solid rgba(114, 28, 36, 0.3);
+}
+
+.bg-payment-unknown {
+  background-color: rgba(173, 181, 189, 0.1);
+}
+.text-payment-unknown {
+  color: #adb5bd;
+}
+.border-payment-unknown {
+  border: 1px solid rgba(173, 181, 189, 0.3);
+}

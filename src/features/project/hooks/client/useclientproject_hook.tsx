@@ -29,6 +29,7 @@ const useClientProject = () => {
   useEffect(() => {
     getClientProject.getClientProject((res) => {
       const data = res.data.serialized_data;
+      console.log(data);
       projectDispatch({
         type: "saveproject",
         payload: data,

@@ -7,16 +7,26 @@ import ProgressIndicator from "./progress_indicator";
 import CustomToastContainer from "../../../../components/custom_toast/toast_container";
 import useGetProfile from "../../../../hooks/use_getprofile";
 import { useEffect } from "react";
+import AuthLayout from "../../auth_layout";
+import { useNavigate } from "react-router-dom";
 
 const OnBoardPage = () => {
   const onBoard = useOnBoard();
   const authContext = useAuthContext();
   const getProfile = useGetProfile();
+  const navigator = useNavigate();
   useEffect(() => {
-    getProfile.getProfile();
-  }, []);
+    if (!authContext.isInitialized && !authContext.loading)
+      authContext.initializeAuth(() => navigator("/signin?error=token"));
+    if (authContext.isInitialized && authContext.user?.role !== "freelancer")
+      navigator("/signin?error=unauthorized");
+  }, [authContext.isInitialized]);
+
   return (
-    <>
+    <AuthLayout
+      loading={!authContext.isInitialized || onBoard.loading}
+      signlayout={false}
+    >
       <CustomToastContainer />
       <div
         className="bg-white-v-3
@@ -147,7 +157,7 @@ const OnBoardPage = () => {
           </div>
         </div>
       </div>
-    </>
+    </AuthLayout>
   );
 };
 

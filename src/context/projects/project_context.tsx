@@ -19,8 +19,8 @@ export type ClientProjectType = {
   client: string;
   created_at: string;
   updated_at: string;
-  payment_status: number | string;
-  project_status: number | string;
+  payment_status: number;
+  project_status: number;
   project_assigned_status: boolean;
   applied_count: number;
 };
@@ -33,11 +33,11 @@ export type PostedProjectType = {
   project_deadline: string;
   skills_required: string[];
   client: string;
-  created_at?: string;
-  updated_at?: string;
-  payment_status?: number | string;
-  project_status?: number | string;
-  project_assigned_status?: boolean;
+  created_at: string;
+  updated_at: string;
+  payment_status: number;
+  project_status: number;
+  project_assigned_status: boolean;
   applied_count: number;
 };
 type ProjectContextType = {
@@ -62,8 +62,8 @@ const defaultProject: ClientProjectType = {
   client: "",
   created_at: "",
   updated_at: "",
-  payment_status: "",
-  project_status: "",
+  payment_status: 0,
+  project_status: 0,
   project_assigned_status: false,
   applied_count: 0,
 };

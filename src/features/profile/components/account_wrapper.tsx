@@ -7,7 +7,7 @@ const AccountWrapper = ({
   title: string;
   lists: {
     title: string;
-    value: string;
+    value?: string | null;
     onClick: () => void;
   }[];
 }) => {
