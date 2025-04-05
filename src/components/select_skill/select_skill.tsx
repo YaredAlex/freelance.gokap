@@ -1,174 +1,72 @@
-import { CloseCircle } from "iconsax-react";
+import React, { useState, useEffect } from "react";
 import { skillsList } from "../../util/constant/skill_constant";
-import { useState } from "react";
+import CustomDropdownSelect, {
+  DropdownOption,
+} from "../dropdown/custom_dropdown";
 
-type SelectSkillProp = {
+type SelectSkillProps = {
   error: string;
   setSelectedSkill: React.Dispatch<React.SetStateAction<string[]>>;
   selectedSkill: string[];
   showTitle?: boolean;
   maxWidth?: string;
+  minSkills?: number;
 };
-const SelectSkill = ({
+
+const SelectSkill: React.FC<SelectSkillProps> = ({
   selectedSkill,
   setSelectedSkill,
   showTitle = true,
   error,
-  maxWidth,
-}: SelectSkillProp) => {
-  const [showSkillList, setShowSkillList] = useState(false);
-  const [skills, setSkills] = useState(skillsList);
+  maxWidth = "400px",
+  minSkills = 2,
+}) => {
+  const [skills, setSkills] = useState<DropdownOption[]>(() => {
+    // Initialize with selected skills marked
+    return skillsList.map((skill) => ({
+      ...skill,
+      isSelected: selectedSkill.includes(skill.name),
+    }));
+  });
+
+  // Display error if minimum skills requirement not met
+  const [validationError, setValidationError] = useState<string>("");
+
+  useEffect(() => {
+    if (selectedSkill.length < minSkills) {
+      setValidationError(`At least ${minSkills} skills are required`);
+    } else {
+      setValidationError("");
+    }
+  }, [selectedSkill, minSkills]);
+
   return (
     <div
-      className={`p-2 `}
+      className="skill-select-container"
       style={{
         minHeight: "100px",
-        maxWidth: `${maxWidth ? maxWidth : "400px"}`,
+        maxWidth: maxWidth,
         width: "100%",
+        padding: "0.5rem",
       }}
     >
       {showTitle && (
-        <div>
-          <h6 className={"font-weight-400 text-black-variant-1"}>Skill</h6>
-          <p className="text-black-variant-2">Skill required for the project</p>
+        <div className="skill-header">
+          <h6 className="skill-title">Skills</h6>
+          <p className="skill-subtitle">Skills required for the project</p>
         </div>
       )}
-      <div
-        className={`
-            rounded
-            w-100
-            p-2
-            d-flex flex-column
-            gap-2
-            ${error ? "red-border" : "border-card"}
-            `}
-        style={{
-          maxWidth: "100%",
-          minHeight: "100px",
-        }}
-      >
-        {/*Skills list view  */}
-        <div
-          className={"d-flex flex-wrap  gap-2 pb-2"}
-          style={{
-            maxWidth: "100%",
-          }}
-        >
-          {selectedSkill &&
-            selectedSkill.map((skill, index) => (
-              <div
-                key={index}
-                className={`
-                    border-card p-1
-                    d-flex
-                    justify-content-between
-                    align-items-center
-                    gap-2
-                    px-2
-                    text-sm
-                    `}
-                style={{
-                  whiteSpace: "nowrap",
-                  borderRadius: "20px",
-                }}
-              >
-                {skill}
-                <CloseCircle
-                  onClick={() => {
-                    const filtered = selectedSkill.filter((sk) => sk != skill);
-                    const pos = skillsList.findIndex((sk) => sk.name === skill);
-                    skillsList[pos].isSelected = false;
-                    setSelectedSkill(filtered);
-                  }}
-                  className={`cursor-pointer`}
-                />
-              </div>
-            ))}
-        </div>
-        {/* Input for skill */}
-        <div
-          className={`
-              position-relative
-              border-green-variant-1
-                rounded
-                  p-1 `}
-          style={{
-            maxWidth: "300px",
-            zIndex: "50",
-          }}
-        >
-          <div
-            className={`
-              d-flex border-card rounded bg-white-smoke align-items-center px-3`}
-          >
-            <input
-              type="text"
-              placeholder="your skills"
-              name="skills_required"
-              className={`
-                custom-input 
-                w-100
-                `}
-              onFocus={() => setShowSkillList(true)}
-              onChange={(e) => {
-                const { value } = e.target;
-                let filtered;
-                if (value) {
-                  filtered = skillsList.filter(
-                    (skill) =>
-                      !skill.isSelected &&
-                      skill.name.toLowerCase().includes(value.toLowerCase())
-                  );
-                  setSkills(filtered);
-                } else setSkills(skillsList);
-              }}
-            />
-            {showSkillList && (
-              <span
-                className={`
-                cursor-pointer
-                `}
-                onClick={() => setShowSkillList(false)}
-              >
-                <CloseCircle />
-              </span>
-            )}
-          </div>
-          <ul
-            className={`bg-white-v-4 rounded
-              long-list-wrapper
-              ${showSkillList ? "active" : ""}
-              `}
-          >
-            {skills.map(
-              (skill, index) =>
-                !skill.isSelected && (
-                  <li
-                    className="cursor-pointer"
-                    key={index}
-                    onClick={() => {
-                      setSelectedSkill([...selectedSkill, skill.name]);
-                      skills[index].isSelected = true;
-                      setSkills(skillsList);
-                      // const skillWrapper =
-                      //   document.getElementById("skill-wrapper");
-                      // if (skillWrapper)
-                      //   skillWrapper.scrollLeft = skillWrapper.scrollWidth;
-                    }}
-                  >
-                    {skill.name}
-                  </li>
-                )
-            )}
-          </ul>
-        </div>
-        {/*  */}
 
-        {/*  */}
-      </div>
-      {error && (
-        <span className="text-error text-xsm d-block ps-3">{error}</span>
-      )}
+      <CustomDropdownSelect
+        options={skills}
+        setOptions={setSkills}
+        selectedItems={selectedSkill}
+        setSelectedItems={setSelectedSkill}
+        placeholder="Your skills"
+        error={error || validationError}
+        showSelectedItemsInline={true}
+        className="skill-dropdown"
+      />
     </div>
   );
 };

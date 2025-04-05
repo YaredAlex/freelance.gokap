@@ -25,7 +25,7 @@ const OnBoardPage = () => {
   justify-content-center
   pb-1
   "
-        style={{ overflow: "hidden" }}
+        style={{ overflow: "hidden", width: "100%" }}
       >
         {onBoard.loading ||
           (getProfile.loading && (

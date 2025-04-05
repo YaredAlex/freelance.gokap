@@ -1,6 +1,5 @@
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useAxios } from "../../../../hooks/useAxios";
-import AuthLayout from "../../auth_layout";
 import { FaUserTie, FaLaptopCode } from "react-icons/fa";
 import "./preference.css";
 import { useState } from "react";
@@ -16,8 +15,8 @@ const usePreference = () => {
   const [selectedPreference, setSelectedPreference] = useState<string | null>(
     null
   );
-  const navigator = useNavigate();
   const authContext = useAuthContext();
+  const navigator = useNavigate();
   const handlePreferenceClick = (preference: string) => {
     setSelectedPreference(preference);
   };
@@ -29,16 +28,11 @@ const usePreference = () => {
           message: `${JSON.stringify(res.data.msg)}`,
           type: "success",
         });
-        authContext.dispatchUser({
-          type: "update_profile",
-          payload: {
-            ...authContext.user,
-            role: res.data.user_type,
-          },
-        });
+        //get profile after updating preference
+        authContext.getProfile(true);
         if (selectedPreference.toLowerCase() == "client")
           navigator("/client/dashboard");
-        else navigator("/freelancer/dashboard");
+        else navigator("/agent/dashboard");
       },
       (error) => {
         const message = JSON.parse(error?.request?.response);
@@ -72,51 +66,47 @@ const UserPreference = () => {
   const preferenceController = usePreference();
 
   return (
-    <AuthLayout loading={preferenceController.loading} signlayout={false}>
-      <div className="preference-container">
-        <h2 className="preference-heading">Select Your Preference</h2>
-        <p className="preference-subheading">
-          Please select your preference to continue.
-        </p>
-        <div className="preference-options">
-          <button
-            className={`preference-button ${
-              preferenceController.selectedPreference === "client"
-                ? "active"
-                : ""
-            }`}
-            onClick={() => preferenceController.handlePreferenceClick("client")}
-          >
-            <div className="preference-icon">
-              <FaUserTie size={24} />
-            </div>
-            <p className="preference-label">Client</p>
-          </button>
-          <button
-            className={`preference-button ${
-              preferenceController.selectedPreference === "freelancer"
-                ? "active"
-                : ""
-            }`}
-            onClick={() =>
-              preferenceController.handlePreferenceClick("freelancer")
-            }
-          >
-            <div className="preference-icon">
-              <FaLaptopCode size={24} />
-            </div>
-            <p className="preference-label">Freelancer</p>
-          </button>
-        </div>
+    <div className="preference-container">
+      <h2 className="preference-heading">Select Your Preference</h2>
+      <p className="preference-subheading">
+        Please select your preference to continue.
+      </p>
+      <div className="preference-options">
         <button
-          className="continue-button"
-          type="button"
-          onClick={preferenceController.handleContinueClick}
+          className={`preference-button ${
+            preferenceController.selectedPreference === "client" ? "active" : ""
+          }`}
+          onClick={() => preferenceController.handlePreferenceClick("client")}
         >
-          Continue
+          <div className="preference-icon">
+            <FaUserTie size={24} />
+          </div>
+          <p className="preference-label">Client</p>
+        </button>
+        <button
+          className={`preference-button ${
+            preferenceController.selectedPreference === "freelancer"
+              ? "active"
+              : ""
+          }`}
+          onClick={() =>
+            preferenceController.handlePreferenceClick("freelancer")
+          }
+        >
+          <div className="preference-icon">
+            <FaLaptopCode size={24} />
+          </div>
+          <p className="preference-label">Freelancer</p>
         </button>
       </div>
-    </AuthLayout>
+      <button
+        className="continue-button"
+        type="button"
+        onClick={preferenceController.handleContinueClick}
+      >
+        Continue
+      </button>
+    </div>
   );
 };
 

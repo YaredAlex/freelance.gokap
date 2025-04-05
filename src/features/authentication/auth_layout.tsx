@@ -5,6 +5,7 @@ import "../../components/button/button.css";
 import Footer from "../../components/footer/footer";
 import GITLogo from "../../components/logo/logo";
 import "./auth.css";
+import { useAuthContext } from "../../context/auth/auth_context";
 type AuthLayoutType = {
   loading: boolean;
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const AuthLayout = ({
   children,
   signlayout = true,
 }: AuthLayoutType) => {
+  const authContext = useAuthContext();
   return (
     <>
       <div>
@@ -30,7 +32,9 @@ const AuthLayout = ({
         >
           <div className="max-w-1200 mx-auto d-flex align-items-center d-flex align-items-center justify-content-between">
             <GITLogo />
-            <div>{/* <User /> */}</div>
+            {authContext.user?.id && (
+              <button onClick={authContext.logout}>Logout</button>
+            )}
           </div>
         </header>
         <div
@@ -45,11 +49,10 @@ const AuthLayout = ({
           {signlayout ? (
             <div
               className="bg-white-v-5
-        d-flex 
-        rounded 
-        sign-wrapper
-        my-3
-        "
+                      d-flex 
+                      rounded 
+                      sign-wrapper
+                      my-3"
             >
               {" "}
               {children}

@@ -5,7 +5,7 @@ import { useAuthContext } from "../../../../context/auth/auth_context";
 
 const useVerify = () => {
   const authContext = useAuthContext();
-  const [email, setEmail] = useState(authContext.user.email);
+  const [email, setEmail] = useState(authContext.user?.email);
   const [verified, setVerified] = useState(false);
   const { loading, sendRequest } = useAxios({
     url: "/api/user/send/verification/",

@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, useContext, useReducer, useState } from "react";
 import { AuthActionType, authReducer } from "./auth_reducer";
 import { useNavigate } from "react-router-dom";
 import { getTokensFromSecureStorage } from "./auth_storage";
@@ -30,24 +24,16 @@ export type UserAuthType = {
 };
 
 type AuthContextType = {
-  user: UserAuthType;
+  user: UserAuthType | null;
   dispatchUser: React.Dispatch<AuthActionType>;
   loading: boolean;
   logout: () => void;
-  getProfile: () => void;
+  getProfile: (force: boolean) => void;
   isInitialized: boolean;
   initializeAuth: (callback?: () => void) => void;
 };
 const defaultState: AuthContextType = {
-  user: {
-    id: null,
-    firstname: "",
-    lastname: "",
-    email: null,
-    role: null,
-    created_at: "",
-    is_verified: null,
-  },
+  user: null,
   dispatchUser: () => {},
   loading: false,
   logout: () => {},
@@ -65,7 +51,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     firstname: null,
     lastname: null,
     email: null,
-    role: "",
+    role: null,
     created_at: null,
     is_verified: null,
   });
@@ -76,12 +62,13 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const initializeAuth = async (callback?: () => void) => {
     const { token } = getTokensFromSecureStorage();
     if (!token) {
+      //do something is there is no-token
       if (callback) callback();
-      return navigate("/signin");
+      return;
     }
     //get user information from localStorage
     const userData = JSON.parse(localStorage.getItem("info") ?? "{}");
-    if (userData.firstname) {
+    if (userData.role) {
       dispatchUser({
         type: "update_profile",
         payload: {
@@ -89,10 +76,10 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
           ...userData,
         },
       });
+      setIsInitialized(true);
     }
     //or else fetchProfile
     else getProfile();
-    setIsInitialized(true);
   };
 
   const profileApi = "/api/user/profile/";
@@ -115,6 +102,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
         is_verified: data.is_verified,
       },
     });
+    setIsInitialized(true);
     setNeedProfile(false);
   };
   const onError = (error: AxiosError) => {
@@ -124,9 +112,11 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const getProfile = async (force: boolean = false) => {
-    if (needProfile || force) await sendRequest({}, onSuccess, onError, true);
+    if (needProfile || force) {
+      setIsInitialized(false);
+      sendRequest({}, onSuccess, onError, true);
+    }
   };
-
   const logout = () => {
     dispatchUser({
       type: "logout",

@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BoardingPropTypes } from "../../hooks/onboard/use_onboard";
 import SelectSkill from "../../../../components/select_skill/select_skill";
+import "./user_profession_skill.css";
 
-const UserProfessionAndSkill = ({
+const UserProfessionAndSkill: React.FC<BoardingPropTypes> = ({
   setGotoNext,
   setUserInfo,
   userInfo,
-}: BoardingPropTypes) => {
+}) => {
   const [personalSkills, setPersonalSkills] = useState<string[]>(
-    userInfo.skills
+    userInfo.skills || []
   );
-  // const [skills, setSkills] = useState(skillsList);
-  const [profession, setProfession] = useState(userInfo.profession);
+  const [profession, setProfession] = useState(userInfo.profession || "");
+  const [error, setError] = useState<string>("");
+
   const professionList = [
     "Designer/Artist",
     "Engineer",
@@ -23,75 +25,72 @@ const UserProfessionAndSkill = ({
   ];
 
   useEffect(() => {
-    if (personalSkills.length >= 2) {
-      setUserInfo((info) => {
-        return { ...info, skills: personalSkills };
-      });
+    // Validate profession and skills
+    if (!profession) {
+      setError("Please select your profession");
+      setGotoNext(false);
+      return;
     }
-    // Checking if all requirement are met
-    if (profession && personalSkills.length >= 2) setGotoNext(true);
-    else setGotoNext(false);
+
+    if (personalSkills.length < 2) {
+      setError("At least 2 skills are required");
+      setGotoNext(false);
+      return;
+    }
+
+    // Clear error and proceed if validation passes
+    setError("");
+    setGotoNext(true);
+    setUserInfo((info) => ({
+      ...info,
+      profession,
+      skills: personalSkills,
+    }));
   }, [personalSkills, profession]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    if (value)
-      setUserInfo((info) => {
-        return { ...info, [name]: value };
-      });
-    console.log(value);
-    setProfession(value);
+  const handleProfessionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setProfession(e.target.value);
   };
 
   return (
-    <div className="text-black-variant-1 ">
-      {/* What is your profession */}
-      <div
-        className="d-flex 
-          mt-3
-        flex-column 
-        align-items-center
-        max-width-400-center
-        "
-      >
-        <p className="text-center py-2">What is your profession?</p>
-        <select
-          className={`
-        p-2
-        rounded
-        text-black-variant-1
-        bg-white-smoke
-        border-card
-        w-100
-        `}
-          name="profession"
-          onChange={handleChange}
-          value={profession}
-        >
-          <option value="">Select</option>
-          {professionList.map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
+    <div className="profession-skill-container">
+      {/* Profession Selection */}
+      <div className="profession-section">
+        <h3 className="section-title">What is your profession?</h3>
+        <div className="profession-select-wrapper">
+          <select
+            className={`profession-select ${!profession ? "empty" : ""}`}
+            name="profession"
+            onChange={handleProfessionChange}
+            value={profession}
+          >
+            <option value="">Select profession</option>
+            {professionList.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          {!profession && (
+            <span className="profession-error">
+              Please select your profession
+            </span>
+          )}
+        </div>
       </div>
-      {/* skills you have */}
-      <div
-        className={`d-flex 
-          mt-3
-        flex-column 
-        align-items-center
-        
-        `}
-      >
-        What skill do you have?
-        <span className="text-xsm">(at least 2 skill is required)</span>
+
+      {/* Skills Selection */}
+      <div className="skills-section">
+        <h3 className="section-title">
+          What skills do you have?
+          <span className="required-hint">(at least 2 skills required)</span>
+        </h3>
         <SelectSkill
-          error=""
+          error={error}
           selectedSkill={personalSkills}
           setSelectedSkill={setPersonalSkills}
           showTitle={false}
+          minSkills={2}
         />
       </div>
     </div>

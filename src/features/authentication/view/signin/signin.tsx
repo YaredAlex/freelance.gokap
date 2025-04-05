@@ -10,11 +10,13 @@ import {
   ButtonPrimary,
 } from "../../../../components/button/button";
 import { useEffect } from "react";
+import { useAuthContext } from "../../../../context/auth/auth_context";
 
 const Signin = () => {
   const path_to_signup: string = "/signup";
   const icon_color = "#87A781";
   const GoogleClientID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const authContext = useAuthContext();
   const {
     showPassword,
     setShowPassword,
@@ -40,6 +42,8 @@ const Signin = () => {
         } catch (error) {
           console.error("Error decoding token:", error);
         }
+      } else if (!authContext.isInitialized && !authContext.loading) {
+        authContext.initializeAuth();
       }
     }
   }, []);

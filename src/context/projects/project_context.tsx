@@ -9,7 +9,7 @@ import {
 import { ProjectActionType, projectReducer } from "./project_reducer";
 
 export type ClientProjectType = {
-  id: number;
+  id: number | null;
   project_category: string;
   title: string;
   description: string;
@@ -25,7 +25,7 @@ export type ClientProjectType = {
   applied_count: number;
 };
 export type PostedProjectType = {
-  id: number;
+  id: number | null;
   project_category: string;
   title: string;
   description: string;
@@ -52,7 +52,7 @@ type ProjectContextType = {
 };
 
 const defaultProject: ClientProjectType = {
-  id: -1,
+  id: null,
   project_category: "",
   title: "",
   description: "",

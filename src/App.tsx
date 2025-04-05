@@ -26,11 +26,12 @@ import AgentDashboardPostedProject from "./features/dashboard/view/agent/agent";
 import PrivacyPage from "./features/privacy/privacy";
 import Payment from "./features/payment/view/payment";
 import Preference from "./features/authentication/view/preference/preference";
-import PreferenceProtectRoute from "./routes/protected/onboarding_route";
 import ClientDashboardRoute from "./routes/dashboard/client_dashboard";
 import AgentDashboardRoute from "./routes/dashboard/agent_dashboard";
 import RegistrationConfirmation from "./features/authentication/view/registration_confirmation/confirmation";
+import PreferenceProtectRoute from "./routes/protected/preference_route";
 import OnBoardPage from "./features/authentication/view/onboard/onboard";
+import OnBoardingRoute from "./routes/protected/onboarding_route";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
@@ -83,8 +84,11 @@ function App() {
                   <Route element={<PreferenceProtectRoute />}>
                     <Route path={`/preference`} element={<Preference />} />
                   </Route>
+                  <Route element={<OnBoardingRoute />}>
+                    <Route path={`/onboard`} element={<OnBoardPage />} />
+                  </Route>
+
                   {/* Freelancer dashboared */}
-                  <Route path={`/onboard`} element={<OnBoardPage />} />
                   <Route
                     path={`/agent/dashboard`}
                     element={<AgentDashboardRoute />}

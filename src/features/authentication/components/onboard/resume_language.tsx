@@ -1,92 +1,100 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BoardingPropTypes } from "../../hooks/onboard/use_onboard";
 import { Languages } from "../../../../util/constant/language_constant";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { FaFile } from "react-icons/fa6";
 import SelectLanguage from "../../../../components/select_language/select_language";
+import "./resume_language.css";
 
-const ResumeAndLanguage = ({
+const ResumeAndLanguage: React.FC<BoardingPropTypes> = ({
   setGotoNext,
   setUserInfo,
   userInfo,
-}: BoardingPropTypes) => {
-  const [resume, setResume] = useState<File | null>();
+}) => {
+  const [resume, setResume] = useState<File | null>(userInfo.resume || null);
   const [lang, setLang] = useState(Languages);
-  const [userLanguage, setUserLanguage] = useState(userInfo.language);
-  // const [userLanguage, setUserLanguage] = useState([
-  //   {
-  //     language: "English",
-  //     level: "good",
-  //   },
-  // ]);
+  const [userLanguage, setUserLanguage] = useState<string[]>(
+    userInfo.language || []
+  );
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    const size = resume?.size ? resume?.size / 1000_000 : null;
-    if (size && size > 2)
-      customToast({
-        message: `Resume size ${size}MB greater than 2MB`,
-        type: "error",
-      });
-    if (size && size <= 2 && userLanguage.length >= 1) {
-      const lang = userLanguage.map((lang) => lang);
-      setUserInfo((info) => {
-        return { ...info, language: lang, resume: resume };
-      });
-      setGotoNext(true);
+    // Validate resume size
+    if (resume) {
+      const size = resume.size / 1000000;
+      if (size > 2) {
+        setError(`Resume size ${size.toFixed(2)}MB exceeds the 2MB limit`);
+        customToast({
+          message: `Resume size ${size.toFixed(2)}MB exceeds the 2MB limit`,
+          type: "error",
+        });
+        return;
+      }
     }
+
+    // Validate language selection
     if (userLanguage.length < 1) {
+      setError("At least one language is required");
       setGotoNext(false);
-      customToast({
-        message: `at lease one language is required`,
-        type: "error",
-      });
+      return;
     }
-    console.log(userLanguage);
+    setError("");
+
+    if ((resume || userInfo.resume) && userLanguage.length >= 1) {
+      setUserInfo((info) => ({
+        ...info,
+        language: userLanguage,
+        resume: resume || info.resume,
+      }));
+      setGotoNext(true);
+    } else {
+      setGotoNext(false);
+    }
   }, [resume, userLanguage]);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setResume(files[0]);
+    }
+  };
+
   return (
-    <div>
-      <div className={`max-width-400-center mt-4`}>
-        <p className={`text-center  text-black-variant-1 p-2`}>
-          Upload Your Resume
-        </p>
-        <div
-          className={`
-          border-card
-          p-1
-          rounded
-          d-flex
-          align-items-center
-          justify-content-between
-          `}
-        >
+    <div className="resume-language-container">
+      {/* Resume Upload Section */}
+      <div className="upload-section">
+        <h3 className="section-title">Upload Your Resume</h3>
+        <div className="file-upload-container">
           <input
             type="file"
             id="resume"
-            placeholder="max(2 mb)"
             accept=".pdf,.doc,.docx"
-            className={`d-none`}
-            onChange={(e) => setResume(e.target.files![0])}
+            className="file-input"
+            onChange={handleFileChange}
           />
-          <label htmlFor="resume" className={`text-gray cursor-pointer`}>
-            {resume ? resume.name : "Resume max(2 Mb)"}
-          </label>
-
-          <label htmlFor="resume" className="cursor-pointer p-1 ">
-            <FaFile color="green" />
+          <label htmlFor="resume" className="file-label">
+            <span className="file-name">
+              {resume ? resume.name : "Resume (max 2MB)"}
+            </span>
+            <span className="file-icon">
+              <FaFile color="green" />
+            </span>
           </label>
         </div>
       </div>
-      {/*Language  */}
-      <div className={`max-width-400-center mt-3 text-black-variant-1 `}>
-        <p className={`text-center p-2`}>Language</p>
 
-        <SelectLanguage
-          lang={lang}
-          setLang={setLang}
-          setUserLanguage={setUserLanguage}
-          userLanguage={userLanguage}
-        />
+      {/* Language Selection Section */}
+      <div className="language-section">
+        <h3 className="section-title">Language</h3>
+        <div className="language-select-wrapper">
+          <SelectLanguage
+            lang={lang}
+            setLang={setLang}
+            setUserLanguage={setUserLanguage}
+            userLanguage={userLanguage}
+            error={error}
+          />
+        </div>
       </div>
     </div>
   );

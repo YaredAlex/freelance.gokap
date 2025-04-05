@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import UserProfessionAndSkill from "../../components/onboard/user_profession_skill";
 import WhyAndWhere from "../../components/onboard/why_where";
@@ -111,13 +111,8 @@ const useOnBoard = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log(authContext.user);
-    console.log(pages[currentPage]);
-  }, []);
-
   const { sendRequest, loading } = useAxios({
-    url: "/api/user/freelancer/",
+    url: "/api/freelancer/create/",
     method: "POST",
     headers: true,
   });
@@ -125,7 +120,7 @@ const useOnBoard = () => {
     console.log(authContext.user);
     sendRequest(
       {
-        user: authContext.user.id,
+        user: authContext.user?.id,
         profession: userInfo.profession,
         reason_to_join: userInfo.reason,
         where_did_you_heard: userInfo.where.slice(0, 1),
@@ -150,7 +145,6 @@ const useOnBoard = () => {
   };
   const onNextPage = () => {
     console.log("user info ==> ", userInfo);
-
     if (!gotoNext) {
       customToast({ message: "please compelet all", type: "error" });
     }

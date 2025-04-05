@@ -1,18 +1,17 @@
 import { useAxios } from "../../../../hooks/useAxios";
 import {
   AgentContextType,
+  AgentStateType,
   useAgentContext,
 } from "../../../../context/agent/agent_context";
 import { AxiosError, AxiosResponse } from "axios";
 import customToast from "../../../../components/custom_toast/custom_toast";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const useAgentDetail = () => {
   const agentProfileApi = "/api/freelancer/detail/";
   const agentContext = useAgentContext();
   const navigate = useNavigate();
-  const [showEdit, setShowEdit] = useState(false);
   const { sendRequest, loading } = useAxios({
     url: agentProfileApi,
     method: "GET",
@@ -21,21 +20,21 @@ const useAgentDetail = () => {
   const detailList = [
     {
       title: "bio",
-      value: agentContext.agent.detail.bio,
+      value: agentContext.agent.detail?.bio,
       onClick: () => {
         // setShowEditName(true);
       },
     },
     {
       title: "skill",
-      value: agentContext.agent.detail.skills,
+      value: agentContext.agent.detail?.skills,
       onClick: () => {
         // setShowEditName(true);
       },
     },
     {
       title: "Language",
-      value: agentContext.agent.detail.language,
+      value: agentContext.agent.detail?.language,
       onClick: () => {
         // setShowEditName(true);
       },
@@ -43,6 +42,7 @@ const useAgentDetail = () => {
   ];
   const onSuccess = (res: AxiosResponse) => {
     const detail = res.data.serialized_data;
+    // console.log(res);
     agentContext.dispatchAgent({
       type: "setdetail",
       payload: {
@@ -60,10 +60,11 @@ const useAgentDetail = () => {
       },
     });
   };
+
   const onError = (error: AxiosError) => {
     // const message = JSON.stringify(error?.request?.response);
     const message = JSON.parse(error?.request?.response);
-    if (message?.error === "Freelancer not found") {
+    if (message?.errors === "Freelancer not found") {
       navigate(`/onboard`);
     } else customToast({ message: JSON.stringify(message), type: "error" });
     console.log(message?.error);
@@ -71,27 +72,34 @@ const useAgentDetail = () => {
 
   const getDetail = async () => {
     // Get profile if it is not already there
-    if (agentContext.agent.detail.user === -1)
+    const agentInfo = JSON.parse(
+      localStorage.getItem("@f.info") ?? "{}"
+    ) as AgentStateType;
+    if (agentInfo.detail) {
+      agentContext.dispatchAgent({
+        type: "setdetail",
+        payload: {
+          detail: {
+            ...agentInfo.detail,
+          },
+          appliedProject: agentContext.agent.appliedProject,
+        },
+      });
+    } else if (agentContext.agent.detail === null) {
       sendRequest({}, onSuccess, onError, true);
+    }
   };
-
-  useEffect(() => {
-    getDetail();
-  }, []);
 
   return {
     loading,
     getDetail,
-    agentContext,
     detailList,
-    showEdit,
-    setShowEdit,
   };
 };
 
 export default useAgentDetail;
 
-export type UseAgentDetailType = {
+export type UseAgentDetail = {
   loading: boolean;
   getDetail: () => Promise<void>;
   agentContext: AgentContextType;
@@ -107,6 +115,4 @@ export type UseAgentDetailType = {
         onClick: () => void;
       }
   )[];
-  showEdit: boolean;
-  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>;
 };

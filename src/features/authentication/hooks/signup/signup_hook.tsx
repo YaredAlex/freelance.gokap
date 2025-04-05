@@ -7,6 +7,7 @@ import { GTexts } from "../../../../util/string_constants";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { saveTokensToSecureStorage } from "../../../../context/auth/auth_storage";
+import { useNavigate } from "react-router-dom";
 const useSignUp = () => {
   const signupApi = "/api/user/register/";
   const {
@@ -33,7 +34,7 @@ const useSignUp = () => {
     useState(false);
   // const navigator = useNavigate();
   const authContext = useAuthContext();
-
+  const navigator = useNavigate();
   const { loading, sendRequest } = useAxios({
     url: signupApi,
     method: "POST",
@@ -61,17 +62,19 @@ const useSignUp = () => {
     console.log(res);
     const token = res.data.token.access;
     const refresh = res.data.token.refresh;
+    const data = res.data;
     saveTokensToSecureStorage(token, refresh);
     authContext.dispatchUser({
       type: "signup",
       payload: {
         ...authContext.user,
-        firstname: res.data.first_name,
-        lastname: res.data.last_name,
-        email: res.data.email,
-        role: res.data.role,
+        firstname: data.first_name,
+        lastname: data.last_name,
+        email: data.email,
+        role: data.role,
       },
     });
+    if (data.exist) return navigator(`/signin?exist=true&role=${data.role}`);
     setShowRegistrationConfirmation(true);
   };
 
@@ -91,6 +94,7 @@ const useSignUp = () => {
         message: "Please agree to term and condition",
         type: "error",
       });
+      return;
     } else sendRequest(data, onSuccess, onError, false);
   };
 
@@ -119,6 +123,7 @@ const useSignUp = () => {
     userType,
     signUpWithGoogle,
     showRegistrationConfirmation,
+    watch,
   };
 };
 

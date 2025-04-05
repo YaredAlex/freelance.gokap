@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import "./dashboard.css";
 import useDashBoard from "../hooks/dashboard/dashboard_hook";
 import CustomLoading from "../../../components/loading_page/custom_loading";
@@ -6,27 +6,19 @@ import DashBoardTopbar from "../components/dashboard/top_bar";
 import SideBar from "../components/dashboard/side_bar";
 import CustomToastContainer from "../../../components/custom_toast/toast_container";
 import { useAuthContext } from "../../../context/auth/auth_context";
-import { useNavigate } from "react-router-dom";
 
 //Passdown auth to childern ** important to consider
 const DashBoard = ({
   children,
   role,
+  initialized,
 }: {
   children: ReactNode;
   role: string;
+  initialized: boolean;
 }) => {
   const { showNav, setShowNav } = useDashBoard();
   const authContext = useAuthContext();
-  const navigator = useNavigate();
-  useEffect(() => {
-    console.log(authContext.user);
-    if (!authContext.isInitialized) {
-      authContext.initializeAuth();
-    }
-    if (authContext.isInitialized && authContext.user.role != role)
-      navigator("/signin"); // or some thing about your are trying to access unauthorized page
-  }, [authContext.isInitialized]);
   return (
     <div
       className="
@@ -36,7 +28,7 @@ const DashBoard = ({
         "
     >
       <CustomToastContainer />
-      {!authContext.isInitialized ? (
+      {initialized ? (
         <>
           <div
             className="d-flex align-items-center justify-content-center flex-column text-black-variant-1"
@@ -53,7 +45,7 @@ const DashBoard = ({
             <DashBoardTopbar
               showNav={showNav}
               setShowNav={setShowNav}
-              user={authContext.user}
+              user={authContext.user!}
             />
           </div>
           <div className="dashboard-container">

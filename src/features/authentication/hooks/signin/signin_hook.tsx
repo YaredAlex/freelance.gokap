@@ -34,13 +34,36 @@ const useSignIn = () => {
   useEffect(() => {
     //check if user is already logged in
     console.log("signInHook called");
-    if (authContext.user.role && authContext.user.is_verified !== null)
+    if (
+      authContext.isInitialized &&
+      authContext.user!.role &&
+      authContext.user!.is_verified !== null
+    ) {
       routeUser({
-        role: authContext.user.role,
-        is_verified: authContext.user.is_verified,
-        email: authContext.user.email,
+        role: authContext.user!.role,
+        is_verified: authContext.user!.is_verified,
+        email: authContext.user!.email ?? "",
       });
-  }, [authContext.user]);
+    }
+    return () => {
+      console.log("signinHook cleanup function call authContext.getProfile");
+      authContext.getProfile(true);
+    };
+  }, [authContext.isInitialized]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("exist"))
+      customToast({
+        message: "User with email already exist",
+        type: "warning",
+      });
+    if (params.get("error") == "unauthorized")
+      customToast({
+        message: "unauthorized access!",
+        type: "warning",
+      });
+  }, []);
   //Function that handle Error
   const onError = (error: AxiosError) => {
     const message = JSON.parse(error?.request?.response);
@@ -88,7 +111,7 @@ const useSignIn = () => {
 
   //routing user based on information
   const routeUser = (data: {
-    role: string;
+    role: string | null;
     is_verified: boolean | null;
     email: string;
   }) => {

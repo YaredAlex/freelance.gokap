@@ -5,6 +5,7 @@ import useRefreshToken from "./use_refreshtoken";
 import secureLocalStorage from "react-secure-storage";
 import customToast from "../components/custom_toast/custom_toast";
 import { GTexts } from "../util/string_constants";
+import { getTokensFromSecureStorage } from "../context/auth/auth_storage";
 
 type UseAxiosTypes = {
     url:string,
@@ -41,9 +42,12 @@ export const useAxios = (props:UseAxiosTypes)=>{
             setApiError(e)
             if (e.response?.status == 401 && requestRefresh) {
                 //if get new token if there is refresh token
+                const {refresh} = getTokensFromSecureStorage()
+                if(refresh)
                  useRefresh.getToken(()=>{
                   sendRequest(data,onSuccess,onError,false);
                 });
+                
                 return;
               }
               try{
@@ -54,6 +58,7 @@ export const useAxios = (props:UseAxiosTypes)=>{
               else
               onError(e)
               }catch(e){
+                console.log(e)
                 customToast({message: "Server Error 500", type:"error"});
               }
             reject(e)

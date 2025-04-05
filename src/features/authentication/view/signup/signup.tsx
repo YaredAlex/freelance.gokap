@@ -29,8 +29,8 @@ const Signup = () => {
     loading,
     errors,
     showRegistrationConfirmation,
+    watch,
   } = useSignUp();
-
   // On component mount, check if OAuth returned an access token/id token in URL hash.
   useEffect(() => {
     if (window.location.hash) {
@@ -221,6 +221,8 @@ const Signup = () => {
                   value: 6,
                   message: "minimun length should be 6",
                 },
+                validate: (value) =>
+                  value === watch("password") || "password do not match",
               })}
               error={errors.cnfpassword?.message}
             />

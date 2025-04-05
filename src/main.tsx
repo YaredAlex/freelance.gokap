@@ -4,6 +4,7 @@ import "./index.css";
 import ThemecontextProvider from "./context/theme/theme_context.tsx";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
+// import { StrictMode } from "react";
 TimeAgo.addDefaultLocale(en);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ThemecontextProvider>

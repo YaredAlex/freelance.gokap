@@ -3,17 +3,17 @@ import { AgentActionType, agentReducer } from "./agent_reducer";
 import { AppliedProjectType } from "../../features/project/hooks/agent/use_agent_project";
 
 export type AgentDetailType = {
-  bio: string;
+  bio: string | null;
   language: string[];
-  profession: string;
-  reason_to_join: string;
+  profession: string | null;
+  reason_to_join: string | null;
   resume: File | null;
   skills: string[];
-  user: { firstname: string; lastname: string } | number;
-  where_did_you_heard: string;
+  user: { firstname: string; lastname: string } | null;
+  where_did_you_heard: string | null;
 };
 export type AgentStateType = {
-  detail: AgentDetailType;
+  detail: AgentDetailType | null;
   appliedProject: AppliedProjectType[];
 };
 export type AgentContextType = {
@@ -22,16 +22,7 @@ export type AgentContextType = {
 };
 const defaultState: AgentContextType = {
   agent: {
-    detail: {
-      bio: "",
-      language: [],
-      profession: "",
-      reason_to_join: "",
-      resume: null,
-      skills: [],
-      user: -1,
-      where_did_you_heard: "",
-    },
+    detail: null,
     appliedProject: [],
   },
   dispatchAgent: () => {},
