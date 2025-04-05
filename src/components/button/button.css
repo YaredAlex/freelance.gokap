@@ -124,6 +124,28 @@ button {
   z-index: 20;
   transition: background 0.3s ease-in-out;
 }
+.login-button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--green-variant-3)
+  );
+  color: var(--text-white-variant-1);
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--gray-400);
+}
 @media screen and (max-width: 992px) {
   .btn-custom {
     max-width: 200px;

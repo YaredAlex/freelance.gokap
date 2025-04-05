@@ -11,6 +11,7 @@ import {
 import ic_google from "../../../../assets/icon/google.png";
 import { useEffect } from "react";
 import RegistrationConfirmation from "../registration_confirmation/confirmation.tsx";
+import { useAuthContext } from "../../../../context/auth/auth_context.tsx";
 
 const Signup = () => {
   const icon_color = "#87A781";
@@ -31,11 +32,14 @@ const Signup = () => {
     showRegistrationConfirmation,
     watch,
   } = useSignUp();
+  const authContext = useAuthContext();
   // On component mount, check if OAuth returned an access token/id token in URL hash.
+
   useEffect(() => {
     if (window.location.hash) {
       const hash = window.location.hash.substring(1);
       const params = new URLSearchParams(hash);
+
       // Use id_token to get user info; adjust parameter if needed.
       const idToken = params.get("id_token") || params.get("access_token");
       if (idToken) {
@@ -62,7 +66,11 @@ const Signup = () => {
   };
 
   if (showRegistrationConfirmation)
-    return <RegistrationConfirmation username="show user name" />;
+    return (
+      <AuthLayout loading={loading || authContext.loading} signlayout={false}>
+        <RegistrationConfirmation username={authContext.user?.firstname} />
+      </AuthLayout>
+    );
 
   return (
     <AuthLayout loading={loading}>

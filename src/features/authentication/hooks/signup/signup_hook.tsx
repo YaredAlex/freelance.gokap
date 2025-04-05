@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAxios } from "../../../../hooks/useAxios";
 import { AxiosError, AxiosResponse } from "axios";
@@ -7,7 +7,7 @@ import { GTexts } from "../../../../util/string_constants";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { saveTokensToSecureStorage } from "../../../../context/auth/auth_storage";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const useSignUp = () => {
   const signupApi = "/api/user/register/";
   const {
@@ -34,12 +34,25 @@ const useSignUp = () => {
     useState(false);
   // const navigator = useNavigate();
   const authContext = useAuthContext();
+  const location = useLocation();
   const navigator = useNavigate();
   const { loading, sendRequest } = useAxios({
     url: signupApi,
     method: "POST",
     headers: false,
   });
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const redirect = params.get("redirect");
+    if (redirect) {
+      navigator(redirect);
+    }
+  }, []);
+  const setQuery = (key: string, value: string) => {
+    const params = new URLSearchParams(location.search);
+    params.set(key, value);
+    navigator(`${location.pathname}?${params.toString()}`, { replace: true });
+  };
   //onError
   const onError = (error: AxiosError) => {
     console.log(error.message);
@@ -49,12 +62,10 @@ const useSignUp = () => {
     }
     const message = JSON.parse(error?.request?.response);
     console.log(message);
-    if (message.errors?.email) {
-      customToast({ message: "user email already exists", type: "error" });
+    if (message.errors) {
+      customToast({ message: message.errors, type: "error" });
       return;
-    }
-    //TODO: when user email is not validated
-    toast.error("Internal Error");
+    } else toast.error("Internal Error");
   };
 
   // on success request
@@ -76,6 +87,8 @@ const useSignUp = () => {
     });
     if (data.exist) return navigator(`/signin?exist=true&role=${data.role}`);
     setShowRegistrationConfirmation(true);
+    authContext.getProfile(true);
+    setQuery("redirect", "/signin");
   };
 
   //onSubmit fun

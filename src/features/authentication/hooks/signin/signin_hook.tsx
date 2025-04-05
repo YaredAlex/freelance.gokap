@@ -23,6 +23,7 @@ const useSignIn = () => {
     },
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [redirectPath, setRedirectPath] = useState<string | null>(null);
   const navigator = useNavigate();
   const { loading, sendRequest } = useAxios({
     url: signInApiPoint,
@@ -63,7 +64,27 @@ const useSignIn = () => {
         message: "unauthorized access!",
         type: "warning",
       });
+    if (params.get("redirect")) {
+      console.log(params.get("redirect"));
+      setRedirectPath(params.get("redirect"));
+    }
+    extractRedirectFromUrl();
   }, []);
+  const extractRedirectFromUrl = () => {
+    const hash = window.location.hash; // "#state=..."
+    const params = new URLSearchParams(hash.substring(1));
+    const state = params.get("state");
+    if (state) {
+      try {
+        const decoded = JSON.parse(decodeURIComponent(state));
+        console.log(decoded.redirect);
+        setRedirectPath(decoded.redirect);
+      } catch (err) {
+        console.error("Failed to parse state:", err);
+      }
+    }
+  };
+
   //Function that handle Error
   const onError = (error: AxiosError) => {
     const message = JSON.parse(error?.request?.response);
@@ -102,6 +123,7 @@ const useSignIn = () => {
         is_verified: data.is_verified,
       },
     });
+
     routeUser({
       is_verified: data.is_verified,
       role: data.role,
@@ -115,6 +137,7 @@ const useSignIn = () => {
     is_verified: boolean | null;
     email: string;
   }) => {
+    if (redirectPath) navigator(redirectPath);
     if (!data.is_verified) {
       navigator(`/verify-user?email=${data.email}`);
     } else if (!data.role) {
@@ -140,6 +163,7 @@ const useSignIn = () => {
     handleSubmit,
     loading: loading || authContext.loading,
     signInWithGoogle,
+    redirectPath,
   };
 };
 

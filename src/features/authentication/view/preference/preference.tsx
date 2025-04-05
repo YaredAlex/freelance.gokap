@@ -2,9 +2,10 @@ import customToast from "../../../../components/custom_toast/custom_toast";
 import { useAxios } from "../../../../hooks/useAxios";
 import { FaUserTie, FaLaptopCode } from "react-icons/fa";
 import "./preference.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../../context/auth/auth_context";
+import AuthLayout from "../../auth_layout";
 
 const usePreference = () => {
   const { loading, sendRequest } = useAxios({
@@ -64,49 +65,70 @@ const usePreference = () => {
 
 const UserPreference = () => {
   const preferenceController = usePreference();
+  const authContext = useAuthContext();
+  const navigator = useNavigate();
+  useEffect(() => {
+    if (!authContext.isInitialized && !authContext.loading)
+      authContext.initializeAuth(() => navigator("/signin?error=token"));
+    if (authContext.isInitialized && authContext.user?.id === null)
+      navigator("/signin?error=no-profile");
+    if (authContext.user?.role === "client") navigator("/client/dashboard/");
+    if (authContext.user?.role === "freelancer") navigator("/agent/dashboard/");
+    return () => {
+      if (authContext.isInitialized && authContext.user?.id !== null)
+        authContext.getProfile(true);
+    };
+  }, [authContext.isInitialized]);
 
   return (
-    <div className="preference-container">
-      <h2 className="preference-heading">Select Your Preference</h2>
-      <p className="preference-subheading">
-        Please select your preference to continue.
-      </p>
-      <div className="preference-options">
+    <AuthLayout
+      loading={!authContext.isInitialized || preferenceController.loading}
+      signlayout={false}
+    >
+      <div className="preference-container">
+        <h2 className="preference-heading">Select Your Preference</h2>
+        <p className="preference-subheading">
+          Please select your preference to continue.
+        </p>
+        <div className="preference-options">
+          <button
+            className={`preference-button ${
+              preferenceController.selectedPreference === "client"
+                ? "active"
+                : ""
+            }`}
+            onClick={() => preferenceController.handlePreferenceClick("client")}
+          >
+            <div className="preference-icon">
+              <FaUserTie size={24} />
+            </div>
+            <p className="preference-label">Client</p>
+          </button>
+          <button
+            className={`preference-button ${
+              preferenceController.selectedPreference === "freelancer"
+                ? "active"
+                : ""
+            }`}
+            onClick={() =>
+              preferenceController.handlePreferenceClick("freelancer")
+            }
+          >
+            <div className="preference-icon">
+              <FaLaptopCode size={24} />
+            </div>
+            <p className="preference-label">Freelancer</p>
+          </button>
+        </div>
         <button
-          className={`preference-button ${
-            preferenceController.selectedPreference === "client" ? "active" : ""
-          }`}
-          onClick={() => preferenceController.handlePreferenceClick("client")}
+          className="continue-button"
+          type="button"
+          onClick={preferenceController.handleContinueClick}
         >
-          <div className="preference-icon">
-            <FaUserTie size={24} />
-          </div>
-          <p className="preference-label">Client</p>
-        </button>
-        <button
-          className={`preference-button ${
-            preferenceController.selectedPreference === "freelancer"
-              ? "active"
-              : ""
-          }`}
-          onClick={() =>
-            preferenceController.handlePreferenceClick("freelancer")
-          }
-        >
-          <div className="preference-icon">
-            <FaLaptopCode size={24} />
-          </div>
-          <p className="preference-label">Freelancer</p>
+          Continue
         </button>
       </div>
-      <button
-        className="continue-button"
-        type="button"
-        onClick={preferenceController.handleContinueClick}
-      >
-        Continue
-      </button>
-    </div>
+    </AuthLayout>
   );
 };
 

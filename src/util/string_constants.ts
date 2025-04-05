@@ -7,7 +7,7 @@ const Texts_EN = {
     txt_sign_in : "sign in",
     txt_forget_pwd : "Forget your password?",
     txt_sign_in_with_google : "Continue with Google",
-    txt_check_connection : "Please check your connection",
+    txt_check_connection : "Unable to connect to server",
     txt_invalid_email_pass : "Invalid email or password",
     signup_greeting_title : "Welcome To Gokap InnoTech",
     signup_greeting_subtitle : ` Join Gokap InnoTech Where Clients and Freelancers Connect for

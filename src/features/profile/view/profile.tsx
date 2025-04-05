@@ -4,7 +4,7 @@ import ProfileClient from "./client/client_profile";
 import ProfileAgent from "./agent/agent_profile";
 const Profile = () => {
   const authContext = useAuthContext();
-  if (authContext.user.type === "client")
+  if (authContext.user?.role === "client")
     return (
       <div>
         <ProfileClient />

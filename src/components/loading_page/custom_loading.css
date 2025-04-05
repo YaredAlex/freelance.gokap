@@ -79,7 +79,11 @@
 .progress-bar {
   height: 100%;
   width: 30%;
-  background: linear-gradient(90deg, #4776e6, #8e54e9);
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--green-variant-3)
+  );
   border-radius: 2px;
   animation: progressMove 1.5s infinite ease-in-out;
 }

@@ -34,14 +34,14 @@ export const useClientProfile = () => {
   const profileList = [
     {
       title: "Name",
-      value: authContext.user.firstname,
+      value: authContext.user?.firstname,
       onClick: () => {
         setShowEditName(true);
       },
     },
     {
       title: "Address",
-      value: authContext.user.address
+      value: authContext.user?.address
         ? `${authContext.user.address.city}, ${authContext.user.address.country}`
         : "address",
       onClick: () => {
@@ -50,14 +50,14 @@ export const useClientProfile = () => {
     },
     {
       title: "Member Since",
-      value: new Date(authContext.user.created_at as string).toDateString(),
+      value: new Date(authContext.user?.created_at as string).toDateString(),
       onClick: () => {},
     },
   ];
   const accountList = [
     {
       title: "Email",
-      value: authContext.user.email,
+      value: authContext.user?.email,
       onClick: () => {},
     },
     {
@@ -176,8 +176,8 @@ export const useChangeClientName = () => {
     reset,
   } = useForm({
     defaultValues: {
-      firstname: authContext.user.firstname,
-      lastname: authContext.user.lastname,
+      firstname: authContext.user?.firstname,
+      lastname: authContext.user?.lastname,
     },
   });
 

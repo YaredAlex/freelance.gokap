@@ -8,9 +8,9 @@ import { AxiosError, AxiosResponse } from "axios";
 
 export type UserAuthType = {
   id: string | null;
-  firstname: string | null;
-  lastname: string | null;
-  email: string | null;
+  firstname?: string | null;
+  lastname?: string | null;
+  email?: string | null;
   role: string | null;
   created_at: string | null;
   is_verified: boolean | null;

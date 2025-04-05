@@ -1,9 +1,13 @@
-import { useNavigate } from "react-router-dom";
 import "./confirmation.css";
-const RegistrationConfirmation = ({ username = "User" }) => {
-  const navigator = useNavigate();
+import { useAuthContext } from "../../../../context/auth/auth_context";
+const RegistrationConfirmation = ({
+  username,
+}: {
+  username?: string | null;
+}) => {
+  const authContext = useAuthContext();
   const onLogin = () => {
-    navigator("/signin");
+    authContext.logout();
   };
   return (
     <div className="registration-confirmation">
@@ -29,7 +33,8 @@ const RegistrationConfirmation = ({ username = "User" }) => {
 
         <div className="confirmation-body">
           <p className="welcome-message">
-            Congratulations, <span className="username">{username}</span>! Your
+            Congratulations,{" "}
+            <span className="username text-capitalize">{username}</span>! Your
             account has been successfully created.
           </p>
 

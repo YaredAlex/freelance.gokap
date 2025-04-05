@@ -4,11 +4,11 @@ import {
   ButtonPrimaryOutline,
 } from "../../../../components/button/button";
 import CustomToastContainer from "../../../../components/custom_toast/toast_container";
-import { CustomLoadingSecondary } from "../../../../components/loading_page/custom_loading";
 import useClientProject, {
   UseClientProjectType,
 } from "../../hooks/client/useclientproject_hook";
 import { useProjectContext } from "../../../../context/projects/project_context";
+import ProjectTableSkeleton from "../../components/client/project_skeleton";
 // considering passing auth and project here *** important **
 const ClientrProjectTable = () => {
   const clientProject = useClientProject();
@@ -58,11 +58,7 @@ const ClientrProjectTable = () => {
             </div>
           </div>
           {clientProject.loading ? (
-            <>
-              <div className="position-relative mt-100">
-                <CustomLoadingSecondary title="Loading" />
-              </div>
-            </>
+            <ProjectTableSkeleton />
           ) : (
             <ProjectTable clientProject={clientProject} />
           )}

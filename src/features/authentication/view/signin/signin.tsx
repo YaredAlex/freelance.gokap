@@ -26,6 +26,7 @@ const Signin = () => {
     handleSubmit,
     signInWithGoogle,
     loading,
+    redirectPath,
   } = useSignIn();
   // On component mount, check if OAuth returned an access token/id token in URL hash.
   useEffect(() => {
@@ -38,7 +39,7 @@ const Signin = () => {
         try {
           // extract user email from token and sign them in
           signInWithGoogle(idToken);
-          window.history.replaceState(null, "", window.location.pathname);
+          // window.history.replaceState(null, "", window.location.pathname);
         } catch (error) {
           console.error("Error decoding token:", error);
         }
@@ -51,11 +52,14 @@ const Signin = () => {
   // Function to trigger Google OAuth2.0 signup.
   const handleGoogleSignIn = () => {
     const callbackUrl = window.location.origin + "/signin";
+    const state = encodeURIComponent(
+      JSON.stringify({ redirect: redirectPath })
+    );
     const googleClientId = GoogleClientID;
     // Using response_type with both token and id_token to retrieve user info.
     const targetUrl = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${encodeURIComponent(
       callbackUrl
-    )}&response_type=token&client_id=${googleClientId}&scope=openid%20email%20profile`;
+    )}&response_type=token&client_id=${googleClientId}&scope=openid%20email%20profile&state=${state}`;
     window.location.href = targetUrl;
   };
   return (

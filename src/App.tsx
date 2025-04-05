@@ -28,10 +28,9 @@ import Payment from "./features/payment/view/payment";
 import Preference from "./features/authentication/view/preference/preference";
 import ClientDashboardRoute from "./routes/dashboard/client_dashboard";
 import AgentDashboardRoute from "./routes/dashboard/agent_dashboard";
-import RegistrationConfirmation from "./features/authentication/view/registration_confirmation/confirmation";
-import PreferenceProtectRoute from "./routes/protected/preference_route";
 import OnBoardPage from "./features/authentication/view/onboard/onboard";
 import OnBoardingRoute from "./routes/protected/onboarding_route";
+import NotFound from "./features/404_page";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
@@ -55,10 +54,6 @@ function App() {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/privacy" element={<PrivacyPage />} />
                   <Route path="/verify-user" element={<VerifyUser />} />
-                  <Route
-                    path="/confirmation"
-                    element={<RegistrationConfirmation username="Yared" />}
-                  />
                   <Route path={`/reset-password`} element={<ResetPassword />} />
                   <Route
                     path={"/client/dashboard"}
@@ -80,14 +75,11 @@ function App() {
                     <Route path={"payment"} element={<Payment />} />
                   </Route>
                   {/* onboarding */}
-
-                  <Route element={<PreferenceProtectRoute />}>
-                    <Route path={`/preference`} element={<Preference />} />
-                  </Route>
                   <Route element={<OnBoardingRoute />}>
                     <Route path={`/onboard`} element={<OnBoardPage />} />
                   </Route>
-
+                  {/* Prefrence */}
+                  <Route path={`/preference`} element={<Preference />} />
                   {/* Freelancer dashboared */}
                   <Route
                     path={`/agent/dashboard`}
@@ -111,6 +103,7 @@ function App() {
                    
                    */}
                   </Route>
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </ProjectContextProvider>
             </AgentContextProvider>

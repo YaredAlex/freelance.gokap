@@ -1,23 +1,31 @@
 import { useEffect } from "react";
 import DashBoard from "../../features/dashboard/view/dashboard";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/auth/auth_context";
 
 const ClientDashboardRoute = () => {
   const authContext = useAuthContext();
   const navigator = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    console.log("client checker", authContext.user);
-    console.log("authContext.loading ", authContext.loading);
-    console.log("authContext.initialized ", authContext.isInitialized);
+    const currentPath = location.pathname + location.search;
+
     if (!authContext.isInitialized && !authContext.loading) {
       authContext.initializeAuth(() => {
-        navigator("/signin");
+        navigator(`/signin?redirect=${encodeURIComponent(currentPath)}`);
       });
     }
-    if (authContext.isInitialized && authContext.user?.role != "client")
-      navigator("/signin?error=no-preference");
+
+    if (authContext.isInitialized && authContext.user?.role !== "client") {
+      navigator(
+        `/signin?error=no-preference&redirect=${encodeURIComponent(
+          currentPath
+        )}`
+      );
+    }
   }, [authContext.isInitialized]);
+
   return (
     <DashBoard
       role="client"

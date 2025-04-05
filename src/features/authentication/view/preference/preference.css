@@ -44,7 +44,7 @@
 }
 
 .preference-button.active {
-  border-color: #007bff;
+  border-color: var(--primary-green);
   background-color: rgba(0, 123, 255, 0.05);
 }
 
@@ -54,7 +54,7 @@
 }
 
 .preference-button.active .preference-icon {
-  color: #007bff;
+  color: var(--primary-green);
 }
 
 .preference-label {
@@ -64,22 +64,27 @@
 
 .continue-button {
   display: block;
-  max-width: 300px;
+  max-width: 350px;
+  margin-inline: auto;
   width: 100%;
-  padding: 12px;
-  background-color: #007bff;
-  color: white;
+  padding: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--green-variant-3)
+  );
+  color: var(--text-white-variant-1);
   border: none;
   border-radius: 6px;
+  font-size: 16px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-left: auto;
-  margin-right: auto;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .continue-button:hover {
-  background-color: #0069d9;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--gray-400);
 }
 
 .continue-button:disabled {

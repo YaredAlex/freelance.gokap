@@ -8,7 +8,7 @@ const OnBoardingRoute = () => {
   const navigator = useNavigate();
   useEffect(() => {
     if (!authContext.isInitialized && !authContext.loading)
-      authContext.initializeAuth();
+      authContext.initializeAuth(() => navigator("/signin?error=token"));
     if (authContext.isInitialized && authContext.user?.role !== "freelancer")
       navigator("/signin?error=unauthorized");
   }, [authContext.isInitialized]);

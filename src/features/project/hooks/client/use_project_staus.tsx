@@ -12,10 +12,10 @@ import { useForm } from "react-hook-form";
 import { useGetProjectById } from "../../../../hooks/use_get_project_id";
 import TimeAgo from "javascript-time-ago";
 
-const useEditProject = (id: string) => {
+const useEditProject = (id: number) => {
   const { sendRequest, loading } = useAxios({
     url: `/api/project/update/${id}/`,
-    method: "PUT",
+    method: "PATCH",
     headers: true,
   });
 
@@ -80,7 +80,7 @@ const useProjectStatus = () => {
   //Project Status
   const { id } = useParams();
   const projectContext = useProjectContext();
-  const edit = useEditProject(id || "null");
+  const edit = useEditProject(Number(id));
   const projectForm = useProjectForm();
   const [showPortal, setShowPoratal] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
@@ -125,7 +125,14 @@ const useProjectStatus = () => {
 
   const setEditFrom = (project: ClientProjectType) => {
     projectForm.setPersonalSkills(project.skills_required);
-    projectForm.setProjectInput(project);
+    projectForm.setProjectInput({
+      description: project.description,
+      project_category: project.project_category,
+      project_deadline: project.project_deadline,
+      project_price: project.project_price,
+      skills_required: project.skills_required,
+      title: project.title,
+    }); //making mistake here don't set project here directly
   };
 
   const handleEdit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -139,6 +146,7 @@ const useProjectStatus = () => {
     });
     projectData.skills_required = projectForm.personalSkills;
     //let's edit client project in database
+    console.log(projectData);
     edit.sendRequest(
       projectData,
       () => {
