@@ -5,7 +5,7 @@ import {
   projectStatusLabel,
   projectStatusStyle,
 } from "../../util/project_data_parser";
-import "./status_bage.css";
+import "./status_badge.css";
 type StatusBadgeProps = {
   type: "project" | "payment";
   code: number;

@@ -9,7 +9,7 @@ import useClientProject, {
 } from "../../hooks/client/useclientproject_hook";
 import { useProjectContext } from "../../../../context/projects/project_context";
 import ProjectTableSkeleton from "../../components/client/project_skeleton";
-import StatusBadge from "../../../../components/status_bage/status_bage";
+import StatusBadge from "../../../../components/status_badge/status_badge";
 // considering passing auth and project here *** important **
 const ClientrProjectTable = () => {
   const clientProject = useClientProject();

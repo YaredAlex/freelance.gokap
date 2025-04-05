@@ -4,7 +4,7 @@ import {
   useProjectContext,
 } from "../../context/projects/project_context";
 import { ButtonPrimaryOutline } from "../button/button";
-import StatusBadge from "../status_bage/status_bage";
+import StatusBadge from "../status_badge/status_badge";
 
 const RecentProjectTable = ({ data }: { data: ClientProjectType[] }) => {
   const navigate = useNavigate();
