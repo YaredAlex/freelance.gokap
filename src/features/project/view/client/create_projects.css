@@ -1,13 +1,14 @@
 .cr-form-wrapper {
   display: grid;
-  grid-template-columns: repeat(2, minmax(250px, 400px));
+  grid-template-columns: repeat(1, minmax(250px, 1fr));
   gap: 32px;
 }
-
+.breadcrumb {
+}
 @media screen and (max-width: 769px) {
   .cr-form-wrapper {
     display: grid;
-    grid-template-columns: minmax(250px, 400px);
+    grid-template-columns: minmax(250px, 1fr);
     gap: 32px;
   }
 }

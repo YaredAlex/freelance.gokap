@@ -19,3 +19,19 @@
   padding: 8px 24px;
   border-bottom: 1px solid var(--border-card);
 }
+
+input::placeholder {
+  font-size: 14px;
+}
+
+input::-webkit-input-placeholder {
+  font-size: 14px;
+}
+
+input:-moz-placeholder {
+  font-size: 14px;
+}
+select {
+  border: none;
+  outline: none;
+}

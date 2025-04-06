@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
 export type ProjectInputType = {
   project_category: string;
@@ -7,6 +8,8 @@ export type ProjectInputType = {
   skills_required: string[];
   project_price: string;
   project_deadline: string;
+  category?: string;
+  subcategory?: string;
 };
 
 const useProjectForm = () => {
@@ -18,6 +21,8 @@ const useProjectForm = () => {
     skills_required: [],
     project_price: "",
     project_deadline: "",
+    category: undefined,
+    subcategory: undefined,
   });
   const [errors, setErrors] = useState({
     project_category: "",
@@ -26,6 +31,8 @@ const useProjectForm = () => {
     skills_required: "",
     project_price: "",
     project_deadline: "",
+    category: "",
+    subcategory: "",
   });
   const projectError = {
     title: "Project title is required",
@@ -33,7 +40,10 @@ const useProjectForm = () => {
     description: "Project description is required",
     budget: "500 - 20,000 range",
     skill: "at least 2 skill is required",
+    category: "category is required",
+    subcategory: "subcategory is required",
   };
+  const navigator = useNavigate();
   const validateProjectInput = () => {
     let isValid = true;
     setErrors(() => {
@@ -44,8 +54,11 @@ const useProjectForm = () => {
         project_price: "",
         skills_required: "",
         title: "",
+        category: "",
+        subcategory: "",
       };
     });
+
     if (!projectInput.description) {
       isValid = false;
       setErrors((e) => {
@@ -80,6 +93,18 @@ const useProjectForm = () => {
         return { ...e, skills_required: projectError.skill };
       });
     }
+    if (!projectInput.category) {
+      isValid = false;
+      setErrors((e) => {
+        return { ...e, category: projectError.category };
+      });
+    }
+    if (!projectInput.subcategory) {
+      isValid = false;
+      setErrors((e) => {
+        return { ...e, subcategory: projectError.subcategory };
+      });
+    }
 
     return isValid;
   };
@@ -106,6 +131,7 @@ const useProjectForm = () => {
     projectError,
     projectInput,
     validateProjectInput,
+    navigator,
   };
 };
 
@@ -119,6 +145,8 @@ export type ProjectFormType = {
     skills_required: string;
     project_price: string;
     project_deadline: string;
+    category: string;
+    subcategory: string;
   };
   setProjectInput: React.Dispatch<React.SetStateAction<ProjectInputType>>;
   personalSkills: string[];
@@ -132,4 +160,5 @@ export type ProjectFormType = {
   };
   projectInput: ProjectInputType;
   validateProjectInput: () => boolean;
+  navigator: NavigateFunction;
 };

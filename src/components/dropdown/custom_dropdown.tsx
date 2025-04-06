@@ -6,6 +6,9 @@ export interface DropdownOption {
   name: string;
   isSelected: boolean;
 }
+export interface DropdownOption2 {
+  name: string;
+}
 
 interface CustomDropdownSelectProps {
   options: DropdownOption[];

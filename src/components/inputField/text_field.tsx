@@ -1,7 +1,7 @@
 import React from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
-type TextField = {
+type TextFieldProb = {
   placeholder: string;
   type: string;
   prefix_icon?: React.ReactNode;
@@ -21,7 +21,7 @@ const TextField = ({
   error,
   register,
   subtitle,
-}: TextField) => {
+}: TextFieldProb) => {
   return (
     <div
       className="d-flex 
@@ -65,7 +65,7 @@ export const TextArea = ({
   error,
   register,
   subtitle,
-}: TextField) => {
+}: TextFieldProb) => {
   return (
     <div
       className="d-flex 

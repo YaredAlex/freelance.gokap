@@ -113,7 +113,7 @@ const useProjectStatus = () => {
   useEffect(() => {
     //Get project by Id
     if (!id) navigate("/client/dashboard/projects");
-    else if (projectContext.currentProject.id === -1)
+    else if (projectContext.currentProject.id === null)
       getProjectById.getProject(id!, (res) => {
         const data = res.data.serialized_data;
         data.created_at = timeAgo.format(new Date(data.created_at));
