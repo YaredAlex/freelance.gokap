@@ -167,8 +167,8 @@ const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
           </div>
           <hr />
           {/* Attachment */}
-          <div className={`px-4`}>
-            <div style={{ maxWidth: "400px" }}>
+          <div className={`px-4 d-flex flex-sm-row flex-column gap-4`}>
+            <div className="col-md-3 col">
               <h6 className={"font-weight-400 text-black-variant-1"}>
                 Attachment
               </h6>
@@ -178,7 +178,7 @@ const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
             </div>
             <input
               type="file"
-              className={`custom-input bg-white-smoke border-card rounded`}
+              className={`custom-input bg-white-smoke border-card rounded col-md col-12`}
               style={{ maxWidth: "400px" }}
               name="attachment"
               // onChange={(e) =>
