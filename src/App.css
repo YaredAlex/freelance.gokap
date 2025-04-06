@@ -31,6 +31,9 @@ input::-webkit-input-placeholder {
 input:-moz-placeholder {
   font-size: 14px;
 }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-image: none;
+}
 select {
   border: none;
   outline: none;
