@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Notification, SearchNormal1 } from "iconsax-react";
+import { SearchNormal1 } from "iconsax-react";
 import { motion } from "framer-motion";
 import { useThemeContext } from "../../../../context/theme/theme_context";
 import { UserAuthType } from "../../../../context/auth/auth_context";
 import TopBarProfile from "./topbar_profile";
 import TopBarMenu from "./topbar_menu";
 import GITLogo from "../../../../components/logo/logo";
+import SearchBar from "../../../../components/search_bar/search_bar";
+import NotificationComponent from "../../../../components/notification/notification_bar";
 
 type DBTopBar = {
   setShowNav: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,7 +67,6 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
               `}
             style={{
               minWidth: "40px",
-              overflow: "hidden",
             }}
           >
             {showSearchbar && (
@@ -75,7 +76,6 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
                 }}
                 animate={{
                   x: "0px",
-                  scale: 1,
                 }}
                 transition={{
                   duration: 0.2,
@@ -83,14 +83,7 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
                 className={`dashboard-top-search col  d-none
             d-md-flex`}
               >
-                <input
-                  className={`bg-white-v-3 border-card rounded p-2
-            text-black-variant-1
-            w-100
-            `}
-                  type="text"
-                  placeholder="search"
-                />
+                <SearchBar />
               </motion.div>
             )}
             <SearchNormal1
@@ -103,108 +96,12 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
             />
           </div>
           {/* Notification */}
-          <div
-            className={`
-              icon-wrapper-primary
-              bg-gray-secondary
-              d-flex
-              justify-content-center
-              align-items-center
-              rounded
-              position-relative
-              dash-board-top-notification
-              ms-auto
-              ms-md-0
-              `}
-            style={{
-              minWidth: "40px",
-            }}
-          >
-            <Notification
-              size={18}
-              className={`cursor-pointer`}
-              onClick={() => {}}
-              color={isDark ? "white" : "#333"}
-            />
-
-            <div
-              className={`position-absolute
-       rounded
-        notification-wrapper
-      `}
-              style={{
-                top: "100%",
-                width: "200px",
-                right: "-30px",
-                zIndex: "30",
-              }}
-            >
-              <div
-                className={`
-         bg-white
-         border
-         mt-3
-         p-2
-         `}
-              >
-                <p>Notification</p>
-                <hr />
-                <div
-                  className={`
-        d-flex justify-content-center
-        `}
-                >
-                  <p className={`text-gray-secondary`}>No nofication yet</p>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <NotificationComponent notifications={[]} />
           {/* CIRCULAR AVATAR */}
           <TopBarProfile user={user} />
           <TopBarMenu setShowNav={setShowNav} showNav={showNav} />
         </div>
         {/*  */}
-      </div>
-      {/* Search */}
-      <div
-        className={` dashboard-top-search-wrapper
-position-absolute
- w-100
-d-flex
-justify-content-end
-align-items-center
-rounded
-gap-1
-px-2
-d-flex
-d-md-none
-`}
-      >
-        {showSearchbar && (
-          <motion.div
-            initial={{
-              x: "100px",
-            }}
-            animate={{
-              x: "0px",
-              scale: 1,
-            }}
-            transition={{
-              duration: 0.2,
-            }}
-            className={`dashboard-top-search col`}
-          >
-            <input
-              className={`bg-white-v-3 boarder rounded p-2
-            text-black-variant-1 border-card
-            w-100
-            `}
-              type="text"
-              placeholder="search"
-            />
-          </motion.div>
-        )}
       </div>
     </div>
   );
