@@ -52,7 +52,7 @@
   width: 100%;
   max-height: 200px;
   overflow-y: auto;
-  background-color: white;
+  background-color: var(--white-variant-3);
   border-radius: 0.5rem;
   border: 1px solid var(--border-color, #e1e1e1);
   z-index: 1000;
@@ -69,7 +69,7 @@
 }
 
 .dropdown-item:hover {
-  background-color: var(--item-hover-bg, #f2f8ff);
+  background-color: var(--white-variant-4);
 }
 
 .no-results {
@@ -95,21 +95,18 @@
 .selected-item {
   display: flex;
   align-items: center;
-  background-color: var(--selected-item-bg, #e8f2ff);
+  background-color: var(--light-green);
   border-radius: 2rem;
   padding: 0.25rem 0.75rem;
   gap: 0.5rem;
-  border: 1px solid var(--selected-item-border, #d0e3ff);
+  border: 1px solid var(--primary-green);
   transition: all 0.2s ease;
-}
-
-.selected-item:hover {
-  background-color: var(--selected-item-hover-bg, #d0e3ff);
 }
 
 .selected-item-text {
   font-size: 0.875rem;
   white-space: nowrap;
+  color: var(--text-black-variant-2);
 }
 
 .remove-item-icon {
