@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { useAxios } from "../../../../hooks/useAxios";
 import { AxiosError, AxiosResponse } from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { signInApiPoint, signInGoogleApiPoint } from "../../../../util/api";
 import { GTexts } from "../../../../util/string_constants";
 import customToast from "../../../../components/custom_toast/custom_toast";
@@ -23,7 +23,7 @@ const useSignIn = () => {
     },
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [redirectPath, setRedirectPath] = useState<string | null>(null);
+  const redirectPath = useRef<string | null>(null);
   const navigator = useNavigate();
   const { loading, sendRequest } = useAxios({
     url: signInApiPoint,
@@ -66,19 +66,19 @@ const useSignIn = () => {
       });
     if (params.get("redirect")) {
       console.log(params.get("redirect"));
-      setRedirectPath(params.get("redirect"));
+      redirectPath.current = params.get("redirect");
     }
     extractRedirectFromUrl();
   }, []);
   const extractRedirectFromUrl = () => {
-    const hash = window.location.hash; // "#state=..."
+    const hash = window.location.hash; //
     const params = new URLSearchParams(hash.substring(1));
     const state = params.get("state");
     if (state) {
       try {
         const decoded = JSON.parse(decodeURIComponent(state));
-        console.log(decoded.redirect);
-        setRedirectPath(decoded.redirect);
+        console.log(decoded.redirect.current);
+        redirectPath.current = decoded.redirect.current;
       } catch (err) {
         console.error("Failed to parse state:", err);
       }
@@ -120,7 +120,7 @@ const useSignIn = () => {
         email: data.email,
         role: data.role ?? null,
         is_verified: data.is_verified,
-        created_at: data.created_at ?? null, // Ensure created_at is not undefined
+        created_at: data.created_at ?? null,
       },
     });
 
@@ -137,8 +137,13 @@ const useSignIn = () => {
     is_verified?: boolean;
     email: string;
   }) => {
-    if (redirectPath) navigator(redirectPath);
-    if (!data.is_verified) {
+    if (redirectPath.current) {
+      console.log(
+        "navigator with redicrect path called ",
+        redirectPath.current
+      );
+      return navigator(redirectPath.current);
+    } else if (!data.is_verified) {
       navigator(`/verify-user?email=${data.email}`);
     } else if (!data.role) {
       navigator("/preference");

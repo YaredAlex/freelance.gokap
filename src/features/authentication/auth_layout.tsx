@@ -50,9 +50,9 @@ const AuthLayout = ({
             <div
               className="bg-white-v-5
                       d-flex 
-                      rounded 
+                      rounded-md 
                       sign-wrapper
-                      my-3"
+                      my-3  border-card overflow-hidden"
             >
               {" "}
               {children}

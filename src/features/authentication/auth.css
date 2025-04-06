@@ -21,7 +21,7 @@
   overflow: hidden;
   padding-left: 5px;
   padding-right: 10px;
-  background-color: var(--white-smoke);
+  background-color: var(--white-variant-3);
 }
 
 .input-form-control:active {

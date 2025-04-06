@@ -64,6 +64,7 @@ const Signin = () => {
   };
   return (
     <AuthLayout loading={loading}>
+      {/* Leftside */}
       <div
         className="signup-right-side col p-4 d-none d-md-flex flex-column justify-content-center
             align-items-center"
