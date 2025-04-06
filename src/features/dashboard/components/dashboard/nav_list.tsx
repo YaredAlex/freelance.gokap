@@ -58,7 +58,7 @@ export const clientNavList = [
     title: "Help Line",
     child: [
       {
-        title: "support",
+        title: "Support",
         to: `support`,
         icon: (color: string) => <MdSupportAgent color={color} size={size} />,
       },
