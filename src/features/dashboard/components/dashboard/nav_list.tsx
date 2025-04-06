@@ -1,6 +1,8 @@
 import { Box, FolderAdd, Home, Money, User } from "iconsax-react";
 import { MdSupportAgent } from "react-icons/md";
 
+const variant = "Linear";
+const size = 18;
 export const clientNavList = [
   {
     title: "Dashboard",
@@ -8,7 +10,9 @@ export const clientNavList = [
       {
         title: "Dashboard",
         to: ``,
-        icon: (color: string) => <Home color={color} variant="Bold" />,
+        icon: (color: string) => (
+          <Home color={color} size={size} variant={variant} />
+        ),
       },
     ],
   },
@@ -18,12 +22,16 @@ export const clientNavList = [
       {
         title: "All Projects",
         to: `projects`,
-        icon: (color: string) => <Box color={color} variant="Bold" />,
+        icon: (color: string) => (
+          <Box color={color} size={size} variant={variant} />
+        ),
       },
       {
         title: "Create Project",
         to: `projects/create`,
-        icon: (color: string) => <FolderAdd color={color} variant="Bold" />,
+        icon: (color: string) => (
+          <FolderAdd color={color} size={size} variant={variant} />
+        ),
       },
     ],
   },
@@ -33,12 +41,16 @@ export const clientNavList = [
       {
         title: "Account",
         to: `account`,
-        icon: (color: string) => <User color={color} variant="Bold" />,
+        icon: (color: string) => (
+          <User color={color} size={size} variant={variant} />
+        ),
       },
       {
         title: "Invoice",
         to: `invoice`,
-        icon: (color: string) => <Money color={color} variant="Bold" />,
+        icon: (color: string) => (
+          <Money color={color} size={size} variant={variant} />
+        ),
       },
     ],
   },
@@ -48,7 +60,7 @@ export const clientNavList = [
       {
         title: "support",
         to: `support`,
-        icon: (color: string) => <MdSupportAgent color={color} size={22} />,
+        icon: (color: string) => <MdSupportAgent color={color} size={size} />,
       },
     ],
   },
@@ -60,7 +72,7 @@ export const agentNavList = [
       {
         title: "Job",
         to: ``,
-        icon: (color: string) => <Home color={color} variant="Bold" />,
+        icon: (color: string) => <Home color={color} variant={variant} />,
       },
     ],
   },
@@ -70,12 +82,12 @@ export const agentNavList = [
       {
         title: "My stats",
         to: `stats/`,
-        icon: (color: string) => <Box color={color} variant="Bold" />,
+        icon: (color: string) => <Box color={color} variant={variant} />,
       },
       {
         title: "Projects",
         to: `projects/`,
-        icon: (color: string) => <FolderAdd color={color} variant="Bold" />,
+        icon: (color: string) => <FolderAdd color={color} variant={variant} />,
       },
     ],
   },
@@ -85,12 +97,12 @@ export const agentNavList = [
       {
         title: "Account",
         to: `account`,
-        icon: (color: string) => <User color={color} variant="Bold" />,
+        icon: (color: string) => <User color={color} variant={variant} />,
       },
       {
         title: "Invoice",
         to: `invoice`,
-        icon: (color: string) => <Money color={color} variant="Bold" />,
+        icon: (color: string) => <Money color={color} variant={variant} />,
       },
     ],
   },
