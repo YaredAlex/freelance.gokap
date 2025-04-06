@@ -31,7 +31,7 @@
   --dark-blue-hover: rgb(69, 97, 132);
   --white-variant-1: rgb(255, 255, 255);
   --white-variant-2: rgb(255, 255, 255);
-  --white-variant-3: rgb(238, 243, 248);
+  --white-variant-3: #f9f9f9;
   --white-variant-4: rgb(255, 255, 255);
   --white-variant-5: rgb(255, 255, 255);
   --white-smoke: whitesmoke;
@@ -321,8 +321,12 @@ p {
   color: var(--text-white-variant-1);
 }
 .text-error {
-  color: rgb(206, 4, 4);
+  color: var(--error-color, #ff5252);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
 }
+
 .text-gray {
   color: gray;
 }
@@ -343,7 +347,7 @@ p {
 }
 
 .red-border {
-  border: 1px solid rgb(167, 2, 2) !important;
+  border: 1px solid var(--error-color, #ff5252) !important;
 }
 .min-height-100vh {
   min-height: 100vh;
@@ -372,12 +376,23 @@ p {
 .border-card {
   border: 1px solid var(--border-card);
 }
-
+.rounded-sm {
+  border-radius: 10px;
+}
+.rounded-md {
+  border-radius: 15px;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
 .visible-hidden {
   visibility: hidden;
   opacity: 0;
 }
-
+hr {
+  margin: 0px;
+  opacity: 0.1;
+}
 @media screen and (max-width: 512px) {
   :root {
     --text-md: 18px;
