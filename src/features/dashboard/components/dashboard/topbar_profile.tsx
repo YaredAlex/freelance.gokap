@@ -1,4 +1,10 @@
-import { MdLogout } from "react-icons/md";
+import {
+  MdLogout,
+  MdOutlineDarkMode,
+  MdOutlineLightMode,
+  MdPerson,
+  MdSettings,
+} from "react-icons/md";
 import { Link } from "react-router-dom";
 import CircularAvatar from "../../../../components/circularAvatar/circular_avatar";
 import {
@@ -6,89 +12,90 @@ import {
   UserAuthType,
 } from "../../../../context/auth/auth_context";
 import { useThemeContext } from "../../../../context/theme/theme_context";
-
+import { useEffect, useRef, useState } from "react";
+import "./topbar_profile.css";
 const TopBarProfile = ({ user }: { user: UserAuthType }) => {
   const { setIsDark, isDark } = useThemeContext();
   const authContext = useAuthContext();
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div
-      className={`position-relative
-      dash-board-top-profile
-      `}
-      style={{ zIndex: "30" }}
-    >
-      <CircularAvatar
-        size={40}
-        text={user.firstname?.slice(0, 2) ?? ""}
-        bgcolor={"bg-gray-secondary"}
-        className={"cursor-pointer"}
-      />
-      <div
-        className={`position-absolute
-           rounded
-          profile-wrapper
-        `}
-        style={{
-          top: "100%",
-          width: "200px",
-          right: "-30px",
-        }}
-      >
-        <div
-          className={`
-           bg-white
-           border
-           mt-3
-           p-2
-           `}
-        >
-          <p className="mb-0">{user.firstname}</p>
-          <p>{user?.email}</p>
-          <hr />
-          <div
-            className={`
-          d-flex 
-          flex-column
-          `}
-          >
-            <div>
-              Theme
-              <ul className="theme ul">
-                <li
-                  onClick={() => {
-                    setIsDark(false);
-                  }}
-                  className={`${isDark ? "" : "active"} cursor-pointer`}
-                >
-                  Light
-                </li>
-                <li
-                  onClick={() => {
-                    setIsDark(true);
-                  }}
-                  className={`${isDark ? "active" : ""} cursor-pointer`}
-                >
-                  Dark
-                </li>
-              </ul>
+    <div className="topbar-profile" ref={menuRef}>
+      <div className="topbar-avatar" onClick={() => setIsOpen(!isOpen)}>
+        <CircularAvatar
+          size={40}
+          text={user.firstname?.slice(0, 2) ?? ""}
+          bgcolor={"bg-gray-secondary"}
+          className={"cursor-pointer"}
+        />
+      </div>
+
+      {isOpen && (
+        <div className="profile-dropdown">
+          <div className="profile-header">
+            <div className="user-info">
+              <p className="user-name">{user.firstname}</p>
+              <p className="user-email">{user.email}</p>
             </div>
-            <Link className={`text-gray-secondary p-1`} to={`account`}>
-              Profile
+          </div>
+
+          <div className="menu-section">
+            <div className="menu-item theme-selector">
+              <MdSettings className="menu-icon" />
+              <span>Theme</span>
+              <div className="theme-options">
+                <div
+                  onClick={() => setIsDark(false)}
+                  className={`theme-option ${!isDark ? "active" : ""}`}
+                >
+                  <MdOutlineLightMode />
+                  <span>Light</span>
+                </div>
+                <div
+                  onClick={() => setIsDark(true)}
+                  className={`theme-option ${isDark ? "active" : ""}`}
+                >
+                  <MdOutlineDarkMode />
+                  <span>Dark</span>
+                </div>
+              </div>
+            </div>
+
+            <Link
+              to={`/${authContext.user?.role}/dashboard/account`}
+              className="menu-item"
+            >
+              <MdPerson className="menu-icon" />
+              <span>Profile</span>
             </Link>
-            <hr />
+          </div>
+
+          <div className="menu-section">
             <button
-              className={`text-gray-secondary p-1`}
+              className="menu-item logout-button"
               onClick={authContext.logout}
             >
-              {" "}
-              <MdLogout />
-              Logout
+              <MdLogout className="menu-icon" />
+              <span>Logout</span>
             </button>
-            <span></span>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
