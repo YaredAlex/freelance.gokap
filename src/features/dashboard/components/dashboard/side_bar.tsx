@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { agentNavList, clientNavList } from "./nav_list";
 import { useAuthContext } from "../../../../context/auth/auth_context";
@@ -24,6 +24,76 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
     } else setNavList([]);
   }, [authContext.user?.role]);
 
+  const location = useLocation();
+  // const [activeLink, setActiveLink] = useState('');
+
+  // Define route patterns, some static and some with dynamic params
+  const routePatterns = [
+    {
+      pattern: /^\/client\/dashboard$/,
+      link: "/client/dashboard",
+      title: "Dashboard",
+    },
+    {
+      pattern: /^\/client\/dashboard\/profile$/,
+      link: "/client/dashboard/profile",
+      title: "Profile",
+    },
+    {
+      pattern: /^\/client\/dashboard\/projects\/create$/,
+      link: "/client/dashboard/projects/create",
+      title: "Create Project",
+    },
+    {
+      pattern: /^\/client\/dashboard\/projects$/,
+      link: "/client/dashboard/projects",
+      title: "All Projects",
+    },
+    {
+      pattern: /^\/client\/dashboard\/account$/,
+      link: "/client/dashboard/account",
+      title: "Account",
+    },
+    {
+      pattern: /^\/client\/dashboard\/invoice$/,
+      link: "/client/dashboard/invoice",
+      title: "Invoice",
+    },
+    {
+      pattern: /^\/client\/dashboard\/support$/,
+      link: "/client/dashboard/support",
+      title: "Support",
+    },
+    {
+      pattern: /^\/client\/dashboard\/projects\/status\/[^/]+$/,
+      link: "/client/dashboard/projects/status/:id",
+      title: "Project",
+    }, // dynamic route
+  ];
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+
+    // Check if URL starts with /client or /freelancer
+    const isClientOrFreelancer = /^\/(client|freelancer)\b/.test(currentPath);
+
+    if (isClientOrFreelancer) {
+      const matched = routePatterns.find((route) =>
+        route.pattern.test(currentPath)
+      );
+      if (matched) {
+        setActiveLink(matched.title);
+        console.log("Active Link:", matched.link);
+      } else {
+        setActiveLink("Dashboard");
+        console.log("No strict match found.");
+      }
+    } else {
+      setActiveLink("");
+      console.log("Route doesn't start with /client or /freelancer");
+    }
+  }, [location]);
+
   return (
     <div
       className={`side-bar-container
@@ -36,7 +106,9 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
       <div className="side-bar-wrapper">
         {navList.map((link, index) => (
           <div key={index} className="nav-group">
-            <h4 className="nav-group-title">{link.title}</h4>
+            <h4 className="nav-group-title text-black-variant-2 font-weight-500">
+              {link.title}
+            </h4>
             <ul className="nav-list">
               {link.child.map((item, childIndex) => (
                 <li key={childIndex}>
