@@ -10,6 +10,7 @@ import useClientProject, {
 import { useProjectContext } from "../../../../context/projects/project_context";
 import ProjectTableSkeleton from "../../components/client/project_skeleton";
 import StatusBadge from "../../../../components/status_badge/status_badge";
+import { SearchNormal1 } from "iconsax-react";
 // considering passing auth and project here *** important **
 const ClientrProjectTable = () => {
   const clientProject = useClientProject();
@@ -33,28 +34,30 @@ const ClientrProjectTable = () => {
             minWidth: "300px",
           }}
         >
-          <h5 className="pt-4 mb-2 mb-sm-0">Project</h5>
-          <div className="ms-auto" style={{ maxWidth: "150px" }}>
-            <ButtonPrimary
-              title="Create Project"
-              type="button"
-              className="py-2 px-3 mb-2"
-              onClick={() => navigate("create")}
-            />
-          </div>
+          <h5 className="pt-4 mb-2 mb-sm-4">Project</h5>
+
           {/* SEARCH LABLE */}
-          <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card">
+          <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4 flex-sm-row flex-column">
             <div
-              className="d-flex flex-column flex-sm-row gap-2 justify-content-between search-bar col "
+              className="d-flex flex-column flex-sm-row ps-2 gap-1 align-items-center search-bar col border-card rounded"
               style={{ width: "100%" }}
             >
+              <SearchNormal1 size={18} className="bg-icon" />
               <input
                 type="text"
-                className="custom-input border-card rounded"
+                className="custom-input"
                 placeholder="Search by title or budget"
                 value={clientProject.searchTerm}
                 onChange={clientProject.handleSearch}
                 style={{ width: "100%" }}
+              />
+            </div>
+            <div className="ms-auto" style={{ maxWidth: "150px" }}>
+              <ButtonPrimary
+                title="Create Project"
+                type="button"
+                className="py-2 px-3"
+                onClick={() => navigate("create")}
               />
             </div>
           </div>
