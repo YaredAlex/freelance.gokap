@@ -52,11 +52,11 @@
   --gap-item: 50px;
   --gap-txt: 24px;
   --text-black-variant-1: rgb(0, 0, 0);
-  --text-black-variant-2: rgb(43, 43, 43);
+  --text-black-variant-2: rgb(30, 30, 30);
   --text-black-variant-3: rgb(60, 60, 60);
   --text-blue-variant-1: rgb(4, 6, 44);
   --text-white-variant-1: rgb(255, 255, 255);
-  --text-white-variant-2: white;
+  --text-white-variant-2: rgb(255, 255, 255);
   --text-gray-secondary: rgb(70, 70, 70);
   --black-variant-1: rgb(0, 0, 0);
   --black-variant-2: rgb(32, 32, 32);
@@ -72,6 +72,8 @@
   --dark-gray-light-gray: rgb(230, 230, 230);
   --skeleton-loading-1: hsl(200, 20%, 80%);
   --skeleton-loading-2: hsl(200, 20%, 90%);
+  --color-shadow-box1: rgba(0, 0, 0, 0.15);
+  --color-icon1: rgb(31, 31, 31);
 }
 .dark-theme {
   --primary-green: #3e9359;
@@ -91,8 +93,8 @@
   --dark-blue: rgb(41, 41, 41);
   --dark-blue-hover: rgb(63, 63, 63);
   --text-black-variant-1: rgb(255, 255, 255);
-  --text-black-variant-2: rgb(194, 194, 194);
-  --text-black-variant-3: rgb(156, 156, 156);
+  --text-black-variant-2: rgb(221, 221, 221);
+  --text-black-variant-3: rgb(200, 200, 200);
   --text-blue-variant-1: rgb(218, 218, 218);
   --text-white-variant-1: rgb(31, 31, 31);
   --white-smoke: rgb(31, 31, 31);
@@ -115,6 +117,8 @@
   --dark-gray-light-gray: rgb(48, 48, 48);
   --skeleton-loading-1: hsl(0, 1%, 30%);
   --skeleton-loading-2: hsl(0, 0%, 20%);
+  --color-shadow-box1: rgba(255, 255, 255, 0.05);
+  --color-icon1: rgb(239, 239, 239);
 }
 
 body {
