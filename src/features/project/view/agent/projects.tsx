@@ -4,10 +4,12 @@ import {
   ButtonPrimaryOutline,
 } from "../../../../components/button/button";
 import CustomToastContainer from "../../../../components/custom_toast/toast_container";
-import { CustomLoadingSecondary } from "../../../../components/loading_page/custom_loading";
 import useAgentProject, {
   UseAppliedProjectType,
 } from "../../hooks/agent/use_agent_project";
+import { SearchNormal1 } from "iconsax-react";
+import ProjectTableSkeleton from "../../components/client/project_skeleton";
+import StatusBadge from "../../../../components/status_badge/status_badge";
 // considering passing auth and project here *** important **
 const AgentProject = () => {
   const agentProject = useAgentProject();
@@ -32,36 +34,34 @@ const AgentProject = () => {
           }}
         >
           <h5 className="pt-4 mb-2 mb-sm-0">Project</h5>
-          <div className="ms-auto" style={{ maxWidth: "150px" }}>
-            <ButtonPrimary
-              title="Apply Project"
-              type="button"
-              className="py-2 px-3 mb-2"
-              onClick={() => navigate("/agent/dashboard")}
-            />
-          </div>
+
           {/* SEARCH LABLE */}
-          <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card">
+          <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4 flex-sm-row flex-column">
             <div
-              className="d-flex flex-column flex-sm-row gap-2 justify-content-between search-bar col "
+              className="d-flex flex-row ps-2 gap-1 align-items-center search-bar col border-card rounded"
               style={{ width: "100%" }}
             >
+              <SearchNormal1 size={18} className="bg-icon" />
               <input
                 type="text"
-                className="custom-input border-card rounded"
-                placeholder="Search by title or proposal"
+                className="custom-input"
+                placeholder="Search by title or budget"
                 value={agentProject.searchTerm}
                 onChange={agentProject.handleSearch}
                 style={{ width: "100%" }}
               />
             </div>
+            <div className="ms-auto" style={{ maxWidth: "150px" }}>
+              <ButtonPrimary
+                title="Apply Project"
+                type="button"
+                className="py-2 px-3"
+                onClick={() => navigate("/agent/dashboard")}
+              />
+            </div>
           </div>
           {agentProject.loading ? (
-            <>
-              <div className="position-relative mt-100">
-                <CustomLoadingSecondary title="Loading" />
-              </div>
-            </>
+            <ProjectTableSkeleton />
           ) : (
             <ProjectTable agentProject={agentProject} />
           )}
@@ -102,7 +102,9 @@ const ProjectTable = ({
               >
                 <td className="p-3">{project?.project.title}</td>
                 <td className="p-3">{project?.proposal}</td>
-                <td className="p-3">{project?.status}</td>
+                <td className="p-3">
+                  <StatusBadge type="payment" code={project.status} />
+                </td>
 
                 <td className="p-3">
                   {new Date(project?.applied_at).toLocaleDateString()}
@@ -117,7 +119,6 @@ const ProjectTable = ({
                       type="button"
                       title="manage"
                       className="py-2"
-                      showBorder={false}
                     />
                   </div>
                 </td>

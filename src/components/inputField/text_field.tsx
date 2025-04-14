@@ -106,7 +106,7 @@ type TextEdit = {
   prefix_icon?: React.ReactNode;
   surfix_icon?: React.ReactNode;
   name: string;
-  title: string;
+  title?: string;
   error: string | undefined;
   onChange: (
     e:
@@ -114,10 +114,12 @@ type TextEdit = {
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   subtitle?: string;
-  value: string;
+  value: string | readonly string[];
   rows?: number;
   min?: string;
   max?: string;
+  accept?: string;
+  id?: string;
 };
 export const TextEdit = ({
   placeholder,
@@ -132,6 +134,8 @@ export const TextEdit = ({
   value,
   min,
   max,
+  accept,
+  id,
 }: TextEdit) => {
   return (
     <div
@@ -140,9 +144,11 @@ export const TextEdit = ({
       align-items-start
       "
     >
-      <label className="mb-2 text-capitalize text-black-variant-2">
-        {title}
-      </label>
+      {title && (
+        <label className="mb-2 text-capitalize text-black-variant-2">
+          {title}
+        </label>
+      )}
       {subtitle && <p className="mb-2">{subtitle}</p>}
       <div
         className={`d-flex
@@ -162,6 +168,8 @@ export const TextEdit = ({
           value={value}
           min={min}
           max={max}
+          accept={accept}
+          id={id}
         />
         {surfix_icon ?? ""}
       </div>

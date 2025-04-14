@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 type ButtonType = {
   type: "submit" | "reset" | "button";
   title: string;
@@ -5,6 +7,7 @@ type ButtonType = {
   className?: string;
   showBorder?: boolean;
   disabled?: boolean;
+  children?: ReactNode;
 };
 const ButtonPrimary = ({
   type,
@@ -12,20 +15,19 @@ const ButtonPrimary = ({
   title,
   className,
   disabled = false,
+  children,
 }: ButtonType) => {
   return (
     <button
       className={`btn-custom 
       green-varient-2
       green-varient-2-hover
-      height-xsm
       text-capitalize ${className}`}
-      style={{ maxWidth: "100%", height: "fit-content" }}
       type={type}
       onClick={onClick}
       disabled={disabled}
     >
-      {title}
+      {children ? children : title}
     </button>
   );
 };
@@ -35,17 +37,16 @@ const ButtonPrimaryOutline = ({
   title,
   className,
   showBorder = true,
+  children,
 }: ButtonType) => {
   return (
     <button
-      className={`btn-custom-outline ${showBorder ? "" : "border-none"}
-      height-xsm
+      className={`btn-custom outline ${showBorder ? "" : "border-none"}
       text-capitalize ${className}`}
-      style={{ maxWidth: "100%", height: "fit-content" }}
       type={type}
       onClick={onClick}
     >
-      {title}
+      {children ? children : title}
     </button>
   );
 };

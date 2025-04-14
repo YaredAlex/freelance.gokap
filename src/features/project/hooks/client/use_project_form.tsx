@@ -43,6 +43,7 @@ const useProjectForm = () => {
     category: "category is required",
     subcategory: "subcategory is required",
   };
+  const maxItems = 15;
   const navigator = useNavigate();
   const validateProjectInput = () => {
     let isValid = true;
@@ -121,6 +122,17 @@ const useProjectForm = () => {
       };
     });
   };
+  const onSelectItem = (item: string) => {
+    if (maxItems && personalSkills.length >= maxItems) {
+      return;
+    }
+
+    setPersonalSkills([...personalSkills, item]);
+  };
+
+  const onRemoveItem = (item: string) => {
+    setPersonalSkills(personalSkills.filter((i) => i !== item));
+  };
 
   return {
     resetInput,
@@ -132,6 +144,8 @@ const useProjectForm = () => {
     projectInput,
     validateProjectInput,
     navigator,
+    onRemoveItem,
+    onSelectItem,
   };
 };
 
@@ -161,4 +175,6 @@ export type ProjectFormType = {
   projectInput: ProjectInputType;
   validateProjectInput: () => boolean;
   navigator: NavigateFunction;
+  onRemoveItem: (item: string) => void;
+  onSelectItem: (item: string) => void;
 };

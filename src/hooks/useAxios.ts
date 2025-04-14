@@ -44,10 +44,10 @@ export const useAxios = (props:UseAxiosTypes)=>{
                 //if get new token if there is refresh token
                 const {refresh} = getTokensFromSecureStorage()
                 if(refresh)
+                  console.log("calling refresh")
                  useRefresh.getToken(()=>{
                   sendRequest(data,onSuccess,onError,false);
                 });
-                
                 return;
               }
               try{

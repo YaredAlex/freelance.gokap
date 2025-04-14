@@ -38,7 +38,7 @@ const TopBarProfile = ({ user }: { user: UserAuthType }) => {
     <div className="topbar-profile" ref={menuRef}>
       <div className="topbar-avatar" onClick={() => setIsOpen(!isOpen)}>
         <CircularAvatar
-          size={40}
+          size={"40px"}
           text={user.firstname?.slice(0, 2) ?? ""}
           bgcolor={"bg-gray-secondary"}
           className={"cursor-pointer"}

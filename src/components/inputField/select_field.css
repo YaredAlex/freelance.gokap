@@ -1,0 +1,36 @@
+.select-wrapper-out {
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+.select-wrapper {
+  position: relative;
+}
+
+.select {
+  width: 100%;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--primary-color, #82e24a);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.select.empty {
+  color: var(--text-muted, #777);
+}
+
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--text-color, #333);
+  pointer-events: none;
+}

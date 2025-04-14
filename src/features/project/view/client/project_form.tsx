@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-
-import SelectSkill from "../../../../components/select_skill/select_skill";
 import { ProjectFormType } from "../../hooks/client/use_project_form";
 import {
   SelectEditRow,
@@ -8,6 +6,8 @@ import {
   TextEditRow,
 } from "../../../../components/inputField/text_field_row";
 import { categoryList } from "../../../../util/constant/categories";
+import { skillsList } from "../../../../util/constant/skill_constant";
+import SelectOptions from "../../../../components/select_options/select_option";
 
 const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
   const [minDate, setMinDate] = useState("");
@@ -140,11 +140,14 @@ const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
           <hr />
           {/* Skill section  */}
           <div className="px-4">
-            <SelectSkill
+            <SelectOptions
               error={projectFrom.errors.skills_required}
-              selectedSkill={projectFrom.personalSkills}
-              setSelectedSkill={projectFrom.setPersonalSkills}
+              selectedOption={projectFrom.personalSkills}
+              setSelectOption={projectFrom.setPersonalSkills}
+              optionList={skillsList}
               row={true}
+              onRemoveItem={projectFrom.onRemoveItem}
+              onSelectItem={projectFrom.onSelectItem}
             />
           </div>
           <hr />

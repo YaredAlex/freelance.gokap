@@ -1,82 +1,93 @@
 import React, { useEffect, useState } from "react";
 import { BoardingPropTypes } from "../../hooks/onboard/use_onboard";
-import SelectSkill from "../../../../components/select_skill/select_skill";
 import "./user_profession_skill.css";
+import { categoryList } from "../../../../util/constant/categories";
+import { DropdownOption } from "../../../../components/dropdown/custom_dropdown";
+import SelectOptions from "../../../../components/select_options/select_option";
+import Select from "../../../../components/inputField/select_field";
+import { maxSkill, minSkill } from "../../../../util/constant/constant";
 
 const UserProfessionAndSkill: React.FC<BoardingPropTypes> = ({
-  setGotoNext,
   setUserInfo,
   userInfo,
+  setOnNextValidator,
 }) => {
   const [personalSkills, setPersonalSkills] = useState<string[]>(
     userInfo.skills || []
   );
   const [profession, setProfession] = useState(userInfo.profession || "");
-  const [error, setError] = useState<string>("");
 
-  const professionList = [
-    "Designer/Artist",
-    "Engineer",
-    "Educator",
-    "Student",
-    "Product Manager",
-    "Sales/Marketing",
-    "Other",
-  ];
-
+  const professionList = categoryList.map((cat) => cat.category);
+  const [errors, setErrors] = useState({
+    profession: "",
+    skills: "",
+  });
+  const errorMessages = {
+    proffession: "Please select your profession",
+    skills: "At least 2 skills are required",
+  };
   useEffect(() => {
     // Validate profession and skills
-    if (!profession) {
-      setError("Please select your profession");
-      setGotoNext(false);
-      return;
+    setOnNextValidator(onNextValidator);
+    if (profession) {
+      setErrors((prev) => ({ ...prev, profession: "" }));
     }
 
-    if (personalSkills.length < 2) {
-      setError("At least 2 skills are required");
-      setGotoNext(false);
-      return;
+    if (personalSkills.length >= minSkill) {
+      setErrors((prev) => ({ ...prev, skills: "" }));
     }
-
-    // Clear error and proceed if validation passes
-    setError("");
-    setGotoNext(true);
-    setUserInfo((info) => ({
-      ...info,
-      profession,
-      skills: personalSkills,
-    }));
+    if (profession && personalSkills.length >= minSkill) {
+      setUserInfo((info) => ({
+        ...info,
+        profession,
+        skills: personalSkills,
+      }));
+    }
   }, [personalSkills, profession]);
 
+  useEffect(() => {}, []);
   const handleProfessionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setProfession(e.target.value);
+    setPersonalSkills([]);
+  };
+  const onSelectItem = (item: string) => {
+    if (maxSkill && personalSkills.length >= maxSkill) {
+      return;
+    }
+
+    setPersonalSkills([...personalSkills, item]);
+  };
+  const onRemoveItem = (item: string) => {
+    setPersonalSkills(personalSkills.filter((i) => i !== item));
+  };
+  const onNextValidator = () => {
+    let isValid = true;
+    if (!profession) {
+      setErrors((prev) => ({ ...prev, profession: errorMessages.proffession }));
+      isValid = false;
+    } else setErrors((prev) => ({ ...prev, profession: "" }));
+    if (personalSkills.length < minSkill) {
+      setErrors((prev) => ({ ...prev, skills: errorMessages.skills }));
+      isValid = false;
+    } else setErrors((prev) => ({ ...prev, skills: "" }));
+    console.log(errors);
+
+    return isValid;
   };
 
   return (
     <div className="profession-skill-container">
       {/* Profession Selection */}
       <div className="profession-section">
-        <h3 className="section-title">What is your profession?</h3>
-        <div className="profession-select-wrapper">
-          <select
-            className={`profession-select ${!profession ? "empty" : ""}`}
-            name="profession"
-            onChange={handleProfessionChange}
-            value={profession}
-          >
-            <option value="">Select profession</option>
-            {professionList.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          {!profession && (
-            <span className="profession-error">
-              Please select your profession
-            </span>
-          )}
-        </div>
+        <h3 className="section-title">Select Your profession category?</h3>
+        <Select
+          errorMessage={errors.profession}
+          name="profession"
+          onChange={handleProfessionChange}
+          options={professionList.map((item) => ({ name: item }))}
+          placeholder="Select profession"
+          selectedItem={profession}
+        />
       </div>
 
       {/* Skills Selection */}
@@ -85,12 +96,21 @@ const UserProfessionAndSkill: React.FC<BoardingPropTypes> = ({
           What skills do you have?
           <span className="required-hint">(at least 2 skills required)</span>
         </h3>
-        <SelectSkill
-          error={error}
-          selectedSkill={personalSkills}
-          setSelectedSkill={setPersonalSkills}
+        <SelectOptions
+          error={errors.skills}
+          selectedOption={personalSkills}
+          setSelectOption={setPersonalSkills}
           showTitle={false}
           minSkills={2}
+          optionList={
+            categoryList
+              .find((item) => item.category === profession)
+              ?.subcategory.map((sub) => {
+                return { name: sub };
+              }) || ([] as DropdownOption[])
+          }
+          onSelectItem={onSelectItem}
+          onRemoveItem={onRemoveItem}
         />
       </div>
     </div>

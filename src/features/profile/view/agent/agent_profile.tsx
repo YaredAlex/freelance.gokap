@@ -1,4 +1,3 @@
-import AccountWrapper from "../../components/account_wrapper";
 import ChangeAddress from "../../components/change_address";
 import ChangeClientName from "../../components/change_name";
 import ChangePassword from "../../components/change_password";
@@ -11,7 +10,6 @@ import ProfileSkeleton from "../../components/profile_wrapper_skeleton";
 import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { Edit } from "iconsax-react";
 import { ButtonFlexOutline } from "../../../../components/button/button";
-import ChangeAgentDetail from "../../components/edit_detail";
 
 // thing about passing auth here ** important
 const ProfileAgent = () => {
@@ -34,25 +32,25 @@ const ProfileAgent = () => {
 
           <div className="d-flex flex-column gap-4">
             {/* Profile */}
-            <AccountWrapper
+            {/* <AccountWrapper
               title={"Profile"}
               lists={agentProfile.profileList}
-            />
+            /> */}
 
             <ChangeAddress profile={agentProfile} />
             <ChangeClientName userProfile={agentProfile} />
             {/* detail */}
-            <Detail agentDetail={agentDetail} />
-            <ChangeAgentDetail agentDetail={agentDetail} />
+            {/* <Detail agentDetail={agentDetail} />
+            <ChangeAgentDetail agentDetail={agentDetail} /> */}
             {/* Account */}
-            <AccountWrapper
+            {/* <AccountWrapper
               title={"Account"}
               lists={agentProfile.accountList}
-            />
+            /> */}
             <ChangePassword clientProfile={agentProfile} />
             <ChangeClientPhone clientProfile={agentProfile} />
             {/* Devices */}
-            <AccountWrapper title={"Device"} lists={agentProfile.deviceList} />
+            {/* <AccountWrapper title={"Device"} lists={agentProfile.deviceList} /> */}
             {/* Danger zone */}
             {/* <AccountWrapper title={"Danger zone"} lists={AccountList} /> */}
           </div>
@@ -64,7 +62,11 @@ const ProfileAgent = () => {
 
 export default ProfileAgent;
 
-const Detail = ({ agentDetail }: { agentDetail: UseAgentDetailType }) => {
+export const Detail = ({
+  agentDetail,
+}: {
+  agentDetail: UseAgentDetailType;
+}) => {
   const lists = agentDetail.detailList;
   return (
     <div className="border-card  bg-white-v-4 rounded py-2 pb-3">

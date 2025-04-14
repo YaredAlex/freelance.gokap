@@ -1,98 +1,137 @@
 import React, { useEffect, useState } from "react";
 import { BoardingPropTypes } from "../../hooks/onboard/use_onboard";
 import { Languages } from "../../../../util/constant/language_constant";
-import customToast from "../../../../components/custom_toast/custom_toast";
 import { FaFile } from "react-icons/fa6";
-import SelectLanguage from "../../../../components/select_language/select_language";
 import "./resume_language.css";
+import { TextEdit } from "../../../../components/inputField/text_field";
+import SelectSearchOptions from "../../../../components/select_options/select_option";
+import { maxLanguage, minLanguage } from "../../../../util/constant/constant";
+import { languageRequired } from "../../../../util/string_constants";
 
 const ResumeAndLanguage: React.FC<BoardingPropTypes> = ({
-  setGotoNext,
   setUserInfo,
   userInfo,
+  setOnNextValidator,
 }) => {
   const [resume, setResume] = useState<File | null>(userInfo.resume || null);
-  const [lang, setLang] = useState(Languages);
   const [userLanguage, setUserLanguage] = useState<string[]>(
     userInfo.language || []
   );
-  const [error, setError] = useState<string>("");
+  const [errors, setErrors] = useState({
+    resume: "",
+    language: "",
+  });
+  const errorMessages = {
+    langauge: languageRequired,
+  };
 
   useEffect(() => {
     // Validate resume size
+    setOnNextValidator(onNextValidator);
     if (resume) {
       const size = resume.size / 1000000;
       if (size > 2) {
-        setError(`Resume size ${size.toFixed(2)}MB exceeds the 2MB limit`);
-        customToast({
-          message: `Resume size ${size.toFixed(2)}MB exceeds the 2MB limit`,
-          type: "error",
-        });
-        return;
+        setErrors((prev) => ({
+          ...prev,
+          resume: `Resume size ${size.toFixed(2)}MB exceeds the 2MB limit`,
+        }));
+        setUserInfo((info) => ({
+          ...info,
+          resume: resume || info.resume,
+        }));
       }
     }
 
-    // Validate language selection
-    if (userLanguage.length < 1) {
-      setError("At least one language is required");
-      setGotoNext(false);
-      return;
-    }
-    setError("");
-
-    if ((resume || userInfo.resume) && userLanguage.length >= 1) {
+    if (userLanguage.length >= minLanguage) {
+      setErrors((prev) => ({
+        ...prev,
+        language: "",
+      }));
       setUserInfo((info) => ({
         ...info,
         language: userLanguage,
-        resume: resume || info.resume,
       }));
-      setGotoNext(true);
-    } else {
-      setGotoNext(false);
     }
   }, [resume, userLanguage]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files && files.length > 0) {
-      setResume(files[0]);
+  const handleFileChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (e.target instanceof HTMLInputElement) {
+      const files = e.target.files;
+      if (files && files.length > 0) {
+        setResume(files[0]);
+      }
     }
   };
+  const onSelectItem = (item: string) => {
+    if (maxLanguage && userLanguage.length >= maxLanguage) {
+      return;
+    }
 
+    setUserLanguage([...userLanguage, item]);
+  };
+  const onRemoveItem = (item: string) => {
+    setUserLanguage(() => userLanguage.filter((i) => i !== item));
+  };
+  const onNextValidator = () => {
+    let isValid = true;
+    if (userLanguage.length < minLanguage) {
+      setErrors((prev) => ({ ...prev, language: errorMessages.langauge }));
+      isValid = false;
+    } else setErrors((prev) => ({ ...prev, language: "" }));
+    if (resume) {
+      const size = resume.size / 1000000;
+      if (size > 2) {
+        setErrors((prev) => ({
+          ...prev,
+          resume: `Resume size ${size.toFixed(2)}MB exceeds the 2MB limit`,
+        }));
+      }
+    } else setErrors((prev) => ({ ...prev, resume: "" }));
+
+    return isValid;
+  };
   return (
     <div className="resume-language-container">
       {/* Resume Upload Section */}
       <div className="upload-section">
         <h3 className="section-title">Upload Your Resume</h3>
-        <div className="file-upload-container">
-          <input
-            type="file"
-            id="resume"
-            accept=".pdf,.doc,.docx"
-            className="file-input"
-            onChange={handleFileChange}
-          />
-          <label htmlFor="resume" className="file-label">
-            <span className="file-name">
-              {resume ? resume.name : "Resume (max 2MB)"}
-            </span>
+        <TextEdit
+          accept=".pdf,.doc,.docx"
+          onChange={handleFileChange}
+          id="resume"
+          type="file"
+          surfix_icon={
             <span className="file-icon">
               <FaFile color="green" />
             </span>
-          </label>
-        </div>
+          }
+          error=""
+          placeholder="Resume file"
+          name="resume"
+          value={""}
+        />
       </div>
 
       {/* Language Selection Section */}
       <div className="language-section">
-        <h3 className="section-title">Language</h3>
+        <h3 className="section-title">
+          Language
+          <span className="required-hint">(at least 1 Language required)</span>
+        </h3>
         <div className="language-select-wrapper">
-          <SelectLanguage
-            lang={lang}
-            setLang={setLang}
-            setUserLanguage={setUserLanguage}
-            userLanguage={userLanguage}
-            error={error}
+          <SelectSearchOptions
+            error={errors.language}
+            showTitle={false}
+            selectedOption={userLanguage}
+            setSelectOption={setUserLanguage}
+            onSelectItem={onSelectItem}
+            onRemoveItem={onRemoveItem}
+            optionList={Languages.map((lang) => ({ name: lang.name }))}
+            placeholder="Select Language"
           />
         </div>
       </div>

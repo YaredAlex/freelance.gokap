@@ -6,8 +6,8 @@ import {
 import { TextEditArea } from "../../../components/inputField/text_field";
 import { UseAgentDetailType } from "../hooks/agent/use_agent_detail";
 import { useChangeAgentDetail } from "../hooks/agent/use_change_detail";
-import SelectSkill from "../../../components/select_skill/select_skill";
-import SelectLanguage from "../../../components/select_language/select_language";
+import SelectSearchOptions from "../../../components/select_options/select_option";
+import { skillsList } from "../../../util/constant/skill_constant";
 
 const ChangeAgentDetail = ({
   agentDetail,
@@ -45,24 +45,28 @@ const ChangeAgentDetail = ({
             {/* skill */}
             <div className="mt-3">
               <h6>Skills</h6>
-              <SelectSkill
+              <SelectSearchOptions
                 error={changeDetail.errors.skills}
                 showTitle={false}
-                selectedSkill={changeDetail.personalSkill ?? []}
-                setSelectedSkill={changeDetail.setPersonalSkill}
+                selectedOption={changeDetail.personalSkill ?? []}
+                setSelectOption={changeDetail.setPersonalSkill}
                 maxWidth="100%"
+                onRemoveItem={() => {}}
+                onSelectItem={() => {}}
+                optionList={skillsList}
               />
             </div>
             {/* lanugage */}
             <div className={`mt-3 text-black-variant-1 `}>
               <h6 className={` p-2`}>Language</h6>
 
-              <SelectLanguage
-                lang={changeDetail.lang}
-                setLang={changeDetail.setLang}
-                setUserLanguage={changeDetail.setUserLanguage}
-                userLanguage={changeDetail.userLanguage}
+              <SelectSearchOptions
+                optionList={changeDetail.lang}
+                setSelectOption={changeDetail.setUserLanguage}
+                selectedOption={changeDetail.userLanguage}
                 error={changeDetail.errors.languages}
+                onRemoveItem={() => {}}
+                onSelectItem={() => {}}
               />
             </div>
             <div

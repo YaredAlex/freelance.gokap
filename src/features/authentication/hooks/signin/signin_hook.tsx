@@ -8,7 +8,10 @@ import { GTexts } from "../../../../util/string_constants";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../../context/auth/auth_context";
-import { saveTokensToSecureStorage } from "../../../../context/auth/auth_storage";
+import {
+  getTokensFromSecureStorage,
+  saveTokensToSecureStorage,
+} from "../../../../context/auth/auth_storage";
 
 const useSignIn = () => {
   const {
@@ -34,7 +37,6 @@ const useSignIn = () => {
 
   useEffect(() => {
     //check if user is already logged in
-    console.log("signInHook called");
     if (
       authContext.isInitialized &&
       authContext.user!.role &&
@@ -47,8 +49,9 @@ const useSignIn = () => {
       });
     }
     return () => {
-      console.log("signinHook cleanup function call authContext.getProfile");
-      authContext.getProfile(true);
+      //fetch getProfile if user is authenticated
+      if (getTokensFromSecureStorage().token != null)
+        authContext.getProfile(true);
     };
   }, [authContext.isInitialized]);
 

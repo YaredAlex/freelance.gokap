@@ -39,7 +39,7 @@ const ClientrProjectTable = () => {
           {/* SEARCH LABLE */}
           <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4 flex-sm-row flex-column">
             <div
-              className="d-flex flex-column flex-sm-row ps-2 gap-1 align-items-center search-bar col border-card rounded"
+              className="d-flex flex-row ps-2 gap-1 align-items-center search-bar col border-card rounded"
               style={{ width: "100%" }}
             >
               <SearchNormal1 size={18} className="bg-icon" />

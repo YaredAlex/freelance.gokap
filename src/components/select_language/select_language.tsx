@@ -20,16 +20,10 @@ const SelectLanguage: React.FC<SelectLanguageProps> = ({
 }) => {
   useEffect(() => {
     // Initialize selected languages
-    userLanguage.forEach((selected) => {
-      setLang((prevLang) =>
-        prevLang.map((langItem) => ({
-          ...langItem,
-          isSelected:
-            langItem.isSelected ||
-            langItem.name.toLowerCase() === selected.toLowerCase(),
-        }))
-      );
-    });
+
+    setLang((prevLang) =>
+      prevLang.filter((langItem) => !userLanguage.includes(langItem.name))
+    );
   }, []);
 
   return (
@@ -43,6 +37,8 @@ const SelectLanguage: React.FC<SelectLanguageProps> = ({
         error={error}
         showSelectedItemsInline={true}
         className="language-dropdown"
+        onRemoveItem={() => {}}
+        onSelectItem={() => {}}
       />
     </div>
   );

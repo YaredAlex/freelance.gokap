@@ -13,7 +13,6 @@ export function getTokensFromSecureStorage() {
   const refresh = secureLocalStorage.getItem(REFRESH_TOKEN_KEY) as string | null;
   return { token, refresh };
 }
-
 export function removeTokensFromSecureStorage() {
   secureLocalStorage.removeItem(TOKEN_KEY);
   secureLocalStorage.removeItem(REFRESH_TOKEN_KEY);

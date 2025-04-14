@@ -35,6 +35,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-image: none;
 }
 select {
-  border: none;
-  outline: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color, #e1e1e1);
+  background-color: var(--white-variant-3, #f5f5f5);
+  color: var(--text-color, #333);
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }

@@ -380,6 +380,9 @@ p {
 .border-card {
   border: 1px solid var(--border-card);
 }
+.border-card-t {
+  border-top: 1px solid var(--border-card);
+}
 .rounded-sm {
   border-radius: 10px;
 }

@@ -31,12 +31,6 @@
   font-weight: 500;
 }
 
-.green-varient-2 {
-  background-color: var(--green-variant-2);
-}
-.green-varient-2-hover:hover {
-  background-color: var(--green-variant-2-hover);
-}
 .dark-green {
   background-color: var(--dark-green);
 }

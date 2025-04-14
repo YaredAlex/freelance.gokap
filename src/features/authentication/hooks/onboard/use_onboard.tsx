@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 import UserProfessionAndSkill from "../../components/onboard/user_profession_skill";
 import WhyAndWhere from "../../components/onboard/why_where";
 import ResumeAndLanguage from "../../components/onboard/resume_language";
-import UserSummary from "../../components/onboard/user_bio";
 import { useNavigate } from "react-router-dom";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useAxios } from "../../../../hooks/useAxios";
+import {
+  deleteUserInfo,
+  readUserInfo,
+  saveUserInfo,
+} from "../../../../util/storage";
+import UserBio from "../../components/onboard/user_bio";
 
 type UserInfo = {
   profession: string;
@@ -17,11 +22,21 @@ type UserInfo = {
   language: string[];
   resume?: File;
 };
-
+const defaultUserInfo: UserInfo = {
+  profession: "",
+  reason: "",
+  where: "",
+  bio: "",
+  skills: [],
+  language: [],
+  resume: undefined,
+};
 export type BoardingPropTypes = {
   setGotoNext: React.Dispatch<React.SetStateAction<boolean>>;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
   userInfo: UserInfo;
+  setErrorMessage: (message: string) => void;
+  setOnNextValidator: (nextValidator: () => boolean) => void;
 };
 export const STATUS = {
   DEFAULT: "DEFAULT",
@@ -30,6 +45,33 @@ export const STATUS = {
 };
 const useOnBoard = () => {
   const authContext = useAuthContext();
+  useEffect(() => {
+    setPageHistory(() => []);
+    const getValidPage = (page: number, info: UserInfo): number => {
+      const validators = [
+        () => info.reason && info.where,
+        () => info.profession && info.skills.length > 0,
+        () => info.language.length > 0,
+        () => true,
+      ];
+
+      for (let i = 0; i < page; i++) {
+        if (validators[i]()) {
+          setPageHistory((prev) => [...prev, pages[i].Page]);
+        } else return i;
+      }
+      return validators.length - 1;
+    };
+
+    const savedInfo = readUserInfo<UserInfo>();
+    if (savedInfo) {
+      setUserInfo(savedInfo);
+      console.log("saved info is ", savedInfo);
+    }
+    const page = getValidPage(pages.length, savedInfo || defaultUserInfo);
+    setCurrentPage(page);
+  }, []);
+
   const [progresState, setProgresState] = useState([
     {
       status: STATUS.PENDING,
@@ -49,24 +91,27 @@ const useOnBoard = () => {
     },
   ]);
   const navigator = useNavigate();
-  const [userInfo, setUserInfo] = useState<UserInfo>({
-    profession: "",
-    reason: "",
-    where: "",
-    bio: "",
-    skills: [],
-    language: [],
-    resume: undefined,
-  });
+  const [userInfo, setUserInfo] = useState<UserInfo>(defaultUserInfo);
   const [currentPage, setCurrentPage] = useState(0);
   const [gotoNext, setGotoNext] = useState(false);
+  const [error, setError] = useState("");
+  const [nextValidator, setNextValidator] = useState<(() => boolean) | null>(
+    null
+  );
+  const [pageHistory, setPageHistory] = useState<JSX.Element[]>([]);
   const headerSubtitles = [
-    // "let's know more about you",
+    "let's know more about you",
     "Your skill and profession",
-    "Your legacy",
     "Your resume help us to know more",
     "Starting your new journey",
   ];
+  const setErrorMessage = (message: string) => {
+    setError(message);
+  };
+  const setOnNextValidator = (nextValidator: () => boolean) => {
+    setNextValidator(() => nextValidator);
+  };
+
   const pages = [
     // {
     //   page: (setGotoNext, setUserInfo) => (
@@ -76,41 +121,61 @@ const useOnBoard = () => {
 
     {
       Page: (
-        <UserProfessionAndSkill
+        <WhyAndWhere
           setGotoNext={setGotoNext}
           setUserInfo={setUserInfo}
           userInfo={userInfo}
+          setErrorMessage={setErrorMessage}
+          setOnNextValidator={setOnNextValidator}
         />
       ),
     },
 
     {
       Page: (
-        <WhyAndWhere
+        <UserProfessionAndSkill
           setGotoNext={setGotoNext}
           setUserInfo={setUserInfo}
           userInfo={userInfo}
+          setErrorMessage={setErrorMessage}
+          setOnNextValidator={setOnNextValidator}
         />
       ),
     },
+
     {
       Page: (
         <ResumeAndLanguage
           setGotoNext={setGotoNext}
           setUserInfo={setUserInfo}
           userInfo={userInfo}
+          setErrorMessage={setErrorMessage}
+          setOnNextValidator={setOnNextValidator}
         />
       ),
     },
     {
       Page: (
-        <UserSummary
+        <UserBio
           setGotoNext={setGotoNext}
           setUserInfo={setUserInfo}
           userInfo={userInfo}
+          setErrorMessage={setErrorMessage}
+          setOnNextValidator={setOnNextValidator}
         />
       ),
     },
+    // {
+    //   Page: (
+    //     <UserSummary
+    //       setGotoNext={setGotoNext}
+    //       setUserInfo={setUserInfo}
+    //       userInfo={userInfo}
+    //       setErrorMessage={setErrorMessage}
+    //       setOnNextValidator={setOnNextValidator}
+    //     />
+    //   ),
+    // },
   ];
 
   const { sendRequest, loading } = useAxios({
@@ -119,7 +184,7 @@ const useOnBoard = () => {
     headers: true,
   });
   const createFreelancer = async () => {
-    console.log(authContext.user);
+    console.log(userInfo);
     sendRequest(
       {
         user: authContext.user?.id,
@@ -130,8 +195,8 @@ const useOnBoard = () => {
         skills: userInfo.skills,
         languages: userInfo.language,
       },
-      (res) => {
-        console.log(res);
+      () => {
+        deleteUserInfo();
         customToast({ message: "success", type: "success" });
         navigator(`/agent/dashboard`);
       },
@@ -146,24 +211,41 @@ const useOnBoard = () => {
     );
   };
   const onNextPage = () => {
-    console.log("user info ==> ", userInfo);
-    if (!gotoNext) {
-      customToast({ message: "please compelet all", type: "error" });
+    if (nextValidator == null) {
+      customToast({
+        message: "You need to implement nextValidator",
+        type: "error",
+      });
+      return;
     }
-    if (gotoNext && currentPage === pages.length - 1) {
+    if (!nextValidator()) {
+      customToast({ message: error || "Please complete all", type: "error" });
+      return;
+    }
+    if (currentPage === pages.length - 1) {
+      saveUserInfo(userInfo);
       createFreelancer();
-    } else if (gotoNext && currentPage != pages.length - 1) {
-      setCurrentPage((c) => c + 1);
+    } else if (currentPage != pages.length - 1) {
+      saveUserInfo(userInfo);
+      const newPage = currentPage + 1;
+      setCurrentPage(newPage);
+      navigator(`?page=${newPage}`, { replace: true });
       const progress = progresState;
+      setError("");
       progress[currentPage].status = STATUS.CHECKED;
       if (currentPage + 1 < pages.length)
         progress[currentPage + 1].status = STATUS.PENDING;
       setProgresState(progress);
+      pageHistory.push(pages[currentPage].Page);
     }
     setGotoNext(false);
   };
   const onPreviousPage = () => {
-    setCurrentPage((c) => c - 1);
+    pageHistory.pop();
+    const newPage = currentPage - 1;
+    navigator(`?page=${newPage}`, { replace: true });
+    setCurrentPage(newPage);
+
     const progress = progresState;
     progress[currentPage - 1].status = STATUS.PENDING;
   };
@@ -180,6 +262,8 @@ const useOnBoard = () => {
     setGotoNext,
     gotoNext,
     progresState,
+    pageHistory,
+    setPageHistory,
   };
 };
 

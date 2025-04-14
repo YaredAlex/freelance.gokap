@@ -21,7 +21,8 @@ export function authReducer(state: UserAuthType, action: AuthActionType): UserAu
 
     case "logout":
       removeTokensFromSecureStorage();
-      localStorage.removeItem('info')
+      localStorage.removeItem('info'); //general user info
+      localStorage.removeItem('@f.info');//freelancer info
       return {
         id: undefined,
         email: undefined,

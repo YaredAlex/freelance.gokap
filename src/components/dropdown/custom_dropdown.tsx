@@ -4,10 +4,6 @@ import "./custom_dropdown_select.css";
 
 export interface DropdownOption {
   name: string;
-  isSelected: boolean;
-}
-export interface DropdownOption2 {
-  name: string;
 }
 
 interface CustomDropdownSelectProps {
@@ -20,18 +16,23 @@ interface CustomDropdownSelectProps {
   maxItems?: number;
   showSelectedItemsInline?: boolean;
   className?: string;
+  onSelectItem: (item: string) => void;
+  onRemoveItem: (item: string) => void;
+  onBlur?: () => void;
 }
 
 const CustomDropdownSelect: React.FC<CustomDropdownSelectProps> = ({
   options,
   setOptions,
   selectedItems,
-  setSelectedItems,
   placeholder = "Select item",
   error,
   maxItems,
   showSelectedItemsInline = true,
   className = "",
+  onSelectItem,
+  onRemoveItem,
+  onBlur,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -44,7 +45,7 @@ const CustomDropdownSelect: React.FC<CustomDropdownSelectProps> = ({
     // Filter options based on search term
     const filtered = options.filter(
       (option) =>
-        !option.isSelected &&
+        !selectedItems.includes(option.name) &&
         option.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredOptions(filtered);
@@ -72,23 +73,17 @@ const CustomDropdownSelect: React.FC<CustomDropdownSelectProps> = ({
       return;
     }
 
-    setSelectedItems([...selectedItems, item]);
+    onSelectItem(item);
     setOptions((prevOptions) =>
-      prevOptions.map((option) =>
-        option.name === item ? { ...option, isSelected: true } : option
-      )
+      prevOptions.filter((option) => option.name !== item)
     );
     setSearchTerm("");
     inputRef.current?.focus();
   };
 
   const handleRemoveItem = (item: string) => {
-    setSelectedItems(selectedItems.filter((i) => i !== item));
-    setOptions((prevOptions) =>
-      prevOptions.map((option) =>
-        option.name === item ? { ...option, isSelected: false } : option
-      )
-    );
+    onRemoveItem(item);
+    setOptions((prevOptions) => [...prevOptions, { name: item }]);
   };
 
   return (
@@ -118,6 +113,9 @@ const CustomDropdownSelect: React.FC<CustomDropdownSelectProps> = ({
           onFocus={() => setShowDropdown(true)}
           placeholder={placeholder}
           className="search-input"
+          onBlur={() => {
+            if (onBlur) onBlur();
+          }}
         />
         {showDropdown && (
           <CloseCircle

@@ -1,7 +1,7 @@
 import "./profile.css";
 import { useAuthContext } from "../../../context/auth/auth_context";
 import ProfileClient from "./client/client_profile";
-import ProfileAgent from "./agent/agent_profile";
+import AgentProfile from "./agent/tmp_profile";
 const Profile = () => {
   const authContext = useAuthContext();
   if (authContext.user?.role === "client")
@@ -13,7 +13,8 @@ const Profile = () => {
   else
     return (
       <div>
-        <ProfileAgent />
+        <AgentProfile />
+        {/* <ProfileAgent /> */}
       </div>
     );
 };

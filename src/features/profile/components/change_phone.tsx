@@ -8,11 +8,12 @@ import {
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
+import { AgentProfileProp } from "../hooks/agent/use_agent_profile";
 
-const ChangeClientPhone = ({
+const ChangePhoneNumber = ({
   clientProfile,
 }: {
-  clientProfile: UseClientProfileType;
+  clientProfile: UseClientProfileType | AgentProfileProp;
 }) => {
   const changePhone = useChangeClientPhone();
   return (
@@ -68,4 +69,4 @@ const ChangeClientPhone = ({
   );
 };
 
-export default ChangeClientPhone;
+export default ChangePhoneNumber;

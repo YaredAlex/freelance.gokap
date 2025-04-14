@@ -18,29 +18,7 @@ const useAgentDetail = () => {
     method: "GET",
     headers: true,
   });
-  const detailList = [
-    {
-      title: "bio",
-      value: agentContext.agent.detail?.bio,
-      onClick: () => {
-        // setShowEditName(true);
-      },
-    },
-    {
-      title: "skill",
-      value: agentContext.agent.detail?.skills,
-      onClick: () => {
-        // setShowEditName(true);
-      },
-    },
-    {
-      title: "Language",
-      value: agentContext.agent.detail?.language,
-      onClick: () => {
-        // setShowEditName(true);
-      },
-    },
-  ];
+
   const onSuccess = (res: AxiosResponse) => {
     const detail = res.data.serialized_data;
     // console.log(res);
@@ -66,17 +44,18 @@ const useAgentDetail = () => {
     // const message = JSON.stringify(error?.request?.response);
     const message = JSON.parse(error?.request?.response);
     if (message?.errors === "Freelancer not found") {
-      navigate(`/onboard`);
+      navigate(`/onboard?`);
     } else customToast({ message: JSON.stringify(message), type: "error" });
     console.log(message?.error);
   };
 
-  const getDetail = async () => {
+  const getDetail = async (callback?: () => void) => {
     // Get profile if it is not already there
-    const agentInfo = JSON.parse(
-      localStorage.getItem("@f.info") ?? "{}"
-    ) as AgentStateType;
-    if (agentInfo.detail) {
+    let agentInfo: string | null | AgentStateType =
+      localStorage.getItem("@f.info");
+    if (agentInfo != null) agentInfo = JSON.parse(agentInfo) as AgentStateType;
+    if (agentInfo && agentInfo.detail) {
+      console.log("setting agent detail ", agentInfo);
       agentContext.dispatchAgent({
         type: "setdetail",
         payload: {
@@ -89,12 +68,12 @@ const useAgentDetail = () => {
     } else if (agentContext.agent.detail === null) {
       sendRequest({}, onSuccess, onError, true);
     }
+    if (callback) callback();
   };
 
   return {
     loading,
     getDetail,
-    detailList,
     showEdit,
     setShowEdit,
   };

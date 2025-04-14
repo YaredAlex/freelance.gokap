@@ -81,12 +81,12 @@ export const agentNavList = [
     child: [
       {
         title: "My stats",
-        to: `stats/`,
+        to: `stats`,
         icon: (color: string) => <Box color={color} variant={variant} />,
       },
       {
         title: "Projects",
-        to: `projects/`,
+        to: `projects`,
         icon: (color: string) => <FolderAdd color={color} variant={variant} />,
       },
     ],
@@ -110,7 +110,7 @@ export const agentNavList = [
     title: "Help Line",
     child: [
       {
-        title: "support",
+        title: "Support",
         to: `support`,
         icon: (color: string) => <MdSupportAgent color={color} size={22} />,
       },
@@ -138,7 +138,7 @@ export const adminNavList = [
       },
       {
         title: "Projects",
-        to: `projects/`,
+        to: `projects`,
         icon: (color: string) => <FolderAdd color={color} variant="Bold" />,
       },
     ],

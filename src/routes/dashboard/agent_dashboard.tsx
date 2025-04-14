@@ -10,7 +10,7 @@ const AgentDashboardRoute = () => {
   const agentContext = useAgentContext();
   const navigator = useNavigate();
   const location = useLocation();
-  const agentDetailController = useAgentDetail();
+  const agentDetail = useAgentDetail();
   useEffect(() => {
     //get freelaner information to check if user have already submited what is required
     const currentPath = location.pathname + location.search;
@@ -18,10 +18,10 @@ const AgentDashboardRoute = () => {
       authContext.initializeAuth(() => {
         navigator(`/signin?redirect=${encodeURIComponent(currentPath)}`);
       });
-      agentDetailController.getDetail();
+      agentDetail.getDetail();
     }
     if (authContext.isInitialized && agentContext.agent.detail === null) {
-      agentDetailController.getDetail();
+      agentDetail.getDetail();
     }
     if (authContext.isInitialized && authContext.user?.role != "freelancer")
       navigator(
@@ -33,7 +33,7 @@ const AgentDashboardRoute = () => {
   return (
     <DashBoard
       role="freelancer"
-      initialized={!authContext.isInitialized || agentDetailController.loading}
+      initialized={!authContext.isInitialized || agentDetail.loading}
     >
       <Outlet />
     </DashBoard>

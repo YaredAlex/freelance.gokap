@@ -169,7 +169,7 @@ const Signin = () => {
             <ButtonPrimary
               title={GTexts.txt_sign_in}
               type="submit"
-              className="py-3 mb-2"
+              className="py-3 mb-2 btn-w-full"
             />
             <div
               className="d-flex

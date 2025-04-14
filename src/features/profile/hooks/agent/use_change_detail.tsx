@@ -5,7 +5,7 @@ import { useAgentContext } from "../../../../context/agent/agent_context";
 import { Languages } from "../../../../util/constant/language_constant";
 
 export const useChangeAgentDetail = (
-  setShowEdit: React.Dispatch<React.SetStateAction<boolean>>
+  setShowEdit?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   const agentContext = useAgentContext();
   const editAgentDetailApi = "/api/freelancer/update/";
@@ -65,6 +65,44 @@ export const useChangeAgentDetail = (
 
     return valid;
   };
+
+  const singleEdit = async (
+    data: {
+      bio?: string;
+      skills?: string[];
+      languages?: string[];
+    },
+    callback?: () => void
+  ) => {
+    await sendRequest(
+      data,
+      (res) => {
+        customToast({ message: "edit success", type: "success" });
+        const detail = res.data.serialized_data;
+        agentContext.dispatchAgent({
+          type: "setdetail",
+          payload: {
+            detail: {
+              ...agentContext.agent.detail,
+              bio: detail.bio,
+              language: detail.languages,
+              skills: detail.skills,
+            },
+            appliedProject: agentContext.agent.appliedProject,
+          },
+        });
+        if (callback) callback();
+      },
+      (error) => {
+        const message = JSON.parse(error?.request?.response);
+        customToast({ message: JSON.stringify(message), type: "error" });
+        console.log(message?.error);
+      },
+      true,
+      "/api/freelancer/update/"
+    );
+  };
+
   const editDetail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //validate details
@@ -93,7 +131,7 @@ export const useChangeAgentDetail = (
             appliedProject: agentContext.agent.appliedProject,
           },
         });
-        setShowEdit(false);
+        if (setShowEdit) setShowEdit(false);
       },
       (error) => {
         const message = JSON.parse(error?.request?.response);
@@ -114,5 +152,6 @@ export const useChangeAgentDetail = (
     setUserLanguage,
     lang,
     setLang,
+    singleEdit,
   };
 };

@@ -20,7 +20,7 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
   useEffect(() => {}, []);
   return (
     <div
-      className="p-2 px-4
+      className="p-2 px-sm-4
             d-flex align-items-start 
             position-fixed 
           dashboard-top-bar
@@ -29,13 +29,13 @@ const DashBoardTopbar = ({ setShowNav, showNav, user }: DBTopBar) => {
     >
       <div
         className={`d-flex align-items-center 
-        gap-4 justify-content-between w-100`}
+        gap-sm-4 gap-2 justify-content-between w-100`}
       >
         {/* Wrapping menu hamberger and name */}
         <div
           className={`d-flex gap-1 justify-content-between align-items-center`}
         >
-          <div className="d-flex gap-4 align-items-center">
+          <div className="d-flex gap-sm-4 gap-2 align-items-center">
             <GITLogo />
             {/* Greeting */}
             <div className="text-blue-variant-1 mb-0 font-weight-400">

@@ -68,14 +68,49 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
       pattern: /^\/client\/dashboard\/projects\/status\/[^/]+$/,
       link: "/client/dashboard/projects/status/:id",
       title: "Project",
-    }, // dynamic route
+    },
+    {
+      pattern: /^\/agent\/dashboard$/,
+      link: "/agent/dashboard",
+      title: "Job",
+    },
+    {
+      pattern: /^\/agent\/dashboard\/profile$/,
+      link: "/agent/dashboard/profile",
+      title: "Profile",
+    },
+    {
+      pattern: /^\/agent\/dashboard\/projects$/,
+      link: "/agent/dashboard/projects",
+      title: "Projects",
+    },
+    {
+      pattern: /^\/agent\/dashboard\/account$/,
+      link: "/agent/dashboard/account",
+      title: "Account",
+    },
+    {
+      pattern: /^\/agent\/dashboard\/invoice$/,
+      link: "/agent/dashboard/invoice",
+      title: "Invoice",
+    },
+    {
+      pattern: /^\/agent\/dashboard\/support$/,
+      link: "/agent/dashboard/support",
+      title: "Support",
+    },
+    {
+      pattern: /^\/agent\/dashboard\/stats$/,
+      link: "/agent/dashboard/stats",
+      title: "My stats",
+    },
   ];
 
   useEffect(() => {
     const currentPath = location.pathname;
 
     // Check if URL starts with /client or /freelancer
-    const isClientOrFreelancer = /^\/(client|freelancer)\b/.test(currentPath);
+    const isClientOrFreelancer = /^\/(client|agent)\b/.test(currentPath);
 
     if (isClientOrFreelancer) {
       const matched = routePatterns.find((route) =>

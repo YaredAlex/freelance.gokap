@@ -8,11 +8,12 @@ import {
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
+import { AgentProfileProp } from "../hooks/agent/use_agent_profile";
 
 const ChangePassword = ({
   clientProfile,
 }: {
-  clientProfile: UseClientProfileType;
+  clientProfile: UseClientProfileType | AgentProfileProp;
 }) => {
   const changePassword = useChangeClientPassword();
   return (

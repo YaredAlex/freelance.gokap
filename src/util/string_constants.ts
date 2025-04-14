@@ -14,5 +14,9 @@ const Texts_EN = {
 Innovation. Sign up today, Let's collaborate, innovate, and transform
 together!`,
 txt_choose_perference: "Choose your prefrence"
+
 }
+
+export const languageRequired = "At least one language is required";
+export const summaryRequired = "At least 50 words minimum"
 export const GTexts = Texts_EN

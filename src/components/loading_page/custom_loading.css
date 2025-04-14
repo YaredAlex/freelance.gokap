@@ -33,6 +33,10 @@
   justify-content: space-between;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.3s ease-out;
+  max-width: 400px;
+  max-height: 300px;
+  width: 100%;
+  height: 100%;
 }
 
 /* Title style */
@@ -52,18 +56,17 @@
 }
 
 /* Add pulse effect around the spinner */
-.loader-animation::after {
+/* .loader-animation::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   width: 70px;
   height: 70px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.03);
   animation: pulse 1.5s infinite ease-in-out;
-}
+} */
 
 /* Progress bar container */
 .loader-progress {
@@ -85,7 +88,7 @@
     var(--green-variant-3)
   );
   border-radius: 2px;
-  animation: progressMove 1.5s infinite ease-in-out;
+  animation: progressMove 3s infinite ease-in-out;
 }
 
 /* Keyframe animations */
@@ -109,7 +112,7 @@
     transform: translateX(-100%);
   }
   50% {
-    transform: translateX(170%);
+    transform: translateX(270%);
   }
   100% {
     transform: translateX(-100%);
