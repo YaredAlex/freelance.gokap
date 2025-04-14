@@ -23,7 +23,7 @@ const TransactionDetail = ({
     >
       <div className=" d-flex rounded col-5  flex-column align-items-center p-1 pb-3  w-100">
         <CircularAvatar
-          size={60}
+          size={"60px"}
           bgcolor={"#00bc5a"}
           className={"mt-2"}
           text={

@@ -103,7 +103,10 @@ const ProjectTable = ({
                 <td className="p-3">{project?.project.title}</td>
                 <td className="p-3">{project?.proposal}</td>
                 <td className="p-3">
-                  <StatusBadge type="payment" code={project.status} />
+                  <StatusBadge
+                    type="payment"
+                    code={project.status == "PA" ? 1 : 2}
+                  />
                 </td>
 
                 <td className="p-3">

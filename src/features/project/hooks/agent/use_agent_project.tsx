@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TimeAgo from "javascript-time-ago";
 import { useAxios } from "../../../../hooks/useAxios";
 import customToast from "../../../../components/custom_toast/custom_toast";
@@ -36,7 +36,7 @@ const useAgentProject = () => {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const timeAgo = new TimeAgo("en-US");
   //   const navigator = useNavigate();
-  // const controller = new AbortController();
+  const controller = new AbortController();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { sendRequest, loading } = useAxios({
     url: "/api/freelancer/applied/projects/",
@@ -65,13 +65,13 @@ const useAgentProject = () => {
       }
     );
   };
-  // useEffect(() => {
-  //   //calling get applied project
-  //   getAppliedProject();
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, []);
+  useEffect(() => {
+    //calling get applied project
+    getAppliedProject();
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   const [searchTerm, setSearchTerm] = useState("");
