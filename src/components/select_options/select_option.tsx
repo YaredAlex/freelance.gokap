@@ -51,10 +51,9 @@ const SelectSearchOptions: React.FC<SelectDropdownSearchProps> = ({
         maxWidth: row ? "100%" : maxWidth,
       }}
     >
-      {!row && showTitle && (
+      {showTitle && (
         <div className={` ${row ? "col-3" : "col"}`}>
           <p className=" mb-0">Skills</p>
-          {<p className="">Skills required for the project</p>}
         </div>
       )}
 
