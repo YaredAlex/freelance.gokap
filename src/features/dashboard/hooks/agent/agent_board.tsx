@@ -143,6 +143,7 @@ const useAgentBoard = () => {
     rowsPerPage,
     currentPage,
     currentRows,
+    fetchProject,
     showFilter,
     setShowFilter,
     setFetchProject,
