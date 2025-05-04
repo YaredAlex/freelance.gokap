@@ -55,6 +55,7 @@ const DashBoard = ({
       dashboard-main-container
       px-md-3 px-3
       pb-3`}
+              id="dashboard-main-container"
             >
               {children}
             </div>
