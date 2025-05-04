@@ -86,7 +86,20 @@ function App() {
                       path={``}
                       element={<AgentDashboardPostedProject />}
                     />
+                    <Route
+                      path={`jobs`}
+                      element={<AgentDashboardPostedProject />}
+                    />
+                    <Route
+                      path={`jobs/find`}
+                      element={<AgentDashboardPostedProject />}
+                    />
+                    <Route
+                      path={`find`}
+                      element={<AgentDashboardPostedProject />}
+                    />
                     <Route path={`apply/:id`} element={<ApplyProject />} />
+                    <Route path={`jobs/apply/:id`} element={<ApplyProject />} />
                     <Route path={`stats/`} element={<AgentStats />} />
                     <Route path={`account`} element={<Profile />} />
                     <Route path={`invoice`} element={<Invoice />} />
