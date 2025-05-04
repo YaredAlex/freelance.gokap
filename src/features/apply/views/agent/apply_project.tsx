@@ -1,10 +1,12 @@
-import { ArrowLeft } from "iconsax-react";
+import React from "react";
+import { ArrowLeft, Medal, Money, WalletMinus } from "iconsax-react";
 import useApplyProject, { ApplyProjectType } from "../../hooks/use_apply";
 import { CustomLoadingSecondary } from "../../../../components/loading_page/custom_loading";
 import { ButtonPrimary } from "../../../../components/button/button";
 import { TextEditArea } from "../../../../components/inputField/text_field";
 import RoundedText from "../../../../components/rounded_text/rounded_text";
 import { ApplyProjectSkeleton } from "../../components/apply_skeleton";
+import { toLocalDate } from "../../../../util/project_data_parser";
 
 const ApplyProject = () => {
   const applyProject = useApplyProject();
@@ -19,7 +21,7 @@ const ApplyProject = () => {
       >
         <ArrowLeft />
       </button>
-
+      {/* loading when applying project */}
       {applyProject.loading && (
         <>
           <div
@@ -51,23 +53,31 @@ const ApplyProjectDetail = ({
 }: {
   applyProject: ApplyProjectType;
 }) => {
-  const formatNumber = (num: string) => {
-    const res = parseInt(num) * 0.1;
-    return Number(res).toFixed(2);
+  const netPayment = (price: string) => {
+    const payment = parseInt(price);
+    const net = payment - 0.1 * payment;
+    return Number(net).toFixed(2);
   };
   return (
     <div>
       <div
-        className="text-black-variant-1 
-        bg-white-v-4 rounded p-2 border-card"
+        className="text-black-variant-1 d-flex flex-column gap-3
+        bg-white-v-4 rounded p-4 border-card"
       >
-        <div className="d-flex gap-4">
-          <div className="ms-4" style={{ maxWidth: "700px", width: "100%" }}>
-            {/* title */}
-            <h5 className="project-title my-3 font-weight-400 text-capitalize">
-              {applyProject.currentProject.title}
-            </h5>
-            {/* Description */}
+        <h5 className="mb-3">Job detail</h5>
+        <div className="d-flex flex gap-3">
+          <div className="col-9 border-right-light">
+            <h6 className="">{applyProject.currentProject.title}</h6>
+            <div className="d-flex gap-4 align-items-center my-3">
+              <RoundedText
+                text={"Category"}
+                showIcon={false}
+                bgColor={"gray"}
+              />{" "}
+              <p className="font-weight-300 ">
+                Posted {toLocalDate(applyProject.currentProject.created_at)}
+              </p>
+            </div>
             <p
               className="project-description my-3 text-black-variant-2 font-weight-400"
               style={{
@@ -77,27 +87,36 @@ const ApplyProjectDetail = ({
             >
               {applyProject.currentProject.description}
             </p>
-            {/* Budget */}
-            <h6 className="project-title my-3 text-capitalize">Budget</h6>
-            <h6 className="font-weight-400">
-              {applyProject.currentProject?.project_price}
-            </h6>
-            {/* Fee */}
-            <h6 className="my-3 text-capitalize">Platform fee 10%</h6>
-            <p className="text-black-variant-2">
-              {formatNumber(applyProject.currentProject?.project_price)}
-            </p>
-            {/* skills */}
-            <h6 className="project-title my-3  text-capitalize">
-              Skill and Experties
-            </h6>
-            <div className="d-flex gap-3 flex-wrap my-3">
-              {applyProject.currentProject?.skills_required?.map(
-                (skill, index) => (
-                  <RoundedText text={skill} key={index} />
-                )
-              )}
-            </div>
+          </div>
+          {/* right side  */}
+          <div className="col-3 d-flex flex-column gap-3">
+            {/* Experiance level */}
+            <ApplyListTile
+              icon={<Medal />}
+              title={"Intermediate"}
+              subtitle="Experiance Level"
+            />
+            <ApplyListTile
+              icon={<WalletMinus />}
+              title={"10%"}
+              subtitle="Platform Fee"
+            />
+            <ApplyListTile
+              icon={<Money />}
+              title={netPayment(applyProject.currentProject.project_price)}
+              subtitle="Payment"
+            />
+          </div>
+        </div>
+        <hr />
+        <div className="d-flex flex-column gap-2">
+          <h6 className="project-title text-capitalize">Skill and Experties</h6>
+          <div className="d-flex gap-3 flex-wrap mt-3">
+            {applyProject.currentProject?.skills_required?.map(
+              (skill, index) => (
+                <RoundedText text={skill} key={index} />
+              )
+            )}
           </div>
         </div>
       </div>
@@ -164,6 +183,26 @@ const ApplyProjectDetail = ({
             />
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const ApplyListTile = ({
+  icon,
+  title,
+  subtitle,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  subtitle: string;
+}) => {
+  return (
+    <div className="d-flex gap-4 align-items-start">
+      {icon}
+      <div>
+        <p>{title}</p>
+        <p className="text-black-variant-2 font-weight-300">{subtitle}</p>
       </div>
     </div>
   );
