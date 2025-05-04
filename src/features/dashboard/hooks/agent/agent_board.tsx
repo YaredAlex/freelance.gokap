@@ -7,7 +7,6 @@ import {
 } from "../../../../context/projects/project_context";
 import TimeAgo from "javascript-time-ago";
 import { AxiosResponse } from "axios";
-
 const useAgentBoard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentRows, setCurrentRows] = useState<PostedProjectType[]>([]);
@@ -16,12 +15,11 @@ const useAgentBoard = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [priceFilter, setPriceFilter] = useState("");
   const [applicatFilter, setApplicantFilter] = useState("");
-  const [postedProject, setPostedProject] = useState<PostedProjectType[]>([]);
-  const [projectHolder, setProjectHolder] = useState<PostedProjectType[]>([]);
+  const [projectCount, setProjectCount] = useState(0);
+  const [pageList, setPageList] = useState<number[]>([]);
   const { setCurrentProject } = useProjectContext();
-  const rowsPerPage = 5;
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const rowsPerPage = 10;
+
   const timeAgo = new TimeAgo("en-US");
   const navigator = useNavigate();
   // const controller = new AbortController();
@@ -33,31 +31,57 @@ const useAgentBoard = () => {
     method: "GET",
   });
   const searchProject = useSearchProject();
-  const getUnAssignedProject = () => {
+  const getUnAssignedProject = (pageNumber: number = 1) => {
     sendRequest(
       {},
       (res) => {
         const data = res.data.serialized_data;
-        setPostedProject(data);
-        setProjectHolder(data);
-        setCurrentRows(data.slice(indexOfFirstRow, indexOfLastRow));
-        paginate(1);
+        setCurrentRows(data.results);
+        setProjectCount(data.count);
+        setCurrentPage(pageNumber);
+        //function to make pagination list
+        makePageList(data.count, pageNumber);
+        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
       },
       (error) => {
         console.log(error);
-      }
+      },
+      true,
+      `/api/project/unassigned/?page=${pageNumber}`
     );
   };
   //paginate
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  // const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const goToPage = (pageNumber: number) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("page", pageNumber.toString());
+    params.set("load", "true");
+    navigator(`?${params.toString()}`);
+    getUnAssignedProject(pageNumber);
+  };
+  const makePageList = (totalProject: number, currentPage: number) => {
+    const pageLimit = 5;
+    const totalPage = Math.ceil(totalProject / rowsPerPage);
+    const pages = [];
+    if (totalPage <= pageLimit) {
+      for (let i = 1; i <= totalPage; i++) pages.push(i);
+      setPageList(pages);
+    } else {
+      const iter = 0;
+      while (iter < 5 && iter + currentPage <= totalPage) {
+        pages.push(currentPage + iter);
+      }
+      setPageList(pages);
+    }
+  };
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-    setCurrentRows(projectHolder.slice(indexOfFirstRow, indexOfLastRow));
-  }, [currentPage]);
-
-  useEffect(() => {
-    getUnAssignedProject();
-  }, [fetchProject]);
+    //get current page form url
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page") ?? 1;
+    const load = params.get("load");
+    if (load && load == "false") return;
+    getUnAssignedProject(Number(page));
+  }, [window.location.search]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,19 +89,24 @@ const useAgentBoard = () => {
     // 'min_price'
     // 'title'
     if (searchTerm.trim() == "") {
-      setProjectHolder(postedProject);
-      setCurrentRows(postedProject.slice(indexOfFirstRow, indexOfLastRow));
+      // getUnAssignedProject();
       return;
     }
     searchProject.searchProject(
       `title=${searchTerm}&description=${searchTerm}`,
       (res) => {
         console.log(res);
-        const searchResult = res.data.serialized_data;
-        setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
-        // Reset to first page when searching
+        const data = res.data.serialized_data;
+        console.log(data);
+        const params = new URLSearchParams(window.location.search);
+        params.set("search", encodeURIComponent(searchTerm));
+        params.set("load", "false");
+        navigator(`?${params.toString()}`);
+        setCurrentRows(data.results);
+        setProjectCount(data.count);
         setCurrentPage(1);
-        setProjectHolder(searchResult);
+        makePageList(data.count, 1);
+        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
       }
     );
     // const filteredData = postedProject.filter(
@@ -103,7 +132,6 @@ const useAgentBoard = () => {
     searchTerm,
     handleSearch,
     setSearchTerm,
-    postedProject,
     checkOutProject,
     priceFilterList,
     applicatFilterList,
@@ -113,13 +141,14 @@ const useAgentBoard = () => {
     setApplicantFilter,
     timeAgo,
     rowsPerPage,
-    projectHolder,
     currentPage,
     currentRows,
-    paginate,
     showFilter,
     setShowFilter,
     setFetchProject,
+    goToPage,
+    pageList,
+    projectCount,
   };
 };
 
@@ -130,7 +159,7 @@ export type UseAgentBoardType = {
   searchTerm: string;
   handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-  postedProject: PostedProjectType[];
+
   checkOutProject: (detail: PostedProjectType) => void;
   priceFilterList: string[];
   applicatFilterList: string[];
@@ -140,12 +169,11 @@ export type UseAgentBoardType = {
   setApplicantFilter: React.Dispatch<React.SetStateAction<string>>;
   timeAgo: TimeAgo;
   rowsPerPage: number;
-  projectHolder: PostedProjectType[];
   currentPage: number;
   currentRows: PostedProjectType[];
-  paginate: (pageNumber: number) => void;
   showFilter: boolean;
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
+  goToPage: (pageNumber: number) => void;
 };
 
 const useSearchProject = () => {
