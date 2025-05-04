@@ -8,11 +8,12 @@ import { Filter, TickCircle } from "iconsax-react";
 import useAgentProject from "../../../project/hooks/agent/use_agent_project";
 import FilterProject from "../../components/agent/filter_project";
 import { PostedProjectType } from "../../../../context/projects/project_context";
+import { useEffect } from "react";
 
 const AgentDashboardPostedProject = () => {
   const agentBoard = useAgentBoard();
   const appliedProject = useAgentProject();
-
+  useEffect(() => {}, []);
   return (
     <>
       <div className="position-relative">
@@ -96,28 +97,21 @@ const AgentDashboardPostedProject = () => {
           </div>
           <nav>
             <ul className="pagination">
-              {Array.from(
-                {
-                  length: Math.ceil(
-                    agentBoard.projectHolder.length / agentBoard.rowsPerPage
-                  ),
-                },
-                (_, i) => (
-                  <li
-                    key={i}
-                    className={`page-item ${
-                      i + 1 === agentBoard.currentPage ? "active" : ""
-                    }`}
+              {agentBoard.pageList.map((page) => (
+                <li
+                  key={page}
+                  className={`page-item ${
+                    page === agentBoard.currentPage ? "active" : ""
+                  }`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => agentBoard.goToPage(page)}
                   >
-                    <button
-                      className="page-link"
-                      onClick={() => agentBoard.paginate(i + 1)}
-                    >
-                      {i + 1}
-                    </button>
-                  </li>
-                )
-              )}
+                    {page}
+                  </button>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
@@ -141,7 +135,7 @@ const ProjectPostedCard = ({
     <div
       className="border-light-bottom project-card-wrapper bg-white-v-4  px-3 py-3 cursor-pointer"
       style={{
-        maxWidth: "900px",
+        // maxWidth: "900px",
         width: "100%",
       }}
       onClick={() =>
