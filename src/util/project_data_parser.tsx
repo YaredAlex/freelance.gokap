@@ -73,3 +73,17 @@ export function paymentStatusStyle(code: number) {
       return "bg-payment-unknown text-payment-unknown border-payment-unknown";
   }
 }
+
+export function toLocalDate(timeStamp: string) {
+  const date = new Date(timeStamp);
+  // const options = {
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  // };
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
