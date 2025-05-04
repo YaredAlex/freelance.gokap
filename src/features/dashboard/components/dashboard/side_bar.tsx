@@ -75,6 +75,16 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
       title: "Job",
     },
     {
+      pattern: /^\/agent\/dashboard\/apply\/.+$/,
+      link: "/agent/dashboard",
+      title: "Job",
+    },
+    {
+      pattern: /^\/agent\/dashboard\/jobs$/,
+      link: "/agent/dashboard",
+      title: "Job",
+    },
+    {
       pattern: /^\/agent\/dashboard\/profile$/,
       link: "/agent/dashboard/profile",
       title: "Profile",
@@ -118,10 +128,8 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
       );
       if (matched) {
         setActiveLink(matched.title);
-        console.log("Active Link:", matched.link);
       } else {
         setActiveLink("Dashboard");
-        console.log("No strict match found.");
       }
     } else {
       setActiveLink("");
