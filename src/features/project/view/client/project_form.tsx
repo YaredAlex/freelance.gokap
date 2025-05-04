@@ -141,6 +141,7 @@ const ProjectForm = ({ projectFrom }: { projectFrom: ProjectFormType }) => {
           {/* Skill section  */}
           <div className="px-4">
             <SelectOptions
+              showTitle={true}
               error={projectFrom.errors.skills_required}
               selectedOption={projectFrom.personalSkills}
               setSelectOption={projectFrom.setPersonalSkills}
