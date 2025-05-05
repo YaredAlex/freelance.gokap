@@ -1,13 +1,13 @@
-import "./profile.css";
 import { useAuthContext } from "../../../context/auth/auth_context";
-import ProfileClient from "./client/client_profile";
 import AgentProfile from "./agent/tmp_profile";
+import ClientProfile from "./client/client_profile";
+import "./tmp_profile.css";
 const Profile = () => {
   const authContext = useAuthContext();
   if (authContext.user?.role === "client")
     return (
       <div>
-        <ProfileClient />
+        <ClientProfile />
       </div>
     );
   else
