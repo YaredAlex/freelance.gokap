@@ -20,7 +20,7 @@ const ProjectStatus = () => {
     >
       {/* Goback to previous  */}
       <button
-        className=" transparent w-auto btn-custom-secondary ms-0 p-1 text-black-variant-1"
+        className=" transparent w-auto btn-custom-primary ms-0 p-1 text-black-variant-1"
         onClick={() => {
           navigate(-1);
         }}
@@ -76,6 +76,7 @@ const ProjectStatus = () => {
               <div className="h-100 w-100 mt-3">
                 <h3 className="font-weight-400 text-center">
                   {projectStatus.currentProject.project_price}
+                  <span className="text-sm">{" NU"}</span>
                 </h3>
               </div>
             </div>
@@ -100,7 +101,7 @@ const ProjectStatus = () => {
 
         <div
           className={`bg-white-v-4 col p-4 border-card rounded`}
-          style={{ height: 300 }}
+          style={{ minHeight: 300 }}
         >
           <h6>Status</h6>
           <div className="d-flex flex-column mt-4 ms-1 ms-md-4 ">
