@@ -13,9 +13,9 @@ const useClientHome = () => {
   const [budgetChar, setBudgetChart] = useState([
     { title: "Jan", value: 0, label: "Spending" },
     { title: "Feb", value: 0, label: "Spending" },
-    { title: "Mar", value: 0 },
-    { title: "Apr", value: 0 },
-    { title: "May", value: 100 },
+    { title: "Mar", value: 0, label: "Spending" },
+    { title: "Apr", value: 0, label: "Spending" },
+    { title: "May", value: 0, label: "Spending" },
     // ...
   ]);
   const projectContext = useProjectContext();
