@@ -11,6 +11,7 @@ import { useProjectContext } from "../../../../context/projects/project_context"
 import ProjectTableSkeleton from "../../components/client/project_skeleton";
 import StatusBadge from "../../../../components/status_badge/status_badge";
 import { SearchNormal1 } from "iconsax-react";
+import { toLocalDate } from "../../../../util/project_data_parser";
 // considering passing auth and project here *** important **
 const ClientrProjectTable = () => {
   const clientProject = useClientProject();
@@ -114,7 +115,7 @@ const ProjectTable = ({
                   <StatusBadge type="project" code={project.project_status} />
                 </td>
                 <td className="p-3">
-                  {new Date(project?.project_deadline).toLocaleDateString()}
+                  {toLocalDate(project?.project_deadline)}
                 </td>
                 <td className="p-3">{project?.project_price}</td>
                 <td className="p-3">
