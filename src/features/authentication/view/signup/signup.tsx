@@ -33,7 +33,6 @@ const Signup = () => {
     watch,
   } = useSignUp();
   const authContext = useAuthContext();
-  // On component mount, check if OAuth returned an access token/id token in URL hash.
 
   useEffect(() => {
     if (window.location.hash) {
@@ -58,7 +57,6 @@ const Signup = () => {
   const handleGoogleSignUp = () => {
     const callbackUrl = window.location.origin + "/signup";
     const googleClientId = GoogleClientID;
-    // Using response_type with both token and id_token to retrieve user info.
     const targetUrl = `https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=${encodeURIComponent(
       callbackUrl
     )}&response_type=token&client_id=${googleClientId}&scope=openid%20email%20profile`;
