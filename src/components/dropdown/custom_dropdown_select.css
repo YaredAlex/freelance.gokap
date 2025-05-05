@@ -11,7 +11,7 @@
   padding: 0rem 1rem;
   border-radius: 0.5rem;
   background-color: var(--white-variant-3, #f5f5f5);
-  border: 1px solid var(--border-color, #e1e1e1);
+  border: 1px solid var(--border-card, #e1e1e1);
   transition: all 0.2s ease;
 }
 
@@ -54,7 +54,7 @@
   overflow-y: auto;
   background-color: var(--white-variant-3);
   border-radius: 0.5rem;
-  border: 1px solid var(--border-color, #e1e1e1);
+  border: 1px solid var(--border-card, #e1e1e1);
   z-index: 1000;
   margin-top: 0.25rem;
   padding: 0.5rem 0;
