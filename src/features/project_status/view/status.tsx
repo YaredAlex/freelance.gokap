@@ -1,13 +1,14 @@
-import { ArrowLeft } from "iconsax-react";
+import { ArrowLeft, Medal, Money, WalletMinus } from "iconsax-react";
 import {
   ButtonFlexOutline,
   ButtonPrimary,
 } from "../../../components/button/button";
 import { useNavigate } from "react-router-dom";
-import { ApplyProjectSkeleton } from "../../apply/components/apply_skeleton";
+import { ProjectDetailSkeleton } from "../../apply/components/detail_skeleton";
 import useProjectStatus from "../hook/use_status";
 import { ClientProjectType } from "../../../context/projects/project_context";
 import RoundedText from "../../../components/rounded_text/rounded_text";
+import { toLocalDate } from "../../../util/common_methods";
 
 const ProjectAssignedStatus = () => {
   const navigate = useNavigate();
@@ -29,9 +30,9 @@ const ProjectAssignedStatus = () => {
 
       {projectStatus.loading ? (
         <div>
-          <ApplyProjectSkeleton />
+          <ProjectDetailSkeleton />
           <div className="mb-4"></div>
-          <ApplyProjectSkeleton showSkill={false} />
+          <ProjectDetailSkeleton showSkill={false} />
         </div>
       ) : (
         <ProjectDetail
@@ -102,24 +103,33 @@ const ProjectAssignedStatus = () => {
 };
 
 export default ProjectAssignedStatus;
+
 const ProjectDetail = ({ project }: { project: ClientProjectType }) => {
-  const formatNumber = (num: string) => {
-    const res = parseInt(num) * 0.1;
-    return Number(res).toFixed(2);
+  const netPayment = (price: string) => {
+    const payment = parseInt(price);
+    const net = payment - 0.1 * payment;
+    return Number(net).toFixed(2);
   };
   return (
     <div>
       <div
-        className="text-black-variant-1 
-            bg-white-v-4 rounded p-2 border-card"
+        className="text-black-variant-1 d-flex flex-column gap-3
+        bg-white-v-4 rounded p-4 border-card"
       >
-        <div className="d-flex gap-4">
-          <div className="ms-4" style={{ maxWidth: "700px", width: "100%" }}>
-            {/* title */}
-            <h5 className="project-title my-3 font-weight-400 text-capitalize">
-              {project.title}
-            </h5>
-            {/* Description */}
+        <h5 className="mb-3">Job detail</h5>
+        <div className="d-flex flex gap-3">
+          <div className="col-9 border-right-light">
+            <h6 className="">{project.title}</h6>
+            <div className="d-flex gap-4 align-items-center my-3">
+              <RoundedText
+                text={"Category"}
+                showIcon={false}
+                bgColor={"gray"}
+              />{" "}
+              <p className="font-weight-300 ">
+                Posted {toLocalDate(project.created_at)}
+              </p>
+            </div>
             <p
               className="project-description my-3 text-black-variant-2 font-weight-400"
               style={{
@@ -129,27 +139,58 @@ const ProjectDetail = ({ project }: { project: ClientProjectType }) => {
             >
               {project.description}
             </p>
-            {/* Budget */}
-            <h6 className="project-title my-3 text-capitalize">Budget</h6>
-            <h6 className="font-weight-400">{project.project_price}</h6>
-            {/* Fee */}
-            <h6 className="my-3 text-capitalize">Platform fee 10%</h6>
-            <p className="text-black-variant-2">
-              {formatNumber(project?.project_price)}
-            </p>
-            {/* skills */}
-            <h6 className="project-title my-3  text-capitalize">
-              Skill and Experties
-            </h6>
-            <div className="d-flex gap-3 flex-wrap my-3">
-              {project?.skills_required?.map((skill, index) => (
-                <RoundedText text={skill} key={index} />
-              ))}
-            </div>
+          </div>
+          {/* right side  */}
+          <div className="col-3 d-flex flex-column gap-3">
+            {/* Experiance level */}
+            <ProjectDetailTile
+              icon={<Medal />}
+              title={"Intermediate"}
+              subtitle="Experiance Level"
+            />
+            <ProjectDetailTile
+              icon={<WalletMinus />}
+              title={"10%"}
+              subtitle="Platform Fee"
+            />
+            <ProjectDetailTile
+              icon={<Money />}
+              title={netPayment(project.project_price)}
+              subtitle="Payment"
+            />
+          </div>
+        </div>
+        <hr />
+        <div className="d-flex flex-column gap-2">
+          <h6 className="project-title text-capitalize">Skill and Experties</h6>
+          <div className="d-flex gap-3 flex-wrap mt-3">
+            {project.skills_required?.map((skill, index) => (
+              <RoundedText text={skill} key={index} />
+            ))}
           </div>
         </div>
       </div>
       {/* Assign */}
+    </div>
+  );
+};
+
+const ProjectDetailTile = ({
+  icon,
+  title,
+  subtitle,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  subtitle: string;
+}) => {
+  return (
+    <div className="d-flex gap-4 align-items-start">
+      {icon}
+      <div>
+        <p>{title}</p>
+        <p className="text-black-variant-2 font-weight-300">{subtitle}</p>
+      </div>
     </div>
   );
 };

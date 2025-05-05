@@ -1,4 +1,4 @@
-export const ApplyProjectSkeleton = ({
+export const ProjectDetailSkeleton = ({
   showSkill = true,
 }: {
   showSkill?: boolean;

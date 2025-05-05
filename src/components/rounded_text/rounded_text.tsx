@@ -5,15 +5,17 @@ const RoundedText = ({
   showIcon = true,
   className,
   error = false,
+  bgColor = "transparent",
 }: {
   text: string;
   showIcon?: boolean;
   className?: string;
   error?: boolean;
+  bgColor?: "gray" | "transparent";
 }) => {
   return (
     <div
-      className={`border-card px-3 py-1 d-flex gap-2 align-items-center ${className} ${
+      className={`border-card px-3 py-1 d-flex gap-2 align-items-center background-${bgColor} ${className} ${
         error ? "red-border" : ""
       }`}
       style={{ borderRadius: "30px", maxWidth: "max-content" }}
