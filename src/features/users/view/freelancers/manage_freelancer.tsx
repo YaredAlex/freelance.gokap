@@ -47,14 +47,17 @@ const ManageFreelancer = () => {
                       style={{ bottom: "0px", left: "30px" }}
                     >
                       <CircularAvatar
-                        size={50}
-                        text={manageFreelancer.user.firstname.substring(0, 2)}
+                        size={"50px"}
+                        text={
+                          manageFreelancer.user.firstname?.substring(0, 2) ||
+                          "UK"
+                        }
                         bgcolor="bg-white-v-4"
                       />
                     </div>
                   }
                   title={`${manageFreelancer.user.firstname} | ${manageFreelancer.user.user_type}`}
-                  subtitle={manageFreelancer.user.email}
+                  subtitle={manageFreelancer.user.email || ""}
                   verified={
                     manageFreelancer.user.is_verified
                       ? "verified"

@@ -31,7 +31,7 @@
   --dark-blue-hover: rgb(69, 97, 132);
   --white-variant-1: rgb(255, 255, 255);
   --white-variant-2: rgb(255, 255, 255);
-  --white-variant-3: rgb(238, 243, 248);
+  --white-variant-3: #f9f9f9;
   --white-variant-4: rgb(255, 255, 255);
   --white-variant-5: rgb(255, 255, 255);
   --white-smoke: whitesmoke;
@@ -39,6 +39,7 @@
   --gray-secondary: #ffffff;
   --gray-400: rgba(0, 135, 20, 0.448);
   --gray-dark-shade: rgb(243, 243, 243);
+  --background-gray: #f5f7fa;
   --text-xsm: 14px;
   --text-sm: 0.95rem;
   --text-md: 1.2rem;
@@ -52,11 +53,11 @@
   --gap-item: 50px;
   --gap-txt: 24px;
   --text-black-variant-1: rgb(0, 0, 0);
-  --text-black-variant-2: rgb(43, 43, 43);
+  --text-black-variant-2: #444;
   --text-black-variant-3: rgb(60, 60, 60);
   --text-blue-variant-1: rgb(4, 6, 44);
   --text-white-variant-1: rgb(255, 255, 255);
-  --text-white-variant-2: white;
+  --text-white-variant-2: rgb(255, 255, 255);
   --text-gray-secondary: rgb(70, 70, 70);
   --black-variant-1: rgb(0, 0, 0);
   --black-variant-2: rgb(32, 32, 32);
@@ -72,6 +73,9 @@
   --dark-gray-light-gray: rgb(230, 230, 230);
   --skeleton-loading-1: hsl(200, 20%, 80%);
   --skeleton-loading-2: hsl(200, 20%, 90%);
+  --color-shadow-box1: rgba(0, 0, 0, 0.15);
+  --color-icon1: rgb(31, 31, 31);
+  --calendar-icon: url("/calender_light.svg");
 }
 .dark-theme {
   --primary-green: #3e9359;
@@ -83,6 +87,7 @@
   --white-variant-3: rgb(30, 30, 30);
   --white-variant-4: rgb(36, 36, 36);
   --white-variant-5: rgb(26, 26, 26);
+  --background-gray: #2e2e2e;
   --gray-secondary: #434343;
   --gray-200: rgb(51, 51, 51);
   --gray-400: rgba(144, 144, 144, 0.448);
@@ -91,8 +96,8 @@
   --dark-blue: rgb(41, 41, 41);
   --dark-blue-hover: rgb(63, 63, 63);
   --text-black-variant-1: rgb(255, 255, 255);
-  --text-black-variant-2: rgb(194, 194, 194);
-  --text-black-variant-3: rgb(156, 156, 156);
+  --text-black-variant-2: rgb(221, 221, 221);
+  --text-black-variant-3: rgb(200, 200, 200);
   --text-blue-variant-1: rgb(218, 218, 218);
   --text-white-variant-1: rgb(31, 31, 31);
   --white-smoke: rgb(31, 31, 31);
@@ -115,6 +120,9 @@
   --dark-gray-light-gray: rgb(48, 48, 48);
   --skeleton-loading-1: hsl(0, 1%, 30%);
   --skeleton-loading-2: hsl(0, 0%, 20%);
+  --color-shadow-box1: rgba(255, 255, 255, 0.05);
+  --color-icon1: rgb(239, 239, 239);
+  --calendar-icon: url("/calender_dark.svg");
 }
 
 body {
@@ -274,6 +282,12 @@ p {
 .bg-modal {
   background-color: var(--bg-modal);
 }
+.background-gray {
+  background-color: var(--background-gray);
+}
+.background-transparent {
+  background-color: transparent;
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -321,11 +335,12 @@ p {
   color: var(--text-white-variant-1);
 }
 .text-error {
-  color: rgb(206, 4, 4);
+  color: var(--error-color, #ff5252);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: block;
 }
-.text-green {
-  color: #00bc5a;
-}
+
 .text-gray {
   color: gray;
 }
@@ -346,7 +361,7 @@ p {
 }
 
 .red-border {
-  border: 1px solid rgb(167, 2, 2) !important;
+  border: 1px solid var(--error-color, #ff5252) !important;
 }
 .min-height-100vh {
   min-height: 100vh;
@@ -375,12 +390,29 @@ p {
 .border-card {
   border: 1px solid var(--border-card);
 }
-
+.border-card-t {
+  border-top: 1px solid var(--border-card);
+}
+.border-right-light {
+  border-right: 1px solid var(--border-card);
+}
+.rounded-sm {
+  border-radius: 10px;
+}
+.rounded-md {
+  border-radius: 15px;
+}
+.overflow-hidden {
+  overflow: hidden;
+}
 .visible-hidden {
   visibility: hidden;
   opacity: 0;
 }
-
+hr {
+  margin: 0px;
+  opacity: 0.1;
+}
 @media screen and (max-width: 512px) {
   :root {
     --text-md: 18px;

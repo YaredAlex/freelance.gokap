@@ -1,9 +1,9 @@
-import ProfileAdmin from "./admin/admin_profile";
+import AdminProfile from "./admin/admin_profile";
 import "./profile.css";
 const Profile = () => {
   return (
     <div>
-      <ProfileAdmin />
+      <AdminProfile />
     </div>
   );
 };

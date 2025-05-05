@@ -76,7 +76,6 @@ const useSignUp = () => {
         firstname: watch("firstname"),
         lastname: watch("lastname"),
         email: watch("email"),
-        type: watch("user_type"),
       },
     });
     navigator(`/verify-user`);

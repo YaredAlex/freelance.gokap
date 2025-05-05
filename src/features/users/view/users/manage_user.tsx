@@ -49,14 +49,16 @@ const ManageUser = () => {
                         style={{ bottom: "0px", left: "30px" }}
                       >
                         <CircularAvatar
-                          size={50}
-                          text={manageUser.user.firstname.substring(0, 2)}
+                          size={"50px"}
+                          text={
+                            manageUser.user.firstname?.substring(0, 2) ?? "UK"
+                          }
                           bgcolor="bg-white-v-4"
                         />
                       </div>
                     }
                     title={`${manageUser.user.firstname} | ${manageUser.user.user_type}`}
-                    subtitle={manageUser.user.email}
+                    subtitle={manageUser.user.email ?? ""}
                     verified={
                       manageUser.user.is_verified ? "verified" : "not verified"
                     }

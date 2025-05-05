@@ -25,12 +25,12 @@ const useRefreshToken = () => {
     authContext.dispatchUser({
       type: "logout",
       payload: {
-        id: "",
-        firstname: "",
-        lastname: "",
-        email: "",
-        type: "",
-        created_at: "",
+        id: undefined,
+        firstname: undefined,
+        lastname: undefined,
+        email: undefined,
+        role: undefined,
+        created_at: undefined,
       },
     });
     navigator(`/signin`);

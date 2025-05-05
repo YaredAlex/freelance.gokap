@@ -61,6 +61,7 @@ const ResetPassword = () => {
                     type="submit"
                     title="Request reset link"
                     className="mt-4"
+                    width="full"
                   />
                 </form>
               )}

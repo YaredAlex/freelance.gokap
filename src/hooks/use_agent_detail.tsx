@@ -77,7 +77,7 @@ const useAgentDetail = () => {
   const getDetail = async () => {
     // Get profile if it is not already there
     if (
-      authContext.user.type === "freelancer" &&
+      authContext.user?.role === "freelancer" &&
       agentContext.agent.detail.user === -1
     ) {
       sendRequest({}, onSuccess, onError, true);

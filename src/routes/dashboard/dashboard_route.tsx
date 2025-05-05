@@ -1,18 +1,40 @@
-import { Outlet } from "react-router-dom";
-import DashBoard from "../../features/dashboard/view/dashboard";
-import { useAuthContext } from "../../context/auth/auth_context";
 import { useEffect } from "react";
+import DashBoard from "../../features/dashboard/view/dashboard";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/auth/auth_context";
 
-const DashBoardRoute = () => {
+const AdminDashboardRoute = () => {
   const authContext = useAuthContext();
+  const navigator = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
-    console.log(authContext.user.type);
-  }, []);
+    const currentPath = location.pathname + location.search;
+    console.log("is initialized ", authContext.isInitialized, authContext.user);
+    if (!authContext.isInitialized && !authContext.loading) {
+      authContext.initializeAuth(() => {
+        console.log("initializing auth in dashboard route");
+        navigator(`/signin?redirect=${encodeURIComponent(currentPath)}`);
+      });
+    }
+
+    if (authContext.isInitialized && authContext.user?.role !== "superuser") {
+      navigator(
+        `/signin?error=no-preference&redirect=${encodeURIComponent(
+          currentPath
+        )}`
+      );
+    }
+  }, [authContext.isInitialized]);
+
   return (
-    <DashBoard>
+    <DashBoard
+      role="superuser"
+      initialized={!authContext.isInitialized || authContext.loading}
+    >
       <Outlet />
     </DashBoard>
   );
 };
 
-export default DashBoardRoute;
+export default AdminDashboardRoute;

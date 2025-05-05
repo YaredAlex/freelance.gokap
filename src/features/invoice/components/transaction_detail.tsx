@@ -23,10 +23,10 @@ const TransactionDetail = ({
     >
       <div className=" d-flex rounded col-5  flex-column align-items-center p-1 pb-3  w-100">
         <CircularAvatar
-          size={60}
+          size={"60px"}
           bgcolor={"#00bc5a"}
           className={"mt-2"}
-          text={authContext?.user?.firstname.slice(0, 2)}
+          text={authContext.user?.firstname?.slice(0, 2) ?? "UK"}
         />
         <p className="m-0 my-2">
           Paid for <span className="font-weight-500">{detail.project}</span>

@@ -15,7 +15,7 @@ const useGetFreelancers = () => {
       lastname: "",
       email: "",
       created_at: "",
-      type: "",
+      role: undefined,
     },
   ]);
   const getFreelancers = useGetAllFreelancers();

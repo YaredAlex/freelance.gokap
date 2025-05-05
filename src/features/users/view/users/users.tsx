@@ -7,59 +7,63 @@ const ClientList = () => {
   const getClients = useGetClients();
 
   return (
-    <table className="admin-table text-black-variant-1">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Created Date</th>
-          <th>Verified</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {getClients.loading ? (
-          <>
-            <TableSkeletonRow />
-            <TableSkeletonRow />
-            <TableSkeletonRow />
-          </>
-        ) : (
-          <>
-            {getClients.users.map((user) => (
-              <tr key={user.id}>
-                <td>
-                  <div className="circular-name">
-                    {user.firstname.charAt(0)}
-                    {user.lastname.charAt(0)}
-                  </div>
-                </td>
-                <td>{user.id}</td>
-                <td>{user.firstname}</td>
-                <td>{user.lastname}</td>
-                <td>{user.email}</td>
-                <td>{new Date(user.created_at).toDateString()}</td>
-                <td
-                  className={`${
-                    user.is_verified ? "text-green" : "text-error"
-                  }`}
-                >
-                  {user.is_verified ? "Verified" : "Not Verified"}
-                </td>
-                <td>
-                  <Link to={`${user.id}`} className="manage-btn">
-                    Manage
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </>
-        )}
-      </tbody>
-    </table>
+    <div className="max-w-1100 mx-auto mt-4">
+      <table className="admin-table text-black-variant-1">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Created Date</th>
+            <th>Verified</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {getClients.loading ? (
+            <>
+              <TableSkeletonRow />
+              <TableSkeletonRow />
+              <TableSkeletonRow />
+            </>
+          ) : (
+            <>
+              {getClients.users.map((user) => (
+                <tr key={user.id}>
+                  <td>
+                    <div className="circular-name">
+                      {user.firstname?.charAt(0)}
+                      {user.lastname?.charAt(0)}
+                    </div>
+                  </td>
+                  <td>{user.id}</td>
+                  <td>{user.firstname}</td>
+                  <td>{user.lastname}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    {new Date(user.created_at ?? Date.now()).toDateString()}
+                  </td>
+                  <td
+                    className={`${
+                      user.is_verified ? "text-green" : "text-error"
+                    }`}
+                  >
+                    {user.is_verified ? "Verified" : "Not Verified"}
+                  </td>
+                  <td>
+                    <Link to={`${user.id}`} className="manage-btn">
+                      Manage
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

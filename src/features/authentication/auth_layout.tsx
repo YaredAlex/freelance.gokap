@@ -1,10 +1,11 @@
 import React from "react";
-import CustomLoading from "../../components/loading_page/custom_loading";
+import { CustomLoadingSecondary } from "../../components/loading_page/custom_loading";
 import CustomToastContainer from "../../components/custom_toast/toast_container";
 import "../../components/button/button.css";
 import Footer from "../../components/footer/footer";
 import GITLogo from "../../components/logo/logo";
 import "./auth.css";
+import { useAuthContext } from "../../context/auth/auth_context";
 type AuthLayoutType = {
   loading: boolean;
   children: React.ReactNode;
@@ -16,12 +17,13 @@ const AuthLayout = ({
   children,
   signlayout = true,
 }: AuthLayoutType) => {
+  const authContext = useAuthContext();
   return (
     <>
       <div>
         {loading && (
           <div className="text-black-variant-2 position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
-            <CustomLoading />
+            <CustomLoadingSecondary title="Processing" />
           </div>
         )}
         <header
@@ -30,7 +32,9 @@ const AuthLayout = ({
         >
           <div className="max-w-1200 mx-auto d-flex align-items-center d-flex align-items-center justify-content-between">
             <GITLogo />
-            <div>{/* <User /> */}</div>
+            {authContext.user?.id && (
+              <button onClick={authContext.logout}>Logout</button>
+            )}
           </div>
         </header>
         <div
@@ -45,17 +49,16 @@ const AuthLayout = ({
           {signlayout ? (
             <div
               className="bg-white-v-5
-        d-flex 
-        rounded 
-        sign-wrapper
-        my-3
-        "
+                      d-flex 
+                      rounded-md 
+                      sign-wrapper
+                      my-3  border-card overflow-hidden"
             >
               {" "}
               {children}
             </div>
           ) : (
-            <div>{children}</div>
+            <>{children}</>
           )}
         </div>
         <Footer />

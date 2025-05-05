@@ -14,14 +14,13 @@ const useManageFreelance = () => {
     []
   );
   const [user, setUser] = useState<UserAuthType>({
-    email: "",
-    firstname: "",
-    lastname: "",
-    id: "",
-    type: "",
-    created_at: "",
-    is_verified: "",
-    user_type: "",
+    email: undefined,
+    firstname: undefined,
+    lastname: undefined,
+    id: undefined,
+    role: undefined,
+    created_at: undefined,
+    is_verified: undefined,
   });
   const [summary, setSummary] = useState({
     projectCreated: 0,

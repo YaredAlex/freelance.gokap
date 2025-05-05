@@ -1,21 +1,18 @@
 import DefaultModal from "../../../components/popup/modal";
-
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
-import {
-  UseAdminProfileType,
-  useChangeAdminName,
-} from "../hooks/admin/use_admin_profile";
+import { useAdminProfileType } from "../hooks/admin/use_admin_profile";
+import { useChangeName } from "../hooks/admin/usechangename";
 
-const ChangeClientName = ({
+const ChangeUserName = ({
   userProfile,
 }: {
-  userProfile: UseAdminProfileType;
+  userProfile: useAdminProfileType;
 }) => {
-  const changeName = useChangeAdminName();
+  const changeName = useChangeName();
   return (
     <DefaultModal
       loading={changeName.loading}
@@ -86,4 +83,4 @@ const ChangeClientName = ({
   );
 };
 
-export default ChangeClientName;
+export default ChangeUserName;

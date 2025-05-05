@@ -2,20 +2,23 @@
 import { useForm } from "react-hook-form";
 import { useAxios } from "../../../../hooks/useAxios";
 import { AxiosError, AxiosResponse } from "axios";
-import { useState } from "react";
-import { signInApiPoint } from "../../../../util/api";
+import { useEffect, useRef, useState } from "react";
+import { signInApiPoint, signInGoogleApiPoint } from "../../../../util/api";
 import { GTexts } from "../../../../util/string_constants";
-import secureLocalStorage from "react-secure-storage";
 import customToast from "../../../../components/custom_toast/custom_toast";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../../context/auth/auth_context";
+import {
+  getTokensFromSecureStorage,
+  saveTokensToSecureStorage,
+} from "../../../../context/auth/auth_storage";
 
 const useSignIn = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    watch,
+    getValues,
   } = useForm({
     defaultValues: {
       email: "",
@@ -23,6 +26,7 @@ const useSignIn = () => {
     },
   });
   const [showPassword, setShowPassword] = useState(false);
+  const redirectPath = useRef<string | null>(null);
   const navigator = useNavigate();
   const { loading, sendRequest } = useAxios({
     url: signInApiPoint,
@@ -30,28 +34,78 @@ const useSignIn = () => {
     headers: false,
   });
   const authContext = useAuthContext();
+
+  useEffect(() => {
+    //check if user is already logged in
+    if (
+      authContext.isInitialized &&
+      authContext.user!.role &&
+      authContext.user!.is_verified !== null
+    ) {
+      routeUser({
+        role: authContext.user!.role,
+        is_verified: authContext.user!.is_verified,
+        email: authContext.user!.email ?? "",
+      });
+    }
+    return () => {
+      //fetch getProfile if user is authenticated
+      if (getTokensFromSecureStorage().token != null)
+        authContext.getProfile(true);
+    };
+  }, [authContext.isInitialized]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("exist"))
+      customToast({
+        message: "User with email already exist",
+        type: "warning",
+      });
+    if (params.get("error") == "unauthorized")
+      customToast({
+        message: "unauthorized access!",
+        type: "warning",
+      });
+    if (params.get("redirect")) {
+      console.log(params.get("redirect"));
+      redirectPath.current = params.get("redirect");
+    }
+    extractRedirectFromUrl();
+  }, []);
+  const extractRedirectFromUrl = () => {
+    const hash = window.location.hash; //
+    const params = new URLSearchParams(hash.substring(1));
+    const state = params.get("state");
+    if (state) {
+      try {
+        const decoded = JSON.parse(decodeURIComponent(state));
+        redirectPath.current = decoded.redirect.current;
+      } catch (err) {
+        console.error("Failed to parse state:", err);
+      }
+    }
+  };
+
   //Function that handle Error
   const onError = (error: AxiosError) => {
     const message = JSON.parse(error?.request?.response);
     console.log(message);
-    if (
-      message?.msg &&
-      (message?.msg.toLowerCase() == "user not verified" || error.status == 401)
-    ) {
+    if (message?.errors == "User not verified") {
       authContext.dispatchUser({
         type: "signin",
         payload: {
           ...authContext.user,
-          email: watch("email"),
+          email: getValues().email,
         },
       });
       customToast({ message: "User not verified", type: "error" });
       navigator("/verify-user");
-    } else if (message.errors?.non_field_errors) {
+    }
+    if (message.errors?.non_field_errors) {
       customToast({ message: GTexts.txt_invalid_email_pass, type: "error" });
       return;
-    } else
-      customToast({ message: "email or password not valid", type: "error" });
+    } else customToast({ message: message.errors, type: "error" });
     //TODO: when user email is not validated
   };
 
@@ -59,27 +113,46 @@ const useSignIn = () => {
   const onSuccess = (res: AxiosResponse) => {
     const token = res.data.token.access;
     const refresh = res.data.token.refresh;
-    secureLocalStorage.setItem("token", token);
-    secureLocalStorage.setItem("refresh", refresh);
-    //save token secure//
-
+    saveTokensToSecureStorage(token, refresh);
+    const data = res.data;
     authContext.dispatchUser({
       type: "signin",
       payload: {
         ...authContext.user,
-        email: watch("email"),
-        type: res.data.user_type,
+        email: data.email,
+        role: data.role ?? null,
+        is_verified: data.is_verified,
+        created_at: data.created_at ?? null,
       },
     });
 
-    if (res.data.user_type.toLowerCase() !== "superuser") {
-      customToast({ message: "unauthorized access", type: "error" });
-    } else navigator(`/admin/dashboard`);
+    routeUser({
+      is_verified: data.is_verified,
+      role: data.role,
+      email: data.email,
+    });
   };
 
+  //routing user based on information
+  const routeUser = (data: {
+    role: string | null;
+    is_verified?: boolean;
+    email: string;
+  }) => {
+    if (redirectPath.current) {
+      return navigator(redirectPath.current);
+    } else if (!data.is_verified) {
+      navigator(`/verify-user?email=${data.email}`);
+    } else if (data.role === "superuser") {
+      navigator("/admin/dashboard");
+    } else customToast({ message: "Unauthorized access!", type: "error" });
+  };
   const onSubmit = async (data: { email: string; password: string }) => {
     data.email = data.email.toLowerCase();
     sendRequest(data, onSuccess, onError, false);
+  };
+  const signInWithGoogle = async (token: string) => {
+    sendRequest({ token }, onSuccess, onError, false, signInGoogleApiPoint);
   };
 
   return {
@@ -89,7 +162,9 @@ const useSignIn = () => {
     errors,
     onSubmit,
     handleSubmit,
-    loading,
+    loading: loading || authContext.loading,
+    signInWithGoogle,
+    redirectPath,
   };
 };
 

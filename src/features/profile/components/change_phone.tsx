@@ -1,26 +1,23 @@
 import DefaultModal from "../../../components/popup/modal";
-
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
-import {
-  UseAdminProfileType,
-  useChangeAdminPhone,
-} from "../hooks/admin/use_admin_profile";
+import { useAdminProfileType } from "../hooks/admin/use_admin_profile";
+import { useChangePhone } from "../hooks/admin/usechangephone";
 
-const ChangeClientPhone = ({
-  clientProfile,
+const ChangePhoneNumber = ({
+  adminProfile,
 }: {
-  clientProfile: UseAdminProfileType;
+  adminProfile: useAdminProfileType;
 }) => {
-  const changePhone = useChangeAdminPhone();
+  const changePhone = useChangePhone();
   return (
     <DefaultModal
       loading={changePhone.loading}
-      showModal={clientProfile.showEditPhone}
-      setShowModal={clientProfile.setShowEditPhone}
+      showModal={adminProfile.showEditPhone}
+      setShowModal={adminProfile.setShowEditPhone}
       modalId="phone"
     >
       <div className={``}>
@@ -51,7 +48,7 @@ const ChangeClientPhone = ({
                 title="Cancel"
                 type="button"
                 onClick={() => {
-                  clientProfile.setShowEditPhone(false);
+                  adminProfile.setShowEditPhone(false);
                   changePhone.reset();
                 }}
                 className="py-2 col"
@@ -69,4 +66,4 @@ const ChangeClientPhone = ({
   );
 };
 
-export default ChangeClientPhone;
+export default ChangePhoneNumber;

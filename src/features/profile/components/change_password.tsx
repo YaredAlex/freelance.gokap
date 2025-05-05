@@ -1,26 +1,23 @@
 import DefaultModal from "../../../components/popup/modal";
-
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
-import {
-  UseAdminProfileType,
-  useChangeAdminPassword,
-} from "../hooks/admin/use_admin_profile";
+import { useAdminProfileType } from "../hooks/admin/use_admin_profile";
+import { useChangePassword } from "../hooks/admin/usechangepassword";
 
 const ChangePassword = ({
-  clientProfile,
+  adminProfile,
 }: {
-  clientProfile: UseAdminProfileType;
+  adminProfile: useAdminProfileType;
 }) => {
-  const changePassword = useChangeAdminPassword();
+  const changePassword = useChangePassword();
   return (
     <DefaultModal
       loading={changePassword.loading}
-      showModal={clientProfile.showEditPass}
-      setShowModal={clientProfile.setShowEditPass}
+      showModal={adminProfile.showEditPass}
+      setShowModal={adminProfile.setShowEditPass}
       modalId="password"
     >
       <div className={``}>
@@ -75,7 +72,7 @@ const ChangePassword = ({
                 title="Cancel"
                 type="button"
                 onClick={() => {
-                  clientProfile.setShowEditPass(false);
+                  adminProfile.setShowEditPass(false);
                   changePassword.reset();
                 }}
                 className="py-2 col"

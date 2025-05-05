@@ -1,5 +1,5 @@
 type CircularAvatarType = {
-  size: number;
+  size: string;
   text: string;
   img?: string;
   bgcolor?: string;
@@ -24,8 +24,8 @@ const CircularAvatar = ({
               icon-wrapper-primary ${className} ${bgcolor}
               `}
         style={{
-          width: `${size || 20}px`,
-          height: `${size || 20}px`,
+          width: `${size}`,
+          height: `${size}`,
           borderRadius: "50%",
           fontSize: `${fontSize || 1}rem`,
           backgroundColor: bgcolor ? bgcolor : "gray",

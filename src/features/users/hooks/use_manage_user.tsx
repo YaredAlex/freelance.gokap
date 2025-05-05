@@ -16,9 +16,9 @@ const useManageUser = () => {
     firstname: "",
     lastname: "",
     id: "",
-    type: "",
+    role: undefined,
     created_at: "",
-    is_verified: "",
+    is_verified: undefined,
     user_type: "",
   });
   const [summary, setSummary] = useState({

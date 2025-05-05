@@ -31,7 +31,7 @@ export const useInviteFreelancer = () => {
       () => {
         customToast({ message: "Invitation sent", type: "success" });
       },
-      { email: freelancer.email, project_id: project.id }
+      { email: freelancer.email!, project_id: project.id }
     );
   };
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {

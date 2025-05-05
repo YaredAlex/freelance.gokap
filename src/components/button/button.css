@@ -4,26 +4,32 @@ button {
 }
 
 .btn-custom {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 1rem;
   font-size: 1rem;
   color: white;
   max-width: 250px;
   width: 100%;
-  padding: 15px 10px;
+  padding: 8px 10px;
   border-radius: 6px;
+  height: fit-content;
 }
-.btn-custom-outline {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  font-size: 1rem;
-  color: var(--black-variant-1);
-  max-width: 250px;
+.btn-w-full {
+  max-width: 100%;
   width: 100%;
-  padding: 15px 10px;
-  border-radius: 6px;
+}
+.btn-w-sm {
+  max-width: 150px;
+}
+.green-varient-2 {
+  background-color: var(--green-variant-2);
+}
+.green-varient-2-hover:hover {
+  background-color: var(--green-variant-2-hover);
+}
+.btn-custom.outline {
   height: fit-content;
   background-color: transparent;
   border: 1px solid var(--border-card);
@@ -32,7 +38,7 @@ button {
 .border-none {
   border: none !important;
 }
-.btn-custom-outline:hover {
+.btn-custom.outline:hover {
   background-color: var(--green-light-1);
 }
 .btn-green-v-1 {
@@ -123,6 +129,28 @@ button {
   position: relative;
   z-index: 20;
   transition: background 0.3s ease-in-out;
+}
+.login-button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--green-variant-3)
+  );
+  color: var(--text-white-variant-1);
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--gray-400);
 }
 @media screen and (max-width: 992px) {
   .btn-custom {

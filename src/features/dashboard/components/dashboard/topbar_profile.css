@@ -1,0 +1,157 @@
+/* TopBarProfile Component Styles */
+.topbar-profile {
+  position: relative;
+  z-index: 30;
+}
+
+.topbar-avatar {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.topbar-avatar:hover {
+  transform: scale(1.05);
+}
+
+/* Dropdown Menu */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: -10px;
+  width: 240px;
+  background-color: var(--white-variant-1);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px var(--color-shadow-box1);
+  overflow: hidden;
+  animation: slideDown 0.2s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Profile Header */
+.profile-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.user-info {
+  text-align: left;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0;
+  color: var(--text-black-variant-2);
+}
+
+.user-email {
+  font-size: 14px;
+  margin: 4px 0 0 0;
+  color: var(--text-black-variant-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Menu Sections */
+.menu-section {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.menu-section:last-child {
+  border-bottom: none;
+}
+
+/* Menu Items */
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-black-variant-2);
+  text-decoration: none;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  font-size: 14px;
+}
+
+.menu-item:hover {
+  background-color: var(--white-variant-3);
+}
+
+.menu-icon {
+  margin-right: 12px;
+  font-size: 18px;
+  color: var(--text-black-variant-3);
+}
+
+/* Theme Selector */
+.theme-selector {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.theme-selector > span {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.theme-options {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  border-top: 1px solid var(--border-card);
+  padding-top: 8px;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  flex: 1;
+  transition: background-color 0.2s ease;
+}
+
+.theme-option:hover {
+  background-color: var(--white-variant-3);
+}
+
+.theme-option svg {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.theme-option.active {
+  background-color: #f0f4ff;
+  color: #4f46e5;
+  font-weight: 500;
+}
+
+.theme-option.active svg {
+  color: #4f46e5;
+}
+
+/* Logout Button */
+.logout-button {
+  color: #e53935;
+}
+
+.logout-button .menu-icon {
+  color: #e53935;
+}

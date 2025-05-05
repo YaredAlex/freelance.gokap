@@ -1,24 +1,85 @@
-import "../../../components/skeleton/skeleton.css";
-
-export const ProfileSkeleton = () => {
+import "./profile_skeleton.css";
+const ProfileSkeleton = () => {
   return (
-    <div className="border-card bg-white-v-4 rounded">
-      <h6 className="border-light-bottom px-4 py-3 m-0">
-        <div className="skeleton-text" style={{ width: "60%" }}></div>
-      </h6>
+    <div className="agent-profile-container">
+      <div className="agent-profile-content">
+        {/* Left Column Skeleton */}
+        <div className="agent-profile-left-column skeleton-left-column">
+          <div className="skeleton-avatar"></div>
 
-      <div className="d-flex justify-content-between px-4 py-3 cursor-pointer border-light-bottom">
-        <p className="m-0 text-black-variant-2">
-          <div className="skeleton-text" style={{ width: "40%" }}></div>
-        </p>
-        <p className="m-0 px-4">
-          <div className="skeleton-text" style={{ width: "20%" }}></div>
-        </p>
-        <div
-          className="skeleton-icon"
-          style={{ width: "20px", height: "20px" }}
-        ></div>
+          <div className="skeleton-text-center skeleton-name"></div>
+          <div className="skeleton-text-center skeleton-title"></div>
+          <div className="skeleton-badge"></div>
+
+          <div className="skeleton-divider"></div>
+
+          <div className="skeleton-stat"></div>
+          <div className="skeleton-stat"></div>
+          <div className="skeleton-stat"></div>
+
+          <div className="skeleton-divider"></div>
+
+          <div className="skeleton-subtitle"></div>
+          <div className="skeleton-tags-container">
+            <div className="skeleton-tag"></div>
+            <div className="skeleton-tag"></div>
+            <div className="skeleton-tag"></div>
+          </div>
+
+          <div className="skeleton-subtitle"></div>
+          <div className="skeleton-tags-container">
+            <div className="skeleton-tag"></div>
+            <div className="skeleton-tag"></div>
+          </div>
+        </div>
+
+        {/* Right Column Skeleton */}
+        <div className="agent-profile-right-column">
+          <div className="skeleton-section">
+            <div className="skeleton-subtitle"></div>
+            <div className="skeleton-text"></div>
+            <div className="skeleton-text"></div>
+            <div className="skeleton-text"></div>
+          </div>
+
+          <div className="skeleton-section">
+            <div className="skeleton-subtitle"></div>
+            <div className="skeleton-service">
+              <div className="skeleton-service-left">
+                <div className="skeleton-text-small"></div>
+                <div className="skeleton-text-xsmall"></div>
+              </div>
+              <div className="skeleton-service-right">
+                <div className="skeleton-price"></div>
+                <div className="skeleton-duration"></div>
+              </div>
+            </div>
+            <div className="skeleton-service">
+              <div className="skeleton-service-left">
+                <div className="skeleton-text-small"></div>
+                <div className="skeleton-text-xsmall"></div>
+              </div>
+              <div className="skeleton-service-right">
+                <div className="skeleton-price"></div>
+                <div className="skeleton-duration"></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="skeleton-section">
+            <div className="skeleton-subtitle"></div>
+            <div className="skeleton-setting">
+              <div className="skeleton-setting-left">
+                <div className="skeleton-text-small"></div>
+                <div className="skeleton-text-xsmall"></div>
+              </div>
+              <div className="skeleton-button"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
+export default ProfileSkeleton;

@@ -52,13 +52,13 @@ const AdminDashboardPostedProject = () => {
             </div>
           </div>
           {/* Navigators */}
-          <div>
+          <div className="project-tabs">
             <div className="d-flex gap-4">
               <Link
                 to={"/admin/dashboard?project=all"}
                 className={`${
                   adminBoard.activeNav === "all" ? "d-active" : ""
-                } p-2`}
+                }`}
                 onClick={() => adminBoard.loadProject("all")}
               >
                 All
@@ -66,7 +66,7 @@ const AdminDashboardPostedProject = () => {
               <Link
                 className={`${
                   adminBoard.activeNav === "unassigned" ? "d-active" : ""
-                } p-2`}
+                }`}
                 to={"/admin/dashboard?project=unassigned"}
                 onClick={() => adminBoard.loadProject("unassigned")}
               >
@@ -75,7 +75,7 @@ const AdminDashboardPostedProject = () => {
               <Link
                 className={`${
                   adminBoard.activeNav === "assigned" ? "d-active" : ""
-                } p-2`}
+                }`}
                 to={"/admin/dashboard?project=assigned"}
                 onClick={() => adminBoard.loadProject("assigned")}
               >
@@ -109,28 +109,21 @@ const AdminDashboardPostedProject = () => {
           </div>
           <nav>
             <ul className="pagination">
-              {Array.from(
-                {
-                  length: Math.ceil(
-                    adminBoard.projectHolder.length / adminBoard.rowsPerPage
-                  ),
-                },
-                (_, i) => (
-                  <li
-                    key={i}
-                    className={`page-item ${
-                      i + 1 === adminBoard.currentPage ? "active" : ""
-                    }`}
+              {adminBoard.pageList?.map((page) => (
+                <li
+                  key={page}
+                  className={`page-item ${
+                    page === adminBoard.currentPage ? "active" : ""
+                  }`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => adminBoard.goToPage(page)}
                   >
-                    <button
-                      className="page-link"
-                      onClick={() => adminBoard.paginate(i + 1)}
-                    >
-                      {i + 1}
-                    </button>
-                  </li>
-                )
-              )}
+                    {page}
+                  </button>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
@@ -152,7 +145,6 @@ const ProjectPostedCard = ({
     <div
       className="border-light-bottom project-card-wrapper bg-white-v-4  px-3 py-3 cursor-pointer"
       style={{
-        maxWidth: "900px",
         width: "100%",
       }}
       onClick={() => adminBoard.checkOutProject(project)}

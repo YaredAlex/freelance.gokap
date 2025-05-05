@@ -52,7 +52,7 @@ export const useAxios = (props:UseAxiosTypes)=>{
               else
               onError(e)
               }catch(e){
-                customToast({message: "Server Error 500", type:"error"});
+                customToast({message: `${e}`, type:"error"});
               }
              
             //refreshRef.current = true;

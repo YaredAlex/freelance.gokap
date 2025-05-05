@@ -7,9 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useThemeContext } from "./context/theme/theme_context";
-import Signup from "./features/authentication/view/signup/signup";
 import VerifyUser from "./features/authentication/view/verify/verify";
-import DashBoardRoute from "./routes/dashboard/dashboard_route";
 import ResetPassword from "./features/authentication/view/forget_pass/forget_password";
 import ProjectContextProvider from "./context/projects/project_context";
 import Profile from "./features/profile/view/profile";
@@ -23,6 +21,8 @@ import FreelancersList from "./features/users/view/freelancers/freelancers";
 import ManageFreelancer from "./features/users/view/freelancers/manage_freelancer";
 import ManageUser from "./features/users/view/users/manage_user";
 import ProjectAssignedStatus from "./features/project_status/view/status";
+import AdminDashboardRoute from "./routes/dashboard/dashboard_route";
+import NotFound from "./util/404_page";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
@@ -35,9 +35,9 @@ function App() {
   return (
     <>
       <div className={`${isDark ? "dark-theme" : ""}`}>
-        <AuthContextProvider>
-          <AgentContextProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+          <AuthContextProvider>
+            <AgentContextProvider>
               <ProjectContextProvider>
                 <Routes>
                   <Route path="" element={<Signin />} />
@@ -46,7 +46,10 @@ function App() {
                   <Route path="/verify-user" element={<VerifyUser />} />
                   <Route path={`/reset-password`} element={<ResetPassword />} />
                   {/* Admin dashboared */}
-                  <Route path="/admin/dashboard" element={<DashBoardRoute />}>
+                  <Route
+                    path="/admin/dashboard"
+                    element={<AdminDashboardRoute />}
+                  >
                     <Route path="" element={<AdminDashboardPostedProject />} />
                     <Route path="clients/" element={<ClientList />} />
                     <Route path="freelancers/" element={<FreelancersList />} />
@@ -63,11 +66,12 @@ function App() {
                     <Route path={`account`} element={<Profile />} />
                     <Route path={`invoice`} element={<Invoice />} />
                   </Route>
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </ProjectContextProvider>
-            </BrowserRouter>
-          </AgentContextProvider>
-        </AuthContextProvider>
+            </AgentContextProvider>
+          </AuthContextProvider>
+        </BrowserRouter>
       </div>
     </>
   );

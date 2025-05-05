@@ -10,6 +10,8 @@
   max-width: 250px;
 }
 .custom-input {
+  border: none;
+  outline: none;
   padding: 10px;
   width: 100%;
   background-color: transparent;
@@ -21,7 +23,7 @@
   overflow: hidden;
   padding-left: 5px;
   padding-right: 10px;
-  background-color: var(--white-smoke);
+  background-color: var(--white-variant-3);
 }
 
 .input-form-control:active {
@@ -31,12 +33,6 @@
   font-weight: 500;
 }
 
-.green-varient-2 {
-  background-color: var(--green-variant-2);
-}
-.green-varient-2-hover:hover {
-  background-color: var(--green-variant-2-hover);
-}
 .dark-green {
   background-color: var(--dark-green);
 }

@@ -64,15 +64,13 @@ const useAdminBoard = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [priceFilter, setPriceFilter] = useState("");
   const [applicatFilter, setApplicantFilter] = useState("");
-  const [postedProject, setPostedProject] = useState<ClientProjectType[]>([]);
-  const [projectHolder, setProjectHolder] = useState<ClientProjectType[]>([]);
   const [activeNav, setActiveNav] = useState<string>("");
+  const [projectCount, setProjectCount] = useState(0);
+  const [pageList, setPageList] = useState<number[]>([]);
+  const rowsPerPage = 10;
   const getAllProjects = useGetAllProject();
   const getAssignedProjects = useGetAssingedProject();
   const { setCurrentProject } = useProjectContext();
-  const rowsPerPage = 5;
-  const indexOfLastRow = currentPage * rowsPerPage;
-  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const timeAgo = new TimeAgo("en-US");
   const navigate = useNavigate();
   // const controller = new AbortController();
@@ -84,33 +82,64 @@ const useAdminBoard = () => {
     method: "GET",
   });
   const searchProject = useSearchProject();
-  const getUnAssignedProject = () => {
+  const getUnAssignedProject = (pageNumber: number = 1) => {
     sendRequest(
       {},
       (res) => {
         const data = res.data.serialized_data;
-        setPostedProject(data);
-        setProjectHolder(data);
-        setCurrentRows(data.slice(indexOfFirstRow, indexOfLastRow));
-        paginate(1);
+        setCurrentRows(data.results);
+        setProjectCount(data.count);
+        setCurrentPage(pageNumber);
+        //function to make pagination list
+        makePageList(data.count, pageNumber);
+        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
       },
       (error) => {
-        customToast({ message: error.message, type: "error" });
         console.log(error);
-      }
+      },
+      true,
+      `/api/project/unassigned/?page=${pageNumber}`
     );
   };
   //paginate
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  const goToPage = (pageNumber: number) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set("page", pageNumber.toString());
+    params.set("load", "true");
+    navigate(`?${params.toString()}`);
+    getUnAssignedProject(pageNumber);
+  };
+  const makePageList = (totalProject: number, currentPage: number) => {
+    const pageLimit = 5;
+    const totalPage = Math.ceil(totalProject / rowsPerPage);
+    const pages = [];
+    if (totalPage <= pageLimit) {
+      for (let i = 1; i <= totalPage; i++) pages.push(i);
+      setPageList(pages);
+    } else {
+      const iter = 0;
+      while (iter < 5 && iter + currentPage <= totalPage) {
+        pages.push(currentPage + iter);
+      }
+      setPageList(pages);
+    }
+  };
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-    setCurrentRows(projectHolder.slice(indexOfFirstRow, indexOfLastRow));
-  }, [currentPage]);
+    //get current page form url
+    const params = new URLSearchParams(window.location.search);
+    const page = params.get("page") ?? 1;
+    const load = params.get("load");
+    if (load && load == "false") return;
+    getUnAssignedProject(Number(page));
+  }, [window.location.search]);
   useEffect(() => {
-    loadProject();
-  }, [fetchProject]);
-
-  const loadProject = (project?: string) => {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get("project");
+    if (!status || status == "all") setActiveNav("all");
+    else if (status === "unassigned") setActiveNav("unassigned");
+    else if (status === "assigned") setActiveNav("assigned");
+  }, []);
+  const loadProject = (project?: string, pageNumber: number = 1) => {
     const query = new URL(window.location.href).searchParams;
     const param = project ? project : query.get("project")?.trim();
     setActiveNav(param ? param : "unassigned");
@@ -118,18 +147,22 @@ const useAdminBoard = () => {
     else if (param === "assigned") {
       getAssignedProjects.getAssignedProject((res) => {
         const data = res.data.serialized_data;
-        setPostedProject(data);
-        setProjectHolder(data);
-        setCurrentRows(data.slice(indexOfFirstRow, indexOfLastRow));
-        paginate(1);
+        setCurrentRows(data.results);
+        setProjectCount(data.count);
+        setCurrentPage(pageNumber);
+        //function to make pagination list
+        makePageList(data.count, pageNumber);
+        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
       });
     } else if (param === "all") {
       getAllProjects.getAllProject((res) => {
         const data = res.data.serialized_data;
-        setPostedProject(data);
-        setProjectHolder(data);
-        setCurrentRows(data.slice(indexOfFirstRow, indexOfLastRow));
-        paginate(1);
+        setCurrentRows(data.results);
+        setProjectCount(data.count);
+        setCurrentPage(pageNumber);
+        //function to make pagination list
+        makePageList(data.count, pageNumber);
+        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
       });
     }
   };
@@ -139,28 +172,26 @@ const useAdminBoard = () => {
     // 'title'
     e.preventDefault();
     if (searchTerm.trim() === "") {
-      setProjectHolder(postedProject);
-      setCurrentRows(postedProject.slice(indexOfFirstRow, indexOfLastRow));
-      // Reset to first page when searching
-      setCurrentPage(1);
+      getUnAssignedProject();
       return;
     }
-    searchProject.searchProject(`title=${searchTerm}`, (res) => {
-      console.log(res);
-      const searchResult = res.data.serialized_data;
-      setCurrentRows(searchResult.slice(indexOfFirstRow, indexOfLastRow));
-      // Reset to first page when searching
-      setCurrentPage(1);
-      setProjectHolder(searchResult);
-    });
-    // const filteredData = postedProject.filter(
-    //   (item) =>
-    //     item.title?.toLowerCase().includes(value.toLowerCase()) ||
-    //     item.project_price
-    //       ?.toString()
-    //       .toLowerCase()
-    //       .includes(value.toLowerCase())
-    // );
+    searchProject.searchProject(
+      `title=${searchTerm}&description=${searchTerm}`,
+      (res) => {
+        console.log(res);
+        const data = res.data.serialized_data;
+        console.log(data);
+        const params = new URLSearchParams(window.location.search);
+        params.set("search", encodeURIComponent(searchTerm));
+        params.set("load", "false");
+        navigate(`?${params.toString()}`);
+        setCurrentRows(data.results);
+        setProjectCount(data.count);
+        setCurrentPage(1);
+        makePageList(data.count, 1);
+        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
+      }
+    );
   };
 
   const checkOutProject = (project: ClientProjectType) => {
@@ -180,7 +211,6 @@ const useAdminBoard = () => {
     searchTerm,
     handleSearch,
     setSearchTerm,
-    postedProject,
     checkOutProject,
     priceFilterList,
     applicatFilterList,
@@ -190,15 +220,17 @@ const useAdminBoard = () => {
     setApplicantFilter,
     timeAgo,
     rowsPerPage,
-    projectHolder,
     currentPage,
     currentRows,
-    paginate,
     showFilter,
     setShowFilter,
     setFetchProject,
     loadProject,
     activeNav,
+    goToPage,
+    projectCount,
+    fetchProject,
+    pageList,
   };
 };
 export type useAdminBoardType = {
@@ -208,7 +240,6 @@ export type useAdminBoardType = {
   searchTerm: string;
   handleSearch: (e: React.FormEvent<HTMLFormElement>) => void;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-  postedProject: ClientProjectType[];
   checkOutProject: (detail: ClientProjectType) => void;
   priceFilterList: string[];
   applicatFilterList: string[];
@@ -218,15 +249,15 @@ export type useAdminBoardType = {
   setApplicantFilter: React.Dispatch<React.SetStateAction<string>>;
   timeAgo: TimeAgo;
   rowsPerPage: number;
-  projectHolder: ClientProjectType[];
   currentPage: number;
   currentRows: ClientProjectType[];
-  paginate: (pageNumber: number) => void;
   showFilter: boolean;
   setShowFilter: React.Dispatch<React.SetStateAction<boolean>>;
   setFetchProject: React.Dispatch<React.SetStateAction<boolean>>;
   loadProject: () => void;
   activeNav: string;
+  goToPage: (pageNumber: number) => void;
+  pageList: number[];
 };
 export default useAdminBoard;
 

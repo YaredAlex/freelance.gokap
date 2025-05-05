@@ -26,7 +26,7 @@ const useGetProfile = () => {
         firstname: data.firstname,
         lastname: data.lastname,
         id: data.id,
-        type: data.user_type,
+        role: data.role,
         created_at: data.created_at,
       },
     });
