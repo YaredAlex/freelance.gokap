@@ -57,7 +57,7 @@ const DefaultModal = ({
 
       <div
         ref={modalRef}
-        className="modal-content"
+        className="modal-content text-black-variant-2"
         style={{
           maxWidth: maxWidth || "900px",
         }}

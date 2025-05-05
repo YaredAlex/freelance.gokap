@@ -39,6 +39,7 @@
   --gray-secondary: #ffffff;
   --gray-400: rgba(0, 135, 20, 0.448);
   --gray-dark-shade: rgb(243, 243, 243);
+  --background-gray: #f5f7fa;
   --text-xsm: 14px;
   --text-sm: 0.95rem;
   --text-md: 1.2rem;
@@ -52,7 +53,7 @@
   --gap-item: 50px;
   --gap-txt: 24px;
   --text-black-variant-1: rgb(0, 0, 0);
-  --text-black-variant-2: rgb(30, 30, 30);
+  --text-black-variant-2: #444;
   --text-black-variant-3: rgb(60, 60, 60);
   --text-blue-variant-1: rgb(4, 6, 44);
   --text-white-variant-1: rgb(255, 255, 255);
@@ -85,6 +86,7 @@
   --white-variant-3: rgb(30, 30, 30);
   --white-variant-4: rgb(36, 36, 36);
   --white-variant-5: rgb(26, 26, 26);
+  --background-gray: #2e2e2e;
   --gray-secondary: #434343;
   --gray-200: rgb(51, 51, 51);
   --gray-400: rgba(144, 144, 144, 0.448);
@@ -279,7 +281,7 @@ p {
   background-color: var(--bg-modal);
 }
 .background-gray {
-  background-color: #f9f9f9;
+  background-color: var(--background-gray);
 }
 .background-transparent {
   background-color: transparent;
