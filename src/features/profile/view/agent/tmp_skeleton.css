@@ -103,7 +103,7 @@
 }
 
 .skeleton-section {
-  background-color: #fff;
+  background-color: var(--white-variant-4);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 1.8rem;
@@ -127,7 +127,7 @@
   display: flex;
   justify-content: space-between;
   padding: 1.2rem;
-  background-color: #f8f9fa;
+  background-color: var(--white-variant-3);
   border-radius: 8px;
   margin-bottom: 1rem;
 }
