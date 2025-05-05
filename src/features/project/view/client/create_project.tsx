@@ -21,7 +21,7 @@ const ClientCreateProject = () => {
         <div className="breadcrumb d-flex gap-2 align-items-center">
           <h6 className="breadcrumb-item m-0">Dashboard</h6>
           <FaChevronRight size={12} />
-          <h6 className="breadcrumb-item active m-0">Create Project</h6>
+          <h6 className="breadcrumb-item m-0">Create Project</h6>
         </div>
       </div>
       {addProject.loading && <CustomLoadingSecondary title="creating.." />}
