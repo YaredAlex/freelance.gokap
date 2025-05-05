@@ -23,15 +23,15 @@ export const useAgentProfile = () => {
   const [showEditAbout, setShowEditAbout] = useState(false);
   const [showEditLanguage, setShowEditLanguage] = useState(false);
   const [showEditSpeciality, setShowEditSpeciality] = useState(false);
+  const [showEditEducation, setShowEditEducation] = useState(false);
+  const [showEditServices, setShowEditServices] = useState(false);
   const agentDetail = useAgentDetail();
   const [agentInfo, setAgentInfo] = useState<AgentInfoType | undefined>(
     undefined
   );
 
   useEffect(() => {
-    agentDetail.getDetail(() => {
-      console.log("called in agentProfile");
-    });
+    agentDetail.getDetail();
   }, []);
   useEffect(() => {
     //if not initialized
@@ -54,9 +54,9 @@ export const useAgentProfile = () => {
           about: agentContext.agent.detail.bio,
           education: [
             {
-              degree: "B.S.",
-              institution: "Univeristy",
-              year: "2006",
+              degree: "Level",
+              institution: "Institution",
+              year: "Year",
             },
           ],
           services: [
@@ -72,34 +72,9 @@ export const useAgentProfile = () => {
         setAgentInfo(info);
       }
     };
-
     initialize();
-    console.log("agent info is", agentInfo);
   }, [agentContext.agent.detail, authContext.user]);
 
-  // const profileList = [
-  //   {
-  //     title: "Name",
-  //     value: `${authContext.user?.firstname} ${authContext.user?.lastname}`,
-  //     onClick: () => {
-  //       setShowEditName(true);
-  //     },
-  //   },
-  //   {
-  //     title: "Address",
-  //     value: "address",
-  //     onClick: () => {
-  //       setShowEditAddress(true);
-  //     },
-  //   },
-  //   {
-  //     title: "Member Since",
-  //     value: new Date(
-  //       authContext.user?.created_at ?? Date.now()
-  //     ).toDateString(),
-  //     onClick: () => {},
-  //   },
-  // ];
   const singleUpdate = async (data: {
     bio?: string;
     skills?: string[];
@@ -111,7 +86,7 @@ export const useAgentProfile = () => {
     {
       title: "Email",
       info: agentInfo?.email,
-      action: "Change",
+      action: undefined,
       onClick: () => {},
     },
     {
@@ -160,6 +135,10 @@ export const useAgentProfile = () => {
     setShowEditLanguage,
     showEditSpeciality,
     setShowEditSpeciality,
+    showEditEducation,
+    setShowEditEducation,
+    showEditServices,
+    setShowEditServices,
     accountSettings,
     deviceInfo,
     loading: agentDetail.loading || changeAgentDetail.loading,
@@ -182,8 +161,8 @@ export const useAgentProfile = () => {
 export type AccountSettingProps = {
   title: string;
   info?: string;
-  action: string;
-  onClick: () => void;
+  action?: string;
+  onClick?: () => void;
 };
 export type AgentProfileProp = {
   profileList?: {
@@ -225,6 +204,10 @@ export type AgentProfileProp = {
   setShowEditLanguage: React.Dispatch<React.SetStateAction<boolean>>;
   showEditSpeciality: boolean;
   setShowEditSpeciality: React.Dispatch<React.SetStateAction<boolean>>;
+  showEditEducation: boolean;
+  setShowEditEducation: React.Dispatch<React.SetStateAction<boolean>>;
+  showEditServices: boolean;
+  setShowEditServices: React.Dispatch<React.SetStateAction<boolean>>;
   singleUpdate: (data: {
     bio?: string;
     skills?: string[];
