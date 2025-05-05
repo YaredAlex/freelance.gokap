@@ -35,8 +35,8 @@ const useSignIn = () => {
     const message = JSON.parse(error?.request?.response);
     console.log(message);
     if (
-      message?.msg.toLowerCase() == "user not verified" ||
-      error.status == 401
+      message?.msg &&
+      (message?.msg.toLowerCase() == "user not verified" || error.status == 401)
     ) {
       authContext.dispatchUser({
         type: "signin",
@@ -47,8 +47,7 @@ const useSignIn = () => {
       });
       customToast({ message: "User not verified", type: "error" });
       navigator("/verify-user");
-    }
-    if (message.errors?.non_field_errors) {
+    } else if (message.errors?.non_field_errors) {
       customToast({ message: GTexts.txt_invalid_email_pass, type: "error" });
       return;
     } else
