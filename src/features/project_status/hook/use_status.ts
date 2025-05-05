@@ -40,7 +40,6 @@ const useProjectStatus = ()=>{
         // console.log(res)
         const data = res.data.serialized_data
         setAgentList(data)
-        console.log(data)
  })
     } else navigate("/admin/dashboard/");
  
@@ -68,7 +67,7 @@ const useGetProjectFreelancer = ()=>{
     const{sendRequest,loading} = useAxios({
         headers: true,
         method:"GET",
-        url:`/api/manager/assigned/freelancer/${id}`
+        url:`/api/manager/assigned/freelancer/${id}/`
     })
 
     const getFreelancer = (cb:(res:AxiosResponse)=>void)=>{
