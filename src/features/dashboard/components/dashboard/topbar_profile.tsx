@@ -19,7 +19,7 @@ const TopBarProfile = ({ user }: { user: UserAuthType }) => {
   const authContext = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
-
+  const role = authContext.user?.role === "client" ? "client" : "agent";
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,10 +76,7 @@ const TopBarProfile = ({ user }: { user: UserAuthType }) => {
               </div>
             </div>
 
-            <Link
-              to={`/${authContext.user?.role}/dashboard/account`}
-              className="menu-item"
-            >
+            <Link to={`/${role}/dashboard/account`} className="menu-item">
               <MdPerson className="menu-icon" />
               <span>Profile</span>
             </Link>
