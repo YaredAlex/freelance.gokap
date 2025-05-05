@@ -10,6 +10,7 @@ import ChangeAbout from "../../components/change_about";
 import ChangeLanguage from "../../components/change_language";
 import ChangePhoneNumber from "../../components/change_phone";
 import ChangeUserName from "../../components/change_name";
+import ChangeEducation from "../../components/change_education";
 const AgentProfile = () => {
   const agentProfile = useAgentProfile();
 
@@ -27,9 +28,8 @@ const AgentProfile = () => {
           <ChangeUserName userProfile={agentProfile} />
           {/* detail */}
           <ChangeAbout profile={agentProfile} />
+          <ChangeEducation profile={agentProfile} />
           <ChangeLanguage profile={agentProfile} />
-          {/* <ChangeAgentDetail agentDetail={agentDetail} /> */}
-
           <ChangePassword clientProfile={agentProfile} />
           <ChangePhoneNumber clientProfile={agentProfile} />
         </div>
@@ -92,13 +92,13 @@ const LeftProfile = ({ agentProfile }: { agentProfile: AgentProfileProp }) => {
           {agentProfile?.experience || "Beginner"} experience
         </div>
         <div className="agent-stat-item">
-          <span className="calendar-icon">📅</span> Available{" "}
+          <span className="calendar-icon">📅</span>
           {agentProfile?.availability || "next week"}
         </div>
       </div>
 
-      <div className="left-section">
-        <div className="d-flex gap-4 justify-content-center align-items-center">
+      {/* <div className="left-section">
+        <div className="d-flex gap-4 justify-content-center align-items-center mb-2">
           <h3 className="section-title mb-0">Specialties</h3>
           <div
             className="icon-wrapper cursor-pointer"
@@ -118,10 +118,10 @@ const LeftProfile = ({ agentProfile }: { agentProfile: AgentProfileProp }) => {
             </>
           )}
         </div>
-      </div>
+      </div> */}
 
       <div className="left-section">
-        <div className="d-flex gap-4 justify-content-center align-items-center">
+        <div className="d-flex gap-4 justify-content-center align-items-center mb-2">
           <h3 className="section-title mb-0">Language</h3>
           <div
             className="icon-wrapper cursor-pointer"
@@ -163,7 +163,15 @@ const RightProfile = ({ agentProfile }: { agentProfile: AgentProfileProp }) => {
       </div>
 
       <div className="right-section">
-        <h3 className="section-title">Education</h3>
+        <div className="d-flex gap-4 justify-content-center align-items-center">
+          <h3 className="section-title mb-0">Education</h3>
+          <div
+            className="icon-wrapper cursor-pointer"
+            onClick={() => agentProfile.setShowEditEducation(true)}
+          >
+            <MdEdit />
+          </div>
+        </div>
         <div className="education-container">
           {agentProfile?.education?.map((edu, index) => (
             <div key={index} className="education-item">
@@ -187,8 +195,16 @@ const RightProfile = ({ agentProfile }: { agentProfile: AgentProfileProp }) => {
         </div>
       </div>
 
-      <div className="right-section">
-        <h3 className="section-title">Services</h3>
+      {/* <div className="right-section">
+        <div className="d-flex gap-4 justify-content-center align-items-center">
+          <h3 className="section-title mb-0">Service</h3>
+          <div
+            className="icon-wrapper cursor-pointer"
+            onClick={() => agentProfile.setShowEditAbout(true)}
+          >
+            <MdEdit />
+          </div>
+        </div>
         <div className="services-container">
           {agentProfile?.services?.map((service, index) => (
             <div key={index} className="service-item">
@@ -216,7 +232,7 @@ const RightProfile = ({ agentProfile }: { agentProfile: AgentProfileProp }) => {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
       <div className="right-section">
         <h3 className="section-title">Account Settings</h3>
@@ -228,7 +244,12 @@ const RightProfile = ({ agentProfile }: { agentProfile: AgentProfileProp }) => {
                 <p>{setting.info}</p>
               </div>
               {setting.action && (
-                <button className="setting-action-btn">{setting.action}</button>
+                <button
+                  className="setting-action-btn"
+                  onClick={setting.onClick}
+                >
+                  {setting.action}
+                </button>
               )}
             </div>
           ))}
