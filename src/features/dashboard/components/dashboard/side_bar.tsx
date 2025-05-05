@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { adminNavList } from "./nav_list";
 import { useAuthContext } from "../../../../context/auth/auth_context";
@@ -14,10 +14,11 @@ const SideBar = ({ showNav, setShowNav }: SideBarType) => {
   const [navList, setNavList] = useState(adminNavList);
   const authContext = useAuthContext();
   const iconColor = useThemeContext().isDark ? "white" : "#567";
+  const navigate = useNavigate();
   useEffect(() => {
     const type = authContext.user.type;
-    if (type.toLocaleLowerCase() !== "admin") {
-      console.log("not admin", type);
+    if (type.toLocaleLowerCase() !== "superuser") {
+      navigate("/login");
     }
     setNavList(adminNavList);
   }, []);
