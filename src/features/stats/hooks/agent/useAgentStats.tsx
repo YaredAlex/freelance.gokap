@@ -9,11 +9,11 @@ import { detailConvert } from "../../../../hooks/detail_convert";
 const useAgentStats = () => {
   const timeAgo = new TimeAgo("en-US");
   const [budgetChar, setBudgetChart] = useState([
-    { title: "Jan", value: 0, label: "Spending" },
-    { title: "Feb", value: 0, label: "Spending" },
-    { title: "Mar", value: 0 },
-    { title: "Apr", value: 0 },
-    { title: "May", value: 100 },
+    { title: "Jan", value: 0, label: "Revenue" },
+    { title: "Feb", value: 0, label: "Revenue" },
+    { title: "Mar", value: 0, label: "Revenue" },
+    { title: "Apr", value: 0, label: "Revenue" },
+    { title: "May", value: 0, label: "Revenue" },
     // ...
   ]);
   const projectContext = useProjectContext();
@@ -39,24 +39,8 @@ const useAgentStats = () => {
     if (converted?.length > 5) return converted?.slice(0, 5);
     return converted;
   };
-  //   const getClientProject = useGetClientProject();
-  useEffect(() => {
-    // getClientProject.getClientProject((res) => {
-    //   const [min, max] = getMinMaxBudget(res.data || []);
-    //   setBudget({
-    //     maxBudget: max,
-    //     minBudget: min,
-    //   });
-    //   setCardState({
-    //     projectCreated: res.data.length,
-    //     projectCompeleted: res.data.filter(
-    //       (item: { project_status: number }) => item?.project_status === 2
-    //     ).length,
-    //     investment: 0,
-    //   });
-    // });
-    // console.log(projectData);
-  }, []);
+
+  useEffect(() => {}, []);
 
   return {
     timeAgo,
