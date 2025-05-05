@@ -28,9 +28,8 @@ function App() {
   const { setIsDark, isDark } = useThemeContext();
   useEffect(() => {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setIsDark(true);
+      setIsDark(false);
     } else setIsDark(false);
-    console.log(isDark);
   }, []);
 
   return (
@@ -43,7 +42,6 @@ function App() {
                 <Routes>
                   <Route path="" element={<Signin />} />
                   <Route path="/signin" element={<Signin />} />
-                  <Route path="/signup" element={<Signup />} />
                   <Route path="/privacy" element={<PrivacyPage />} />
                   <Route path="/verify-user" element={<VerifyUser />} />
                   <Route path={`/reset-password`} element={<ResetPassword />} />
