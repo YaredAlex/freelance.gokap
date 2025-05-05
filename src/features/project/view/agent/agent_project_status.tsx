@@ -86,9 +86,9 @@ const AgentProjectStatus = () => {
       p-4 border-card rounded d-flex`}
           >
             <div className="w-100">
-              <div className="d-flex justify-content-between gap-4 ">
+              <div className="d-flex justify-content-between gap-4 align-items-center mb-2">
                 <h5
-                  className="font-weight-400 text-capitalize"
+                  className="font-weight-400 text-capitalize mb-0"
                   style={{ maxWidth: "600px" }}
                 >
                   Proposal
