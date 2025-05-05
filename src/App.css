@@ -32,7 +32,7 @@ input:-moz-placeholder {
   font-size: 14px;
 }
 input[type="date"]::-webkit-calendar-picker-indicator {
-  background-image: none;
+  background-image: var(--calendar-icon);
 }
 select {
   padding: 0.5rem 1rem;
