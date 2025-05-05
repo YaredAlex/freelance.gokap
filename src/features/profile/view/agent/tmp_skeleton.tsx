@@ -1,6 +1,5 @@
-// AgentProfileSkeleton.jsx
 import "./tmp_skeleton.css";
-const AgentProfileSkeleton = () => {
+const ProfileSkeleton = () => {
   return (
     <div className="agent-profile-container">
       <div className="skeleton-header"></div>
@@ -117,4 +116,4 @@ const AgentProfileSkeleton = () => {
   );
 };
 
-export default AgentProfileSkeleton;
+export default ProfileSkeleton;
