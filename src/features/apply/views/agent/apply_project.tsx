@@ -14,7 +14,7 @@ const ApplyProject = () => {
     <div className="max-w-1100 mx-auto position-relative">
       {/* Goback to previous  */}
       <button
-        className="transparent w-auto btn-custom-secondary ms-0 p-1 text-black-variant-1"
+        className="transparent w-auto btn-custom-primary ms-0 p-1 text-black-variant-1"
         onClick={() => {
           applyProject.navigate(-1);
         }}
