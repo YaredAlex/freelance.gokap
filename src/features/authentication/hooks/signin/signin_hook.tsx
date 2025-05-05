@@ -80,7 +80,6 @@ const useSignIn = () => {
     if (state) {
       try {
         const decoded = JSON.parse(decodeURIComponent(state));
-        console.log(decoded.redirect.current);
         redirectPath.current = decoded.redirect.current;
       } catch (err) {
         console.error("Failed to parse state:", err);
@@ -141,10 +140,6 @@ const useSignIn = () => {
     email: string;
   }) => {
     if (redirectPath.current) {
-      console.log(
-        "navigator with redicrect path called ",
-        redirectPath.current
-      );
       return navigator(redirectPath.current);
     } else if (!data.is_verified) {
       navigator(`/verify-user?email=${data.email}`);
