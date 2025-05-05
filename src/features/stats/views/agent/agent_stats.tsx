@@ -14,7 +14,7 @@ import useAgentStats from "../../hooks/agent/useAgentStats";
 import DashBoardHorizontalCard from "../../../dashboard/components/dashboard_horizontal_card";
 
 const AgentStats = () => {
-  const clientHome = useAgentStats();
+  const agentStats = useAgentStats();
   const projectContext = useProjectContext();
   const authContext = useAuthContext();
   const iconSize = 24;
@@ -67,20 +67,20 @@ const AgentStats = () => {
             <DashBoardProjectCard
               icon={<Edit2 size={iconSize} />}
               link="projects"
-              subtitle={`${clientHome.cardState.projectCreated}`}
+              subtitle={`${agentStats.cardState.projectCreated}`}
               title="Assigned project"
             />
             <DashBoardProjectCard
               icon={<TickCircle size={iconSize} />}
               link="projects"
               title="Completed"
-              subtitle={`${clientHome.cardState.projectCompeleted}`}
+              subtitle={`${agentStats.cardState.projectCompeleted}`}
             />
             <DashBoardProjectCard
               icon={<Money size={iconSize} />}
               link="porjects"
               title="Earning"
-              subtitle={`${clientHome.cardState.investment}`}
+              subtitle={`${agentStats.cardState.investment}`}
             />
           </div>
         </div>
@@ -115,13 +115,13 @@ const AgentStats = () => {
             rounded border-card`}
             style={{ height: "250px" }}
           >
-            <BudgetChart data={clientHome.budgetChar} />
+            <BudgetChart data={agentStats.budgetChar} />
           </div>
         </div>
         {/* Table */}
         <RecentProjectTable
           data={
-            clientHome.projectDetailConvert(
+            agentStats.projectDetailConvert(
               (projectContext?.projectData.data as ClientProjectType[]) || []
             ) || []
           }
