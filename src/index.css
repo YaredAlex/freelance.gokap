@@ -75,6 +75,7 @@
   --skeleton-loading-2: hsl(200, 20%, 90%);
   --color-shadow-box1: rgba(0, 0, 0, 0.15);
   --color-icon1: rgb(31, 31, 31);
+  --calendar-icon: url("/calender_light.svg");
 }
 .dark-theme {
   --primary-green: #3e9359;
@@ -121,6 +122,7 @@
   --skeleton-loading-2: hsl(0, 0%, 20%);
   --color-shadow-box1: rgba(255, 255, 255, 0.05);
   --color-icon1: rgb(239, 239, 239);
+  --calendar-icon: url("/calender_dark.svg");
 }
 
 body {
