@@ -28,7 +28,7 @@ const Signin = () => {
     loading,
     redirectPath,
   } = useSignIn();
-  // On component mount, check if OAuth returned an access token/id token in URL hash.
+
   useEffect(() => {
     if (window.location.hash) {
       const hash = window.location.hash.substring(1);
