@@ -2,8 +2,6 @@ import "./tmp_skeleton.css";
 const ProfileSkeleton = () => {
   return (
     <div className="agent-profile-container">
-      <div className="skeleton-header"></div>
-
       <div className="agent-profile-content">
         {/* Left Column Skeleton */}
         <div className="agent-profile-left-column skeleton-left-column">
@@ -46,24 +44,6 @@ const ProfileSkeleton = () => {
 
           <div className="skeleton-section">
             <div className="skeleton-subtitle"></div>
-            <div className="skeleton-education">
-              <div className="skeleton-education-left">
-                <div className="skeleton-text-small"></div>
-                <div className="skeleton-text-xsmall"></div>
-              </div>
-              <div className="skeleton-education-right"></div>
-            </div>
-            <div className="skeleton-education">
-              <div className="skeleton-education-left">
-                <div className="skeleton-text-small"></div>
-                <div className="skeleton-text-xsmall"></div>
-              </div>
-              <div className="skeleton-education-right"></div>
-            </div>
-          </div>
-
-          <div className="skeleton-section">
-            <div className="skeleton-subtitle"></div>
             <div className="skeleton-service">
               <div className="skeleton-service-left">
                 <div className="skeleton-text-small"></div>
@@ -88,20 +68,6 @@ const ProfileSkeleton = () => {
 
           <div className="skeleton-section">
             <div className="skeleton-subtitle"></div>
-            <div className="skeleton-setting">
-              <div className="skeleton-setting-left">
-                <div className="skeleton-text-small"></div>
-                <div className="skeleton-text-xsmall"></div>
-              </div>
-              <div className="skeleton-button"></div>
-            </div>
-            <div className="skeleton-setting">
-              <div className="skeleton-setting-left">
-                <div className="skeleton-text-small"></div>
-                <div className="skeleton-text-xsmall"></div>
-              </div>
-              <div className="skeleton-button"></div>
-            </div>
             <div className="skeleton-setting">
               <div className="skeleton-setting-left">
                 <div className="skeleton-text-small"></div>
