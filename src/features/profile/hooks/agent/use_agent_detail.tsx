@@ -55,7 +55,6 @@ const useAgentDetail = () => {
       localStorage.getItem("@f.info");
     if (agentInfo != null) agentInfo = JSON.parse(agentInfo) as AgentStateType;
     if (agentInfo && agentInfo.detail) {
-      console.log("setting agent detail ", agentInfo);
       agentContext.dispatchAgent({
         type: "setdetail",
         payload: {
