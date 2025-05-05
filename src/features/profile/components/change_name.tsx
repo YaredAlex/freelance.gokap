@@ -1,21 +1,19 @@
 import DefaultModal from "../../../components/popup/modal";
-import {
-  UseClientProfileType,
-  useChangeClientName,
-} from "../hooks/client/use_client_profile";
+import { UseClientProfileType } from "../hooks/client/use_client_profile";
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
 import { AgentProfileProp } from "../hooks/agent/use_agent_profile";
+import { useChangeName } from "../hooks/usechangename";
 
 const ChangeUserName = ({
   userProfile,
 }: {
   userProfile: UseClientProfileType | AgentProfileProp;
 }) => {
-  const changeName = useChangeClientName();
+  const changeName = useChangeName();
   return (
     <DefaultModal
       loading={changeName.loading}
