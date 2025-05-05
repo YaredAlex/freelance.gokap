@@ -11,87 +11,88 @@ import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../../../context/auth/auth_context";
 
 const useSignIn = () => {
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const navigator = useNavigate();
-  const { loading, sendRequest } = useAxios({
-    url: signInApiPoint,
-    method: "POST",
-    headers: false,
-  });
-  const authContext = useAuthContext();
-  //Function that handle Error
-  const onError = (error: AxiosError) => {
-    const message = JSON.parse(error?.request?.response);
-    console.log(message);
-    if (
-      message?.msg.toLowerCase() == "user not verified" ||
-      error.status == 401
-    ) {
-      authContext.dispatchUser({
-        type: "signin",
-        payload: {
-          ...authContext.user,
-          email: watch("email"),
-        },
-      });
-      customToast({ message: "User not verified", type: "error" });
-      navigator("/verify-user");
-    }
-    if (message.errors?.non_field_errors) {
-      customToast({ message: GTexts.txt_invalid_email_pass, type: "error" });
-      return;
-    } else
-      customToast({ message: "email or password not valid", type: "error" });
-    //TODO: when user email is not validated
-  };
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+		watch,
+	} = useForm({
+		defaultValues: {
+			email: "",
+			password: "",
+		},
+	});
+	const [showPassword, setShowPassword] = useState(false);
+	const navigator = useNavigate();
+	const { loading, sendRequest } = useAxios({
+		url: signInApiPoint,
+		method: "POST",
+		headers: false,
+	});
+	const authContext = useAuthContext();
+	//Function that handle Error
+	const onError = (error: AxiosError) => {
+		console.log(error);
+		const message = error?.response?.data;
+		console.log(message);
+		if (
+			message?.errors.toLowerCase() == "user not verified" ||
+			error.status == 401
+		) {
+			authContext.dispatchUser({
+				type: "signin",
+				payload: {
+					...authContext.user,
+					email: watch("email"),
+				},
+			});
+			customToast({ message: "User not verified", type: "error" });
+			navigator("/verify-user");
+		}
+		if (message.errors?.non_field_errors) {
+			customToast({ message: GTexts.txt_invalid_email_pass, type: "error" });
+			return;
+		} else
+			customToast({ message: "email or password not valid", type: "error" });
+		//TODO: when user email is not validated
+	};
 
-  // on success request
-  const onSuccess = (res: AxiosResponse) => {
-    const token = res.data.token.access;
-    const refresh = res.data.token.refresh;
-    secureLocalStorage.setItem("token", token);
-    secureLocalStorage.setItem("refresh", refresh);
-    //save token secure//
+	// on success request
+	const onSuccess = (res: AxiosResponse) => {
+		const token = res.data.token.access;
+		const refresh = res.data.token.refresh;
+		secureLocalStorage.setItem("token", token);
+		secureLocalStorage.setItem("refresh", refresh);
+		//save token secure//
 
-    authContext.dispatchUser({
-      type: "signin",
-      payload: {
-        ...authContext.user,
-        email: watch("email"),
-        type: res.data.user_type,
-      },
-    });
+		authContext.dispatchUser({
+			type: "signin",
+			payload: {
+				...authContext.user,
+				email: watch("email"),
+				role: res.data.role,
+			},
+		});
+		console.log(res.data);
+		if (res.data.role.toLowerCase() !== "superuser") {
+			customToast({ message: "unauthorized access", type: "error" });
+		} else navigator(`/admin/dashboard`);
+	};
 
-    if (res.data.user_type.toLowerCase() !== "superuser") {
-      customToast({ message: "unauthorized access", type: "error" });
-    } else navigator(`/admin/dashboard`);
-  };
+	const onSubmit = async (data: { email: string; password: string }) => {
+		data.email = data.email.toLowerCase();
+		sendRequest(data, onSuccess, onError, false);
+	};
 
-  const onSubmit = async (data: { email: string; password: string }) => {
-    data.email = data.email.toLowerCase();
-    sendRequest(data, onSuccess, onError, false);
-  };
-
-  return {
-    showPassword,
-    setShowPassword,
-    register,
-    errors,
-    onSubmit,
-    handleSubmit,
-    loading,
-  };
+	return {
+		showPassword,
+		setShowPassword,
+		register,
+		errors,
+		onSubmit,
+		handleSubmit,
+		loading,
+	};
 };
 
 export default useSignIn;
