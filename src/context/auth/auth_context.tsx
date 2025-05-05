@@ -2,61 +2,61 @@ import { createContext, useContext, useReducer } from "react";
 import { AuthActionType, authReducer } from "./auth_reducer";
 
 export type UserAuthType = {
-  id: string | number;
-  firstname: string;
-  lastname: string;
-  email: string;
-  type: string;
-  created_at: string;
-  phone?: string;
-  is_verified?: string;
-  user_type?: string;
-  address?: {
-    city: string;
-    country: string;
-    zip_code: string;
-    state: string;
-  };
+	id: string | number;
+	firstname: string;
+	lastname: string;
+	email: string;
+	role: string;
+	created_at: string;
+	phone?: string;
+	is_verified?: string;
+	user_type?: string;
+	address?: {
+		city: string;
+		country: string;
+		zip_code: string;
+		state: string;
+	};
 };
 
 type AuthContextType = {
-  user: UserAuthType;
-  dispatchUser: React.Dispatch<AuthActionType>;
+	user: UserAuthType;
+	dispatchUser: React.Dispatch<AuthActionType>;
 };
 const defaultState: AuthContextType = {
-  user: {
-    id: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    type: "",
-    created_at: "",
-  },
-  dispatchUser: () => {},
+	user: {
+		id: "",
+		firstname: "",
+		lastname: "",
+		email: "",
+		role: "",
+		created_at: "",
+	},
+	dispatchUser: () => {},
 };
 export const AuthContext = createContext<AuthContextType>(defaultState);
 export const useAuthContext = () => {
-  return useContext(AuthContext);
+	return useContext(AuthContext);
 };
 const AuthContextProvider = ({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
-  name?: string;
+	children: React.ReactNode;
+	name?: string;
 }) => {
-  const [user, dispatchUser] = useReducer(authReducer, {
-    id: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    type: "",
-    created_at: "",
-  });
-  return (
-    <AuthContext.Provider value={{ user, dispatchUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+	const [user, dispatchUser] = useReducer(authReducer, {
+		id: "",
+		firstname: "",
+		lastname: "",
+		email: "",
+		role: "",
+		created_at: "",
+	});
+	return (
+		<AuthContext.Provider value={{ user, dispatchUser }}>
+			{children}
+		</AuthContext.Provider>
+	);
 };
 
 export default AuthContextProvider;
