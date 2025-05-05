@@ -67,12 +67,16 @@ const HorizontalBarChart = ({ chartData, chartOptions }: HBarType) => {
         ticks: {
           color: isDark ? "#BCBCBC" : "#333",
         },
+        title: {
+          display: true,
+          text: "Amount",
+        },
       },
       y: {
         beginAtZero: true,
         title: {
           display: true,
-          text: "Amount Spent",
+          text: "Month",
         },
         ticks: {
           color: isDark ? "#BCBCBC" : "#333",
