@@ -1,5 +1,4 @@
 import { useAgentProfile } from "../../hooks/agent/use_agent_profile";
-import "./tmp_profile.css";
 import AgentProfileSkeleton from "./tmp_skeleton";
 import { AgentProfileProp } from "../../hooks/agent/use_agent_profile";
 import CircularAvatar from "../../../../components/circularAvatar/circular_avatar";
