@@ -72,7 +72,6 @@ const useManageFreelance = () => {
 export default useManageFreelance;
 const useGetAssignedProjectByFreelancerId = () => {
   const { id } = useParams();
-  console.log(id);
   const { sendRequest, loading } = useAxios({
     headers: true,
     method: "GET",
