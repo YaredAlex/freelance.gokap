@@ -1,14 +1,12 @@
 import DefaultModal from "../../../components/popup/modal";
-import {
-  UseClientProfileType,
-  useChangeAddress,
-} from "../hooks/client/use_client_profile";
+import { UseClientProfileType } from "../hooks/client/use_client_profile";
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
 } from "../../../components/button/button";
 import TextField from "../../../components/inputField/text_field";
 import { AgentProfileProp } from "../hooks/agent/use_agent_profile";
+import { useChangeAddress } from "../hooks/usechangeaddress";
 
 const ChangeAddress = ({
   profile,
