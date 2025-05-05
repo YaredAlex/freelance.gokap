@@ -33,7 +33,7 @@ const AgentProject = () => {
             minWidth: "300px",
           }}
         >
-          <h5 className="pt-4 mb-2 mb-sm-0">Project</h5>
+          <h5 className="pt-4 mb-2">Project</h5>
 
           {/* SEARCH LABLE */}
           <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4 flex-sm-row flex-column">
