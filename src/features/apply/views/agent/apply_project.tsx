@@ -4,7 +4,7 @@ import { CustomLoadingSecondary } from "../../../../components/loading_page/cust
 import { ButtonPrimary } from "../../../../components/button/button";
 import { TextEditArea } from "../../../../components/inputField/text_field";
 import RoundedText from "../../../../components/rounded_text/rounded_text";
-import { ApplyProjectSkeleton } from "../../components/detail_skeleton";
+import { ProjectDetailSkeleton } from "../../components/detail_skeleton";
 
 const ApplyProject = () => {
   const applyProject = useApplyProject();
@@ -30,9 +30,9 @@ const ApplyProject = () => {
 
       {applyProject.getProjectLoading ? (
         <div>
-          <ApplyProjectSkeleton />
+          <ProjectDetailSkeleton />
           <div className="mb-4"></div>
-          <ApplyProjectSkeleton showSkill={false} />
+          <ProjectDetailSkeleton showSkill={false} />
         </div>
       ) : (
         <ApplyProjectDetail applyProject={applyProject} />

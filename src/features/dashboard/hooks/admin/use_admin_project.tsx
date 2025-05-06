@@ -176,7 +176,9 @@ const useAdminBoard = () => {
       return;
     }
     searchProject.searchProject(
-      `title=${searchTerm}&description=${searchTerm}`,
+      `title=${encodeURIComponent(
+        searchTerm.trim()
+      )}&description=${encodeURIComponent(searchTerm.trim())}`,
       (res) => {
         console.log(res);
         const data = res.data.serialized_data;

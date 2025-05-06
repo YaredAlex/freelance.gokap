@@ -10,10 +10,8 @@ const AdminDashboardRoute = () => {
 
   useEffect(() => {
     const currentPath = location.pathname + location.search;
-    console.log("is initialized ", authContext.isInitialized, authContext.user);
     if (!authContext.isInitialized && !authContext.loading) {
       authContext.initializeAuth(() => {
-        console.log("initializing auth in dashboard route");
         navigator(`/signin?redirect=${encodeURIComponent(currentPath)}`);
       });
     }
