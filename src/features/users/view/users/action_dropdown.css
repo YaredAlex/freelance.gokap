@@ -1,0 +1,135 @@
+/* ActionDropdown.css */
+.action-dropdown {
+  position: relative;
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.c_dropdown-menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 0;
+  background-color: var(--white-variant-1);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  overflow: hidden;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  transform-origin: top right;
+  z-index: 100;
+  border: 1px solid var(--border-card);
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-black-variant-2);
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background-color: #f5f7fa;
+  color: #0066cc;
+}
+
+.dropdown-item.delete {
+  color: #e53935;
+}
+
+.dropdown-item.delete:hover {
+  background-color: rgba(229, 57, 53, 0.08);
+}
+
+.dropdown-item:not(:last-child) {
+  border-bottom: 1px solid var(--border-card);
+}
+
+/* Animation for dropdown appearance */
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dropdown-menu {
+  animation: dropdownFadeIn 0.2s ease forwards;
+}
+
+/* Optional: Add icons */
+.dropdown-item-icon {
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+/* Button style override if needed */
+.action-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  border-color: #bdbdbd;
+  background-color: #f9f9f9;
+}
+
+.action-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+}
+
+.action-button-arrow {
+  transition: transform 0.2s ease;
+}
+
+.action-button-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Add a separator for dangerous actions */
+.dropdown-separator {
+  height: 1px;
+  background-color: #eaeaea;
+  margin: 4px 0;
+}
+
+/* Add tooltip effect for additional info (optional) */
+.dropdown-item-with-tooltip {
+  position: relative;
+}
+
+.dropdown-item-tooltip {
+  position: absolute;
+  right: 12px;
+  background-color: #333;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.dropdown-item-with-tooltip:hover .dropdown-item-tooltip {
+  opacity: 1;
+}

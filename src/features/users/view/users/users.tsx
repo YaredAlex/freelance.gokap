@@ -3,6 +3,7 @@ import useGetClients from "../../hooks/use_get_clients";
 import "./users.css";
 import TableSkeletonRow from "../../components/table_skeleton";
 import { ButtonPrimary } from "../../../../components/button/button";
+import { toLocalDate } from "../../../../util/common_methods";
 
 const ClientList = () => {
   const clients = useGetClients();
@@ -79,15 +80,15 @@ const ClientList = () => {
                   <td>{user.firstname}</td>
                   <td>{user.lastname}</td>
                   <td>{user.email}</td>
+                  <td>{toLocalDate(user.created_at!)}</td>
                   <td>
-                    {new Date(user.created_at ?? Date.now()).toDateString()}
-                  </td>
-                  <td
-                    className={`${
-                      user.is_verified ? "text-green" : "text-error"
-                    }`}
-                  >
-                    {user.is_verified ? "Verified" : "Not Verified"}
+                    <span
+                      className={`${
+                        user.is_verified ? "text-green" : "text-error-md"
+                      }`}
+                    >
+                      {user.is_verified ? "Verified" : "Not Verified"}
+                    </span>
                   </td>
                   <td>
                     <Link to={`${user.id}`} className="manage-btn">

@@ -76,6 +76,12 @@
   --color-shadow-box1: rgba(0, 0, 0, 0.15);
   --color-icon1: rgb(31, 31, 31);
   --calendar-icon: url("/calender_light.svg");
+  --green-text-light: #218838;
+  --green-bg-light: #d4edda;
+  --green-border-light: #c3e6cb;
+  --error-text-light: #dc3545;
+  --error-bg-light: #f8d7da;
+  --error-border-light: #f5c6cb;
 }
 .dark-theme {
   --primary-green: #3e9359;
@@ -123,6 +129,12 @@
   --color-shadow-box1: rgba(255, 255, 255, 0.05);
   --color-icon1: rgb(239, 239, 239);
   --calendar-icon: url("/calender_dark.svg");
+  --green-text-light: #7ed957;
+  --green-bg-light: #1e2b1e;
+  --green-border-light: #4e704e;
+  --error-text-light: #ff6b6b;
+  --error-bg-light: #2b1e1e;
+  --error-border-light: #704e4e;
 }
 
 body {
@@ -339,6 +351,21 @@ p {
   font-size: 0.75rem;
   margin-top: 0.25rem;
   display: block;
+}
+.text-green {
+  color: var(--green-text-light);
+  background-color: var(--green-bg-light);
+  border: 1px solid var(--green-border-light);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.text-error-md {
+  color: var(--error-text-light);
+  background-color: var(--error-bg-light);
+  border: 1px solid var(--error-border-light);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
 }
 
 .text-gray {

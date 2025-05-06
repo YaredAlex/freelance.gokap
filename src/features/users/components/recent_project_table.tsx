@@ -4,6 +4,7 @@ import {
   useProjectContext,
 } from "../../../context/projects/project_context";
 import { ButtonPrimaryOutline } from "../../../components/button/button";
+import { toLocalDate } from "../../../util/common_methods";
 
 const RecentProjectTable = ({ data }: { data: ClientProjectType[] }) => {
   const navigate = useNavigate();
@@ -41,19 +42,21 @@ const RecentProjectTable = ({ data }: { data: ClientProjectType[] }) => {
                 <td className="p-2 ps-4" style={{ maxWidth: "100px" }}>
                   {project.title}
                 </td>
-                <td className="p-2">
-                  {new Date(project.created_at).toDateString()}
-                </td>
+                <td className="p-2">{toLocalDate(project.created_at)}</td>
                 <td className="p-2">{project.project_status}</td>
-                <td
-                  className={` p-2 ${
-                    project.project_assigned_status
-                      ? "text-green"
-                      : "text-error"
-                  }
+                <td>
+                  <span
+                    className={` p-2 ${
+                      project.project_assigned_status
+                        ? "text-green"
+                        : "text-error-md"
+                    }
                     `}
-                >
-                  {project.project_assigned_status ? "assinged" : "unassigned"}
+                  >
+                    {project.project_assigned_status
+                      ? "assinged"
+                      : "unassigned"}
+                  </span>
                 </td>
                 <td className="p-2">{project.applied_count}</td>
                 <td className="p-2">{project.project_price}</td>

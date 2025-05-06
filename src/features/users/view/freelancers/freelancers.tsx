@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import useGetFreelancers from "../../hooks/use_get_freelancer";
 import "../users/users.css";
 import TableSkeletonRow from "../../components/table_skeleton";
+import { toLocalDate } from "../../../../util/common_methods";
 const FreelancersList = () => {
   const freelancers = useGetFreelancers();
   return (
@@ -40,15 +41,15 @@ const FreelancersList = () => {
                   <td>{user.firstname}</td>
                   <td>{user.lastname}</td>
                   <td>{user.email}</td>
+                  <td>{toLocalDate(user.created_at!)}</td>
                   <td>
-                    {new Date(user.created_at ?? Date.now()).toDateString()}
-                  </td>
-                  <td
-                    className={`${
-                      user.is_verified ? "text-green" : "text-error"
-                    }`}
-                  >
-                    {user.is_verified ? "Verified" : "Not Verified"}
+                    <span
+                      className={`${
+                        user.is_verified ? "text-green" : "text-error-md"
+                      }`}
+                    >
+                      {user.is_verified ? "Verified" : "Not Verified"}
+                    </span>
                   </td>
 
                   <td>

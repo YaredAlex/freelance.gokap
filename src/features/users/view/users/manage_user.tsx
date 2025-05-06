@@ -1,9 +1,6 @@
 import useManageUser from "../../hooks/use_manage_user";
 
-import {
-  ButtonFlexOutline,
-  ButtonPrimaryOutline,
-} from "../../../../components/button/button";
+import { ButtonFlexOutline } from "../../../../components/button/button";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Edit2, Money, TickCircle } from "iconsax-react";
 import CircularAvatar from "../../../../components/circularAvatar/circular_avatar";
@@ -11,13 +8,39 @@ import DashBoardProjectCard from "../../components/dashboard_card";
 import RecentProjectTable from "../../components/recent_project_table";
 import { UserDashboardLoading } from "../../components/dash_board_skeleton";
 import { ClientProjectType } from "../../../../context/projects/project_context";
+import ActionDropDown, { UserActionType } from "./action_dropdown";
+import DeleteUserModal from "./action_delete";
+import SendEmailModal from "./action_send_email";
+import SuspendUserModal from "./action_suspend";
 
 const ManageUser = () => {
   const manageUser = useManageUser();
   const navigate = useNavigate();
   const iconSize = 24;
+  // Dropdown & modal states
+
+  // Action handlers
+  const handleActionClick = (action: string) => {
+    switch (action) {
+      case UserActionType.DELETE_USER:
+        manageUser.setShowDeleteUser(true);
+        break;
+      case UserActionType.SEND_EMAIL:
+        manageUser.setShowSendEmail(true);
+        break;
+      case UserActionType.SUSPEND:
+        manageUser.setShowSuspend(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="text-black-variant-1 pt-1 max-w-1100 mx-auto p-2 mt-2">
+      <DeleteUserModal manageUser={manageUser} />
+      <SendEmailModal manageUser={manageUser} />
+      <SuspendUserModal manageUser={manageUser} />
       <div
         style={{ maxWidth: "max-content" }}
         className="d-flex gap-4 align-items-center mb-2"
@@ -64,15 +87,8 @@ const ManageUser = () => {
                     }
                   />
                 </div>
-                {/* action */}
-                <div className="" style={{ width: "150px" }}>
-                  <ButtonPrimaryOutline
-                    onClick={() => {}}
-                    title="action"
-                    type="button"
-                    className="py-2"
-                  />
-                </div>
+                {/* action button*/}
+                <ActionDropDown handleActionClick={handleActionClick} />
               </div>
               <div className="border-light-bottom"></div>
               <div
@@ -154,39 +170,6 @@ const ManageUser = () => {
         </div>
         {/* end of parent */}
       </div>
-      {/* <div>
-        <p className="mb-3">Posted Project</p>
-        <div className="">
-          {manageUser.loading ? (
-            <>
-              <AgentBoardSkeleton />
-              <AgentBoardSkeleton />
-            </>
-          ) : (
-            <div className="d-flex gap-4 flex-column">
-              {manageUser.postedProject.map((project, index) => (
-                <ProjectPostedCard
-                  key={index}
-                  project={project}
-                  isAssigned={false}
-                />
-              ))}
-              {manageUser.postedProject.length === 0 && (
-                <div
-                  className="border-light-bottom project-card-wrapper bg-white-v-4  px-3 py-3 cursor-pointer"
-                  style={{
-                    maxWidth: "900px",
-                    width: "100%",
-                  }}
-                  // onClick={() => adminBoard.checkOutProject(project)}
-                >
-                  <p>No posted projects</p>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </div> */}
     </div>
   );
 };

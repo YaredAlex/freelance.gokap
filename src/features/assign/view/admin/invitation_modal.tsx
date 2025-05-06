@@ -23,7 +23,6 @@ export const InvitationModal = ({
       showModal={assignProject.showInviteModal}
       setShowModal={assignProject.setShowInviteModal}
       modalId="invitation_modal"
-      maxWidth="800px"
     >
       <div className="text-black-variant-1">
         <h6 className="mb-2">Invitation</h6>
@@ -55,7 +54,7 @@ export const InvitationModal = ({
         {/* List of freelancer with invitation button */}
         {/* Search button to search freelancer */}
         <div>
-          <table className="w-100 " style={{ minWidth: "500px" }}>
+          <table className="w-100 ">
             <thead>
               <tr className="border-light-bottom ">
                 <th className="p-2 py-3 ps-4">ID</th>
@@ -78,19 +77,21 @@ export const InvitationModal = ({
                         <td className="p-2">{freelancer.firstname}</td>
                         <td className="p-2">{freelancer.lastname}</td>
                         <td className="p-2">{freelancer.email}</td>
-                        <td
-                          className={` p-2 ${
-                            freelancer.is_verified ? "text-green" : "text-error"
-                          }
-                      `}
-                        >
-                          <RoundedText
-                            text={
-                              freelancer.is_verified
-                                ? "verified"
-                                : "not verified"
-                            }
-                          />
+                        <td className="p-2">
+                          <span>
+                            <RoundedText
+                              className={`${
+                                freelancer.is_verified
+                                  ? "text-green"
+                                  : "text-error-md"
+                              }`}
+                              text={
+                                freelancer.is_verified
+                                  ? "verified"
+                                  : "not verified"
+                              }
+                            />
+                          </span>
                         </td>
                         <td className="p-2">
                           <div

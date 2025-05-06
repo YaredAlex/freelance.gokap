@@ -11,6 +11,9 @@ const useManageUser = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [postedProject, setPostedProject] = useState<PostedProjectType[]>([]);
+  const [showDeleteUser, setShowDeleteUser] = useState(false);
+  const [showSendEmail, setShowSendEmail] = useState(false);
+  const [showSuspend, setShowSuspend] = useState(false);
   const [user, setUser] = useState<UserAuthType>({
     email: "",
     firstname: "",
@@ -67,10 +70,35 @@ const useManageUser = () => {
     getProfile,
     user,
     summary,
+    showDeleteUser,
+    setShowDeleteUser,
+    showSendEmail,
+    setShowSendEmail,
+    showSuspend,
+    setShowSuspend,
   };
 };
 
 export default useManageUser;
+
+export type UseManageUserProps = {
+  loading: boolean;
+  getProjects: () => void;
+  postedProject: PostedProjectType[];
+  getProfile: () => void;
+  user: UserAuthType;
+  summary: {
+    projectCreated: number;
+    projectCompeleted: number;
+    investment: number;
+  };
+  showDeleteUser: boolean;
+  setShowDeleteUser: React.Dispatch<React.SetStateAction<boolean>>;
+  showSendEmail: boolean;
+  setShowSendEmail: React.Dispatch<React.SetStateAction<boolean>>;
+  showSuspend: boolean;
+  setShowSuspend: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const useGetProjectByClientId = () => {
   const { id } = useParams();

@@ -87,8 +87,8 @@ export const TextArea = ({
       >
         {prefix_icon}
         <textarea
-          style={{ maxWidth: "400px", height: "100px" }}
-          rows={30}
+          style={{ maxWidth: "100%", minHeight: "100px" }}
+          rows={10}
           placeholder={placeholder}
           className="custom-input"
           {...register}

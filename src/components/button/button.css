@@ -147,7 +147,14 @@ button {
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
+.button-danger {
+  background-color: #ef4444;
+  color: white;
+}
 
+.button-danger:hover {
+  background-color: #dc2626;
+}
 .login-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px var(--gray-400);

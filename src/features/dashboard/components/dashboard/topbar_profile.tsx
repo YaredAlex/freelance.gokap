@@ -19,7 +19,7 @@ const TopBarProfile = ({ user }: { user: UserAuthType }) => {
   const authContext = useAuthContext();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
-  const role = authContext.user?.role === "client" ? "client" : "agent";
+  const role = "admin";
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
