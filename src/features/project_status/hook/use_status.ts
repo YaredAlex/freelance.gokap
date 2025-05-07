@@ -11,7 +11,7 @@ export type AssignedAgentType = {
         proposal: string;
         applied_at: string;
         status: string;
-        frelancer: AgentDetailType;
+        freelancer: AgentDetailType;
         id: number;
         project_id: number;
      }
@@ -39,6 +39,7 @@ const useProjectStatus = ()=>{
       getProjectFreelancer.getFreelancer((res)=>{
         // console.log(res)
         const data = res.data.serialized_data
+        console.log(data)
         setAgentList(data)
  })
     } else navigate("/admin/dashboard/");

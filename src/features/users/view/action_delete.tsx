@@ -1,10 +1,10 @@
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
-} from "../../../../components/button/button";
-import DefaultModal from "../../../../components/popup/modal";
-import { useDeleteClient } from "../../hooks/use_delete_client";
-import { UseManageUserProps } from "../../hooks/use_manage_user";
+} from "../../../components/button/button";
+import DefaultModal from "../../../components/popup/modal";
+import { useDeleteClient } from "../hooks/use_delete_client";
+import { UseManageUserProps } from "../hooks/use_manage_user";
 
 const DeleteUserModal = ({
   manageUser,

@@ -4,7 +4,6 @@ import { useAxios } from "../../../hooks/useAxios";
 import { useEffect, useState } from "react";
 import { AxiosResponse } from "axios";
 import customToast from "../../../components/custom_toast/custom_toast";
-// models/User.ts
 
 const useGetFreelancers = () => {
   const timeAgo = new TimeAgo("en");
@@ -46,7 +45,7 @@ export const useGetAllFreelancers = () => {
   const { sendRequest, loading } = useAxios({
     headers: true,
     method: "GET",
-    url: "/api/freelancer/all/details",
+    url: "/api/freelancer/all/",
   });
   const getFreelancers = (cb: (res: AxiosResponse) => void) => {
     sendRequest(

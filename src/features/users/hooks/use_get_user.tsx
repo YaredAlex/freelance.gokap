@@ -2,15 +2,18 @@ import customToast from "../../../components/custom_toast/custom_toast";
 import { UserAuthType } from "../../../context/auth/auth_context";
 import { useAxios } from "../../../hooks/useAxios";
 import { useEffect, useState } from "react";
-// models/User.ts
 import TimeAgo from "javascript-time-ago";
 import { AxiosError, AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
-const useGetClients = () => {
+
+const useGetUser = ({ role }: { role: "freelancer" | "client" }) => {
+  const apiGetClient = "/api/client/all/";
+  const apiGetFreelancer = "/api/freelancer/all/";
+  const url = role === "client" ? apiGetClient : apiGetFreelancer;
   const { sendRequest, loading } = useAxios({
     headers: true,
     method: "GET",
-    url: "/api/client/all/",
+    url: url,
   });
   const [users, setUsers] = useState<UserAuthType[]>([]);
   const [userCount, setUserCount] = useState(0);
@@ -21,14 +24,15 @@ const useGetClients = () => {
   const [fetchClient, setFetchClient] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const rowsPerPage = 15;
-  const searchClient = useSearchClient();
+  const searchUser = useSearchUser();
   const timeAgo = new TimeAgo("en");
   const navigate = useNavigate();
-  const getClients = (pageNumber: number = 1) => {
+  const getUsers = (pageNumber: number = 1) => {
     sendRequest(
       {},
       (res) => {
         const data = res.data.serialized_data;
+        console.log(data);
         setCurrentRows(data.results);
         setUserCount(data.count);
         setCurrentPage(pageNumber);
@@ -40,20 +44,20 @@ const useGetClients = () => {
         customToast({ message: message, type: "error" });
       },
       true,
-      `/api/client/all/?page=${pageNumber}`
+      `${url}?page=${pageNumber}`
     );
   };
 
   useEffect(() => {
-    getClients();
-  }, []);
+    getUsers();
+  }, [role]);
 
   const goToPage = (pageNumber: number) => {
     const params = new URLSearchParams(window.location.search);
     params.set("page", pageNumber.toString());
     params.set("load", "true");
     navigate(`?${params.toString()}`);
-    getClients(pageNumber);
+    getUsers(pageNumber);
   };
 
   const makePageList = (totalProject: number, currentPage: number) => {
@@ -77,28 +81,28 @@ const useGetClients = () => {
     const page = params.get("page") ?? 1;
     const load = params.get("load");
     if (load && load == "false") return;
-    getClients(Number(page));
+    getUsers(Number(page));
   }, [window.location.search]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (searchTerm.trim() === "") {
-      getClients();
+      getUsers();
       return;
     }
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(searchTerm.trim());
     const query = isEmail
-      ? `email=${encodeURIComponent(searchTerm.trim())}`
-      : `name=${encodeURIComponent(searchTerm.trim())}`;
+      ? `email=${encodeURIComponent(searchTerm.trim())}&role=${role}`
+      : `name=${encodeURIComponent(searchTerm.trim())}&role=${role}`;
 
-    searchClient.searchProject(
+    searchUser.searchUser(
       query,
       (res) => {
         const data = res.data.serialized_data;
-        console.log(data);
         const params = new URLSearchParams(window.location.search);
         params.set("search", encodeURIComponent(searchTerm));
         params.set("load", "false");
+        params.set("role", encodeURIComponent(role));
         navigate(`?${params.toString()}`);
         setCurrentRows(data.results);
         setUserCount(data.count);
@@ -117,7 +121,7 @@ const useGetClients = () => {
   };
 
   return {
-    getClients,
+    getUsers,
     loading,
     users,
     setUsers,
@@ -134,35 +138,34 @@ const useGetClients = () => {
     setShowFilter,
     goToPage,
     handleSearch,
-    searchLoading: searchClient.loading,
+    searchLoading: searchUser.loading,
   };
 };
 
-export default useGetClients;
+export default useGetUser;
 
-export type useGetClients = {
+export type useGetUser = {
   getClients: () => void;
   loading: boolean;
 };
 
-const useSearchClient = () => {
+const useSearchUser = () => {
   // name
   // email
   // id
-  const searchApi = "/api/client/search/?";
+  const searchApi = "/api/manager/user/search/";
   const { loading, sendRequest } = useAxios({
     headers: true,
     method: "GET",
     url: searchApi,
   });
 
-  const searchProject = (
+  const searchUser = (
     search: string,
     onSuccess: (res: AxiosResponse) => void,
     onError: (error: AxiosError) => void
   ) => {
-    const newApi = `/api/client/search/?${search}`;
-
+    const newApi = `${searchApi}?${search}`;
     sendRequest(
       {},
       (res) => {
@@ -178,6 +181,6 @@ const useSearchClient = () => {
 
   return {
     loading,
-    searchProject,
+    searchUser,
   };
 };

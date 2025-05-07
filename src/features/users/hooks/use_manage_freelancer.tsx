@@ -13,6 +13,9 @@ const useManageFreelance = () => {
   const [assignedProjects, setAssignedProjects] = useState<PostedProjectType[]>(
     []
   );
+  const [showDeleteUser, setShowDeleteUser] = useState(false);
+  const [showSendEmail, setShowSendEmail] = useState(false);
+  const [showSuspend, setShowSuspend] = useState(false);
   const [user, setUser] = useState<UserAuthType>({
     email: undefined,
     firstname: undefined,
@@ -65,10 +68,33 @@ const useManageFreelance = () => {
     assignedProjects,
     user,
     summary,
+    showDeleteUser,
+    setShowDeleteUser,
+    showSendEmail,
+    setShowSendEmail,
+    showSuspend,
+    setShowSuspend,
   };
 };
-
 export default useManageFreelance;
+
+export type UseManageFreelancerProps = {
+  loading: boolean;
+  assignedProjects: PostedProjectType[];
+  user: UserAuthType;
+  summary: {
+    projectCreated: number;
+    projectCompeleted: number;
+    investment: number;
+  };
+  showDeleteUser: boolean;
+  setShowDeleteUser: React.Dispatch<React.SetStateAction<boolean>>;
+  showSendEmail: boolean;
+  setShowSendEmail: React.Dispatch<React.SetStateAction<boolean>>;
+  showSuspend: boolean;
+  setShowSuspend: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 const useGetAssignedProjectByFreelancerId = () => {
   const { id } = useParams();
   const { sendRequest, loading } = useAxios({

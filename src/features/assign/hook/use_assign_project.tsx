@@ -40,7 +40,7 @@ const useAssignProject = () => {
   // const controller = new AbortController();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "auto" });
     if (id != null || id != undefined) {
       getProject.getProject(id, (res) => {
         setCurrentProject(res.data.serialized_data);
@@ -58,8 +58,8 @@ const useAssignProject = () => {
     // check condition
     sendRequest(
       {
-        project: id,
-        frelancer: fid,
+        project: Number(id),
+        freelancer: fid,
       },
       () => {
         customToast({ message: "Project assigned", type: "success" });

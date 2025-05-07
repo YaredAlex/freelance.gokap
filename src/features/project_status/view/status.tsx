@@ -54,8 +54,8 @@ const ProjectAssignedStatus = () => {
                 {/* Name of freelancer and title of freelancer */}
                 <div>
                   <p>
-                    {typeof freelancer.details.frelancer.user === "object"
-                      ? `${freelancer.details.frelancer.user.firstname} ${freelancer.details.frelancer.user.lastname}`
+                    {typeof freelancer.details.freelancer.user === "object"
+                      ? `${freelancer.details.freelancer.user.firstname} ${freelancer.details.freelancer.user.lastname}`
                       : ""}
                   </p>
                 </div>
@@ -68,7 +68,7 @@ const ProjectAssignedStatus = () => {
                 <div className="my-4">
                   <p className="text-black-variant-2 text-xsm mb-2">Skills</p>
                   <div className="d-flex gap-4 flex-wrap">
-                    {freelancer.details.frelancer?.skills.map(
+                    {freelancer.details.freelancer?.skills.map(
                       (skill, index) => (
                         <RoundedText text={skill} key={index} />
                       )

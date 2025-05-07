@@ -2,13 +2,11 @@ import { useEffect } from "react";
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
-} from "../../../../components/button/button";
-import TextField, {
-  TextArea,
-} from "../../../../components/inputField/text_field";
-import DefaultModal from "../../../../components/popup/modal";
-import { UseManageUserProps } from "../../hooks/use_manage_user";
-import { useSendEmail } from "../../hooks/use_send_email";
+} from "../../../components/button/button";
+import TextField, { TextArea } from "../../../components/inputField/text_field";
+import DefaultModal from "../../../components/popup/modal";
+import { UseManageUserProps } from "../hooks/use_manage_user";
+import { useSendEmail } from "../hooks/use_send_email";
 
 const SendEmailModal = ({ manageUser }: { manageUser: UseManageUserProps }) => {
   const sendEmail = useSendEmail();

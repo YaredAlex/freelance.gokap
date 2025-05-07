@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ButtonPrimaryOutline } from "../../../../components/button/button";
+import { ButtonPrimaryOutline } from "../../../components/button/button";
 import "./action_dropdown.css";
 
 export enum UserActionType {
@@ -9,7 +9,11 @@ export enum UserActionType {
   SEND_NOTIFICATION = "send_notification",
   SUSPEND = "suspend",
 }
-const ActionDropDown = ({ handleActionClick }) => {
+const ActionDropDown = ({
+  handleActionClick,
+}: {
+  handleActionClick: (action: string) => void;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement | null>(null);
   // Close dropdown when clicking outside

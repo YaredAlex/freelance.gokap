@@ -16,13 +16,13 @@ import AgentContextProvider from "./context/agent/agent_context";
 import AdminDashboardPostedProject from "./features/dashboard/view/admin/admin_board";
 import AssignProject from "./features/assign/view/assign_project";
 import PrivacyPage from "./features/privacy/privacy";
-import ClientList from "./features/users/view/users/users";
-import FreelancersList from "./features/users/view/freelancers/freelancers";
 import ManageFreelancer from "./features/users/view/freelancers/manage_freelancer";
-import ManageUser from "./features/users/view/users/manage_user";
+import ManageUser from "./features/users/view/manage";
 import ProjectAssignedStatus from "./features/project_status/view/status";
 import AdminDashboardRoute from "./routes/dashboard/dashboard_route";
 import NotFound from "./util/404_page";
+import UserList from "./features/users/view/users";
+import ManageClient from "./features/users/view/users/manage_user";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
@@ -51,17 +51,26 @@ function App() {
                     element={<AdminDashboardRoute />}
                   >
                     <Route path="" element={<AdminDashboardPostedProject />} />
-                    <Route path="clients/" element={<ClientList />} />
-                    <Route path="freelancers/" element={<FreelancersList />} />
+                    <Route
+                      path="clients/"
+                      element={<UserList role="client" />}
+                    />
+                    <Route
+                      path="freelancers/"
+                      element={<UserList role="freelancer" />}
+                    />
                     <Route
                       path="freelancers/:id"
-                      element={<ManageFreelancer />}
+                      element={<ManageUser role="freelancer" />}
                     />
                     <Route
                       path="project/status/:id"
                       element={<ProjectAssignedStatus />}
                     />
-                    <Route path="clients/:id" element={<ManageUser />} />
+                    <Route
+                      path="clients/:id"
+                      element={<ManageUser role="client" />}
+                    />
                     <Route path="assign/:id" element={<AssignProject />} />
                     <Route path={`account`} element={<Profile />} />
                     <Route path={`invoice`} element={<Invoice />} />

@@ -82,6 +82,7 @@ const useAdminBoard = () => {
     method: "GET",
   });
   const searchProject = useSearchProject();
+  //getUnAssignedProject
   const getUnAssignedProject = (pageNumber: number = 1) => {
     sendRequest(
       {},
@@ -100,6 +101,30 @@ const useAdminBoard = () => {
       true,
       `/api/project/unassigned/?page=${pageNumber}`
     );
+  };
+  //getAssignedProject
+  const getAssignedProject = (pageNumber: number) => {
+    getAssignedProjects.getAssignedProject((res) => {
+      const data = res.data.serialized_data;
+      setCurrentRows(data.results);
+      setProjectCount(data.count);
+      setCurrentPage(pageNumber);
+      //function to make pagination list
+      makePageList(data.count, pageNumber);
+      document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
+    });
+  };
+  //getAllProject
+  const getAllProject = (pageNumber: number) => {
+    getAllProjects.getAllProject((res) => {
+      const data = res.data.serialized_data;
+      setCurrentRows(data.results);
+      setProjectCount(data.count);
+      setCurrentPage(pageNumber);
+      //function to make pagination list
+      makePageList(data.count, pageNumber);
+      document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
+    });
   };
   //paginate
   const goToPage = (pageNumber: number) => {
@@ -130,8 +155,15 @@ const useAdminBoard = () => {
     const page = params.get("page") ?? 1;
     const load = params.get("load");
     if (load && load == "false") return;
-    getUnAssignedProject(Number(page));
+    const param = params.get("project")?.trim();
+    setActiveNav(param ? param : "unassigned");
+    if (param === "assigned") {
+      getAssignedProject(Number(page));
+    } else if (param === "all") {
+      getAllProject(Number(page));
+    } else getUnAssignedProject(Number(page));
   }, [window.location.search]);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const status = params.get("project");
@@ -145,25 +177,9 @@ const useAdminBoard = () => {
     setActiveNav(param ? param : "unassigned");
     if (!param || param === "unassigned") getUnAssignedProject();
     else if (param === "assigned") {
-      getAssignedProjects.getAssignedProject((res) => {
-        const data = res.data.serialized_data;
-        setCurrentRows(data.results);
-        setProjectCount(data.count);
-        setCurrentPage(pageNumber);
-        //function to make pagination list
-        makePageList(data.count, pageNumber);
-        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
-      });
+      getAssignedProject(pageNumber);
     } else if (param === "all") {
-      getAllProjects.getAllProject((res) => {
-        const data = res.data.serialized_data;
-        setCurrentRows(data.results);
-        setProjectCount(data.count);
-        setCurrentPage(pageNumber);
-        //function to make pagination list
-        makePageList(data.count, pageNumber);
-        document.getElementById("dashboard-main-container")?.scrollTo(0, 0);
-      });
+      getAllProject(pageNumber);
     }
   };
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {

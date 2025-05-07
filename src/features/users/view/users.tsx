@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
-import useGetClients from "../../hooks/use_get_clients";
 import "./users.css";
-import TableSkeletonRow from "../../components/table_skeleton";
-import { ButtonPrimary } from "../../../../components/button/button";
-import { toLocalDate } from "../../../../util/common_methods";
+import TableSkeletonRow from "../components/table_skeleton";
+import { ButtonPrimary } from "../../../components/button/button";
+import { toLocalDate } from "../../../util/common_methods";
+import useGetUser from "../hooks/use_get_user";
 
-const ClientList = () => {
-  const clients = useGetClients();
+const UserList = ({ role }: { role: "client" | "freelancer" }) => {
+  const user = useGetUser({ role });
 
   return (
     <div className="max-w-1100 mx-auto mt-4">
       {/* search bar for searching client */}
       <div className="mb-4 bg-white-v-4 px-3 py-4 rounded border-card d-flex gap-4">
         <form
-          onSubmit={(e) => clients.handleSearch(e)}
+          onSubmit={(e) => user.handleSearch(e)}
           className="col d-flex gap-4"
         >
           <div className="d-flex w-100 flex-row flex-sm-row gap-2 justify-content-between ">
@@ -21,8 +21,8 @@ const ClientList = () => {
               type="text"
               className="custom-input border-card rounded"
               placeholder="Search by name or email"
-              value={clients.searchTerm}
-              onChange={(e) => clients.setSearchTerm(e.target.value)}
+              value={user.searchTerm}
+              onChange={(e) => user.setSearchTerm(e.target.value)}
               style={{ width: "100%" }}
             />
           </div>
@@ -31,7 +31,7 @@ const ClientList = () => {
               title="search"
               type="submit"
               className="py-2"
-              disabled={clients.searchLoading}
+              disabled={user.searchLoading}
             />
           </div>
         </form>
@@ -60,7 +60,7 @@ const ClientList = () => {
           </tr>
         </thead>
         <tbody>
-          {clients.loading ? (
+          {user.loading ? (
             <>
               <TableSkeletonRow />
               <TableSkeletonRow />
@@ -68,7 +68,7 @@ const ClientList = () => {
             </>
           ) : (
             <>
-              {clients.currentRows.map((user) => (
+              {user.currentRows.map((user) => (
                 <tr key={user.id}>
                   <td>
                     <div className="circular-name">
@@ -103,17 +103,14 @@ const ClientList = () => {
       </table>
       <nav>
         <ul className="pagination">
-          {clients.pageList?.map((page) => (
+          {user.pageList?.map((page) => (
             <li
               key={page}
               className={`page-item ${
-                page === clients.currentPage ? "active" : ""
+                page === user.currentPage ? "active" : ""
               }`}
             >
-              <button
-                className="page-link"
-                onClick={() => clients.goToPage(page)}
-              >
+              <button className="page-link" onClick={() => user.goToPage(page)}>
                 {page}
               </button>
             </li>
@@ -124,4 +121,4 @@ const ClientList = () => {
   );
 };
 
-export default ClientList;
+export default UserList;

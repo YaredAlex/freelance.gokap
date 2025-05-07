@@ -4,7 +4,7 @@ import { useAxios } from "../../../hooks/useAxios";
 
 export const useDeleteClient = () => {
   const { loading, sendRequest } = useAxios({
-    url: `/api/client/delete/`,
+    url: `/api/manager/user/delete/`,
     method: "DELETE",
     headers: true,
   });
@@ -27,7 +27,7 @@ export const useDeleteClient = () => {
         console.log(error);
       },
       true,
-      `/api/client/delete/${id}`
+      `/api/manager/user/delete/${id}/`
     );
   };
 

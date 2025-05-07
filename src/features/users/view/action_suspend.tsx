@@ -1,10 +1,10 @@
 import {
   ButtonPrimary,
   ButtonPrimaryOutline,
-} from "../../../../components/button/button";
-import DefaultModal from "../../../../components/popup/modal";
-import { UseManageUserProps } from "../../hooks/use_manage_user";
-import { useSuspendUser } from "../../hooks/use_suspend_user";
+} from "../../../components/button/button";
+import DefaultModal from "../../../components/popup/modal";
+import { UseManageUserProps } from "../hooks/use_manage_user";
+import { useSuspendUser } from "../hooks/use_suspend_user";
 
 const SuspendUserModal = ({
   manageUser,
