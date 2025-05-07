@@ -16,13 +16,11 @@ import AgentContextProvider from "./context/agent/agent_context";
 import AdminDashboardPostedProject from "./features/dashboard/view/admin/admin_board";
 import AssignProject from "./features/assign/view/assign_project";
 import PrivacyPage from "./features/privacy/privacy";
-import ManageFreelancer from "./features/users/view/freelancers/manage_freelancer";
 import ManageUser from "./features/users/view/manage";
 import ProjectAssignedStatus from "./features/project_status/view/status";
 import AdminDashboardRoute from "./routes/dashboard/dashboard_route";
 import NotFound from "./util/404_page";
 import UserList from "./features/users/view/users";
-import ManageClient from "./features/users/view/users/manage_user";
 
 function App() {
   const { setIsDark, isDark } = useThemeContext();
