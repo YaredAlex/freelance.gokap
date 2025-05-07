@@ -149,7 +149,7 @@ export type useGetUser = {
   loading: boolean;
 };
 
-const useSearchUser = () => {
+export const useSearchUser = () => {
   // name
   // email
   // id
