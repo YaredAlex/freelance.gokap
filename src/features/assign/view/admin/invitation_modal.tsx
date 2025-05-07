@@ -66,8 +66,8 @@ export const InvitationModal = ({
               </tr>
             </thead>
             <tbody className="">
-              {invite.agentList.length > 0 ? (
-                invite.agentList?.map((freelancer, index) => (
+              {invite.currentRows.length > 0 ? (
+                invite.currentRows?.map((freelancer, index) => (
                   <Fragment key={index}>
                     {freelancer.is_verified && (
                       <tr key={index} className="border-light-bottom">
@@ -119,6 +119,25 @@ export const InvitationModal = ({
               )}
             </tbody>
           </table>
+          <nav>
+            <ul className="pagination">
+              {invite.pageList?.map((page) => (
+                <li
+                  key={page}
+                  className={`page-item ${
+                    page === invite.currentPage ? "active" : ""
+                  }`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => invite.goToPage(page)}
+                  >
+                    {page}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
     </DefaultModal>
