@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { useState } from "react"
+import { useState } from "react";
 import { base_url } from "../util/api";
 import useRefreshToken from "./use_refreshtoken";
 import secureLocalStorage from "react-secure-storage";
@@ -7,10 +7,10 @@ import customToast from "../components/custom_toast/custom_toast";
 import { GTexts } from "../util/string_constants";
 
 type UseAxiosTypes = {
-    url:string,
-    method:string,
-    headers:boolean,
-}
+	url: string;
+	method: string;
+	headers: boolean;
+};
 
 axios.defaults.baseURL = base_url;
 export const useAxios = (props:UseAxiosTypes)=>{
@@ -69,5 +69,3 @@ export const useAxios = (props:UseAxiosTypes)=>{
         sendRequest,
         setUrl
     } 
-
-}

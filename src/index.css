@@ -156,9 +156,7 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
-section {
-  min-height: 40vh;
-}
+
 .font-weight-var-normal {
   font-weight: var(--font-weight-var-normal);
 }

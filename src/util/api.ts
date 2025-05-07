@@ -6,4 +6,5 @@ export const signInGoogleApiPoint = "/api/user/login/google/";
 export const profileApi = "/api/user/profile/";
 export const assignProjectApi = "";
 export const getAllProjectApi = "";
-export const projectUnAssignedApi = "/api/project/unassigned/"
+export const projectUnAssignedApi = "/api/project/unassigned/";
+export const passwordRestApi = "api/user/reset_password/";
