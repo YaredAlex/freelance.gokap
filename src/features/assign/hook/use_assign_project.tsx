@@ -16,7 +16,7 @@ export type AppliedAgentType = {
     proposal: string;
     applied_at: string;
     status: string;
-    frelancer: AgentDetailType;
+    freelancer: AgentDetailType;
     id: number;
     project_id: number;
   };
