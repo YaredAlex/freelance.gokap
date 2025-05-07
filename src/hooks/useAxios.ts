@@ -69,3 +69,4 @@ export const useAxios = (props:UseAxiosTypes)=>{
         sendRequest,
         setUrl
     } 
+  }
